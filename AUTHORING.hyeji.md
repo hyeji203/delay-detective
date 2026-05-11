@@ -1,8 +1,9 @@
 # AUTHORING.hyeji.md — Delay Detective 프로젝트 AI Agent 구성
 
-**버전**: v0.3 (서브에이전트 + MCP + 오프라인 동기화)  
+**버전**: v0.4 (세션 2 기획 완료 — 비전/요구사항/WBS/ADR/BONUS)  
 **프로젝트**: Delay Detective (지연 감지 & 재구성 AI 할 일 관리 앱)  
-**시작**: 2026-05-04 (세션 1 오리엔테이션)
+**시작**: 2026-05-04 (세션 1 오리엔테이션)  
+**최근 업데이트**: 2026-05-11 (세션 2 기획 완료)
 
 ---
 
@@ -279,12 +280,19 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 
 ## 📋 7. 세션별 체크리스트
 
-### 세션 2 (기획 & 일정 수립) ✅
-- [ ] PM 에이전트가 PRD 작성 (5W1H 기반)
-- [ ] WBS & 일정표 생성
-- [ ] 기술 스택 정의 (Hive + Firestore 동기화 포함)
-- [ ] AUTHORING.hyeji.md 업데이트 (v0.3)
-- [ ] GitHub 커밋
+### 세션 2 (기획 & 일정 수립) ✅ 완료 (2026-05-11)
+- [x] 비전 & 문제 정의 작성 (`.planning/00-vision.md`)
+- [x] 사용자 시나리오 3개 + MoSCoW 작성 (`.planning/01-requirements.md`)
+- [x] WBS 3단계 작성 (`.planning/02-wbs.md`)
+- [x] 6주 일정표 + 위험 요소 5개 작성 (`.planning/04-schedule.md`)
+- [x] 회의록 / 결정 사항 정리 (`.planning/meeting-01.md`)
+- [x] 진행률 보고서 작성 (`.planning/progress-01.md`)
+- [x] 모르는 영역 질문 목록 26개 작성 (`.planning/unknowns.md`)
+- [x] ADR 3개 작성 (Flutter, Provider, Firebase+Hive 선택 이유)
+- [x] BONUS.md 가산점 신청서 작성 (+6점 목표)
+- [x] docs/ 디렉토리 구조 생성 (slides, screenshots, diagrams)
+- [x] AUTHORING.hyeji.md 업데이트 (v0.4)
+- [x] GitHub 커밋 & push (커밋: 90dcebd)
 
 ### 세션 3 (설계 & 환경 구축)
 - [ ] 백엔드 에이전트가 아키텍처 설계 (동기화 로직 포함)
@@ -374,6 +382,7 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 **버전 히스토리**:
 - v0.1 (2026-05-04) — 초안
 - v0.2 (2026-05-04) — 상세 정리
-- **v0.3 (2026-05-04) — 옵션 C 최종본** ⭐
+- v0.3 (2026-05-04) — 옵션 C 최종본
+- **v0.4 (2026-05-11) — 세션 2 기획 완료 (비전/요구사항/WBS/ADR/BONUS)** ⭐
 
-**다음 업데이트**: 세션 2 (기획) 완료 후
+**다음 업데이트**: 세션 3 (설계 & 환경 구축) 완료 후
