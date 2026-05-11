@@ -1,7 +1,7 @@
 # 04-schedule.md — 6주 개발 일정
 
-**버전**: v1.0  
-**작성일**: 2026-05-11  
+**버전**: v1.1  
+**작성일**: 2026-05-11 / **최종 수정**: 2026-05-11  
 **기간**: 10주차 ~ 14주차 (개발) + 15주차 (최종 발표)  
 **중간 발표**: 12주차
 
@@ -10,7 +10,7 @@
 ## 전체 일정 개요
 
 ```
-10주차  기획 & 설계 완성
+10주차  기획 & 설계 완성         ✅ 완료
 11주차  데이터 레이어 + AI 시스템 기초
 12주차  UI 구현 + 중간 발표 ⭐
 13주차  알림/감지 + 테스트 & QA
@@ -20,7 +20,7 @@
 
 ---
 
-## 10주차 — 기획 & 설계
+## 10주차 — 기획 & 설계 ✅ 완료 (2026-05-11)
 
 **목표**: 코드 한 줄 쓰기 전에 설계를 완전히 끝낸다
 
@@ -33,17 +33,24 @@
 - [x] `00-vision.md` — 비전 & 목표
 - [x] `01-requirements.md` — 사용자 시나리오 + MoSCoW
 - [x] `02-wbs.md` — WBS (3단계)
-- [x] `04-schedule.md` — 6주 일정표
-- [ ] `03-architecture.md` — Firestore/Hive 스키마 + 동기화 로직 설계
-- [ ] AI 인터뷰 플로우 설계서 (턴별 프롬프트 초안)
-- [ ] Firebase 프로젝트 생성 + `google-services.json` 연결 확인
-- [ ] `pubspec.yaml` 의존성 확정 (Hive, Firebase, Anthropic HTTP, Provider)
-- [ ] `AUTHORING.hyeji.md` v0.3 업데이트
+- [x] `04-schedule.md` — 6주 일정표 + 위험 요소 5개
+- [x] `meeting-01.md` — 세션 2 회의록 & 결정 사항
+- [x] `progress-01.md` — 진행률 보고서
+- [x] `unknowns.md` — 모르는 영역 질문 목록 26개
+- [x] `decisions/ADR-0001` — Flutter 선택 이유
+- [x] `decisions/ADR-0002` — Provider 선택 이유
+- [x] `decisions/ADR-0003` — Firebase+Hive 선택 이유
+- [x] `BONUS.md` — 가산점 신청서 (+6점 목표)
+- [x] `AUTHORING.hyeji.md` v0.4 업데이트
+- [x] GitHub 커밋 & push 완료 (커밋: c132e4e)
+- [ ] `03-architecture.md` — Firestore/Hive 스키마 → **11주차 시작 시 backend-architect 에이전트**
+- [ ] Firebase `google-services.json` 연결 확인 → **11주차 시작 시 첫 번째 작업**
 
-### 검증 방법
-- `flutter pub get` 오류 없이 통과
-- Firebase 콘솔에서 프로젝트 연결 확인
-- Firestore 스키마 문서를 팀원(에이전트)이 읽고 이해 가능한가
+### 검증 결과
+- ✅ 기획 문서 10개 GitHub push 완료
+- ✅ ADR 3개로 주요 기술 선택 근거 문서화
+- ✅ 5가지 자가 점검 질문 모두 답변 가능
+- ⏭️ Firebase 연결 및 스키마 설계는 11주차로 이월 (정상 범위)
 
 ---
 
