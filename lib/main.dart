@@ -1,10 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'providers/task_provider.dart';
-import 'screens/home_screen.dart';
+import 'application/task_provider.dart';
+import 'application/ai_provider.dart';
+import 'application/sync_provider.dart';
+import 'data/local/hive_service.dart';
+import 'data/remote/ai_service.dart';
+import 'data/remote/firestore_service.dart';
+import 'data/sync/sync_service.dart';
+import 'presentation/screens/home_screen.dart';
+import 'presentation/screens/add_task_screen.dart';
+import 'presentation/screens/interview_screen.dart';
+import 'presentation/screens/analysis_result_screen.dart';
 
-void main() {
-  runApp(const DelayDetectiveApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 구현 예정: Firebase 초기화 + 익명 로그인
+  // await Firebase.initializeApp();
+  // final uid = await _signInAnonymously();
+
+  const uid = 'anonymous-placeholder'; // Firebase 연결 전 임시값
+
+  final hive = HiveService();
+  await hive.init();
+
+  final firestore = FirestoreService();
+  final aiService = AIService();
+  final syncService = SyncService(hive: hive, firestore: firestore);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => TaskProvider(hive: hive),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AIProvider(aiService: aiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SyncProvider(syncService: syncService, uid: uid),
+        ),
+      ],
+      child: const DelayDetectiveApp(),
+    ),
+  );
 }
 
 class DelayDetectiveApp extends StatelessWidget {
@@ -12,19 +51,19 @@ class DelayDetectiveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => TaskProvider()),
-      ],
-      child: MaterialApp(
-        title: 'Delay Detective',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          useMaterial3: true,
-        ),
-        home: const HomeScreen(),
-        debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      title: 'Delay Detective',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (_) => const HomeScreen(),
+        '/add-task': (_) => const AddTaskScreen(),
+        '/interview': (_) => const InterviewScreen(),
+        '/result': (_) => const AnalysisResultScreen(),
+      },
     );
   }
 }

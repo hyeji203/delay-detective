@@ -85,3 +85,29 @@ Delay Detective는 두 가지 데이터 요구사항이 있다:
 - [ ] Firestore 보안 규칙 초안 작성 (`users/{userId}/tasks/{taskId}` 구조)
 - [ ] `pubspec.yaml`에 `hive`, `hive_flutter`, `firebase_core`, `cloud_firestore`, `firebase_auth` 추가
 - [ ] `SyncService` 설계 문서 작성 (`03-architecture.md`)
+
+---
+
+## 업데이트 — Offline-First 전략 & 세부 결정 확정 (2026-05-18)
+
+추가로 결정된 사항:
+
+| 항목 | 결정 | 이유 |
+|:---|:---|:---|
+| 로그인 | Firebase 익명 로그인만 | 설정 시간 최소화, "바로 사용" UX |
+| 소태스크 저장 | Task 문서 내 배열 필드 | 별도 컬렉션 대비 쿼리 단순화 |
+| AI 인터뷰 비용 | 3턴 고정 | 무제한 대화 대비 비용 예측 가능 |
+| 알림 | 로컬 알림만 | FCM 대비 구현 복잡도 1/10 |
+
+**Firestore 스키마 확정**:
+```
+users/{uid}/tasks/{taskId}/
+  subtasks  : [{id, title, isDone}]   ← 배열 (컬렉션 X)
+  analysis  : {empathyMessage, causeSummary, turns[], analyzedAt} | null
+  updatedAt : timestamp               ← Last-Write-Wins 기준
+```
+
+**sync_queue 구현**: Hive `Box<String>('sync_queue')`에 taskId를 저장하고,
+네트워크 연결 시 `SyncService.flushQueue()`가 Firestore로 업로드한다.
+
+참고: [docs/architecture.md](../../docs/architecture.md)

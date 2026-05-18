@@ -76,5 +76,19 @@ Flutter 앱은 화면 간 데이터 공유와 비동기 상태(로딩, 오류, �
 ## 후속 작업
 
 - [ ] `pubspec.yaml`에 `provider: ^6.x` 추가
-- [ ] `main.dart`에 `MultiProvider` 설정
-- [ ] `TaskProvider`, `SyncProvider`, `AIProvider` 클래스 골격 생성
+- [x] `main.dart`에 `MultiProvider` 설정 (2026-05-18 완료)
+- [x] `TaskProvider`, `SyncProvider`, `AIProvider` 클래스 골격 생성 (2026-05-18 완료)
+
+---
+
+## 업데이트 — Provider 3개 역할 확정 (2026-05-18)
+
+| Provider | 책임 | 핵심 메서드 |
+|:---|:---|:---|
+| `TaskProvider` | 태스크 CRUD + 지연 감지 | `loadTasks()`, `addTask()`, `checkDelayStatus()`, `applySubtasks()` |
+| `AIProvider` | 인터뷰 턴 1→2→3 상태 관리 | `startInterview()`, `submitAnswer()`, `reset()` |
+| `SyncProvider` | 온라인/오프라인 상태 + queue flush | `onConnectivityChanged()`, `flushQueue()` |
+
+**인터뷰 상태 흐름**: `idle → interviewing → analyzing → done / error`
+
+참고: [docs/architecture.md](../../docs/architecture.md)

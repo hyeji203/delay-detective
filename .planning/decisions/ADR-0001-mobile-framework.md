@@ -68,3 +68,22 @@ Delay Detective는 Android와 iOS 모두에서 동작하는 모바일 앱이 필
 - [x] Flutter 프로젝트 기본 구조 생성 (세션 1 완료)
 - [ ] `pubspec.yaml`에 전체 의존성 확정 (hive, firebase_core, provider 등)
 - [ ] `flutter pub get` 오류 없이 통과 확인
+
+---
+
+## 업데이트 — 4-레이어 아키텍처 반영 (2026-05-18)
+
+Flutter 프로젝트 내부를 4개 레이어로 구조화했다.
+
+```
+lib/
+├── domain/       # 순수 Dart 모델 (Flutter import 없음)
+├── data/         # Hive, Firestore, Claude API
+├── application/  # Provider 3개 (상태관리)
+└── presentation/ # 화면과 위젯
+```
+
+**의존 방향**: `presentation → application → domain ← data`  
+Domain은 어떤 레이어도 import하지 않는다.
+
+참고: [docs/architecture.md](../../docs/architecture.md)
