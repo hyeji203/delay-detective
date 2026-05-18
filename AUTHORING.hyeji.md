@@ -1,9 +1,9 @@
 # AUTHORING.hyeji.md — Delay Detective 프로젝트 AI Agent 구성
 
-**버전**: v0.4 (세션 2 기획 완료 — 비전/요구사항/WBS/ADR/BONUS)  
+**버전**: v0.5 (세션 3 설계 & 환경 구축 완료 — 4-레이어 아키텍처, 스켈레톤 코드, Hello World 빌드)  
 **프로젝트**: Delay Detective (지연 감지 & 재구성 AI 할 일 관리 앱)  
 **시작**: 2026-05-04 (세션 1 오리엔테이션)  
-**최근 업데이트**: 2026-05-11 (세션 2 기획 완료)
+**최근 업데이트**: 2026-05-18 (세션 3 설계 완료)
 
 ---
 
@@ -294,13 +294,22 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - [x] AUTHORING.hyeji.md 업데이트 (v0.4)
 - [x] GitHub 커밋 & push (커밋: 90dcebd)
 
-### 세션 3 (설계 & 환경 구축)
-- [ ] 백엔드 에이전트가 아키텍처 설계 (동기화 로직 포함)
-- [ ] Firestore 스키마 정의
-- [ ] Hive 로컬 DB 스키마 정의
-- [ ] MCP 3개 설치 확인 (Notion, GitHub, Playwright)
-- [ ] Flutter 프로젝트 생성 & 기본 구조
-- [ ] AUTHORING.hyeji.md 업데이트
+### 세션 3 (설계 & 환경 구축) ✅ 완료 (2026-05-18)
+- [x] 4-레이어 아키텍처 설계 (Presentation / Application / Domain / Data)
+- [x] Firestore 스키마 정의 (`docs/architecture.md` 포함)
+- [x] Hive 로컬 DB 스키마 정의 (`docs/architecture.md` 포함)
+- [x] `docs/architecture.md` 작성 (Mermaid 다이어그램 3개 포함)
+- [x] `docs/setup.md` 작성 (환경 세팅 가이드)
+- [x] ADR-0001~0003 4-레이어 내용으로 업데이트
+- [x] `lib/` 4-레이어 폴더 구조 + 스켈레톤 코드 생성
+  - Domain: Task, SubTask, DelayAnalysis, InterviewTurn, TaskStatus
+  - Data: HiveService, FirestoreService, AIService, SyncService
+  - Application: TaskProvider, AIProvider, SyncProvider
+  - Presentation: HomeScreen, AddTaskScreen, InterviewScreen, AnalysisResultScreen, 위젯 3개
+- [x] `pubspec.yaml` SDK 버전 수정 (`^3.9.2`), `flutter pub get` 성공
+- [x] Hello World 빌드 성공 → GitHub push (커밋: 1819435)
+- [x] 중간 발표 슬라이드 초안 (`docs/slides-midterm.md`, 3분 5장)
+- [ ] MCP 3개 설치 확인 (Notion, GitHub, Playwright) → 세션 5 이후
 
 ### 세션 4 (구현 1 + 중간 발표)
 - [ ] 프론트 에이전트가 기본 UI 구현 (홈, 추가, 상세)
@@ -383,6 +392,7 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - v0.1 (2026-05-04) — 초안
 - v0.2 (2026-05-04) — 상세 정리
 - v0.3 (2026-05-04) — 옵션 C 최종본
-- **v0.4 (2026-05-11) — 세션 2 기획 완료 (비전/요구사항/WBS/ADR/BONUS)** ⭐
+- v0.4 (2026-05-11) — 세션 2 기획 완료 (비전/요구사항/WBS/ADR/BONUS)
+- **v0.5 (2026-05-18) — 세션 3 설계 완료 (4-레이어 아키텍처, 스켈레톤 코드, Hello World 빌드, 슬라이드 초안)** ⭐
 
-**다음 업데이트**: 세션 3 (설계 & 환경 구축) 완료 후
+**다음 업데이트**: 세션 4 (UI 구현 + 중간 발표) 완료 후
