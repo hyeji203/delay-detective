@@ -83,8 +83,10 @@ Delay Detective는 두 가지 데이터 요구사항이 있다:
 
 - [ ] Firebase 프로젝트 생성 및 `google-services.json` / `GoogleService-Info.plist` 다운로드
 - [ ] Firestore 보안 규칙 초안 작성 (`users/{userId}/tasks/{taskId}` 구조)
-- [ ] `pubspec.yaml`에 `hive`, `hive_flutter`, `firebase_core`, `cloud_firestore`, `firebase_auth` 추가
-- [ ] `SyncService` 설계 문서 작성 (`03-architecture.md`)
+- [ ] Firebase 프로젝트 생성 및 `google-services.json` / `GoogleService-Info.plist` 다운로드
+- [ ] Firestore 보안 규칙 초안 작성 (`users/{userId}/tasks/{taskId}` 구조)
+- [x] `pubspec.yaml`에 `hive`, `hive_flutter`, `firebase_core`, `cloud_firestore`, `firebase_auth` 추가 (2026-05-18 완료)
+- [x] `SyncService` 설계 문서 작성 → `docs/architecture.md`에 포함 (2026-05-18 완료)
 
 ---
 

@@ -1,4 +1,4 @@
-# 04-schedule.md — 6주 개발 일정
+1# 04-schedule.md — 6주 개발 일정
 
 **버전**: v1.1  
 **작성일**: 2026-05-11 / **최종 수정**: 2026-05-11  
@@ -64,13 +64,13 @@
 | **담당 에이전트** | `backend-architect`, `ai-integration-specialist` |
 
 ### 주차별 산출물
-- [ ] `Task`, `DelayAnalysis`, `SubTask` 모델 클래스
-- [ ] `HiveService` (로컬 CRUD)
-- [ ] `FirestoreService` (클라우드 CRUD)
-- [ ] Firebase Auth (익명 로그인 + 이메일 로그인)
-- [ ] `SyncService` (Hive ↔ Firestore, Timestamp 기반)
+- [x] `Task`, `DelayAnalysis`, `SubTask`, `InterviewTurn` 모델 클래스 (2026-05-18 완료)
+- [ ] `HiveService` (로컬 CRUD) — 스켈레톤 생성, 실제 구현 필요
+- [ ] `FirestoreService` (클라우드 CRUD) — 스켈레톤 생성, 실제 구현 필요
+- [ ] Firebase Auth (익명 로그인) — 스켈레톤 생성, 실제 구현 필요
+- [ ] `SyncService` (Hive ↔ Firestore, Timestamp 기반) — 스켈레톤 생성, 실제 구현 필요
 - [ ] `connectivity_plus` 네트워크 감지기
-- [ ] `AIService` (Anthropic API 연동, 대화 맥락 관리)
+- [ ] `AIService` (Anthropic API 연동, 대화 맥락 관리) — 스켈레톤 생성, 실제 구현 필요
 - [ ] 시스템 프롬프트 초안 (인터뷰 시작, 후속 질문, 결과 생성)
 - [ ] AI 응답 파싱기 (공감 / 원인 / 소태스크 분리)
 
@@ -97,7 +97,7 @@
 - [ ] `InterviewScreen` — AI 챗봇 채팅 UI (2~3턴)
 - [ ] `AnalysisResultScreen` — 공감 + 원인 + 소태스크 결과 화면
 - [ ] `TaskProvider`, `AIProvider` 연결
-- [ ] **중간 발표 슬라이드** (5~10분 분량)
+- [x] **중간 발표 슬라이드** — `docs/slides-midterm.md` 초안 완료 (2026-05-18)
 - [ ] **중간 발표 데모 시나리오** (시나리오 A 기준)
 
 ### 중간 발표 구성 (12주차)

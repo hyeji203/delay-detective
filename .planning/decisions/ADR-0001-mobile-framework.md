@@ -66,8 +66,8 @@ Delay Detective는 Android와 iOS 모두에서 동작하는 모바일 앱이 필
 ## 후속 작업
 
 - [x] Flutter 프로젝트 기본 구조 생성 (세션 1 완료)
-- [ ] `pubspec.yaml`에 전체 의존성 확정 (hive, firebase_core, provider 등)
-- [ ] `flutter pub get` 오류 없이 통과 확인
+- [x] `pubspec.yaml`에 전체 의존성 확정 (hive, firebase_core, provider 등) (2026-05-18 완료)
+- [x] `flutter pub get` 오류 없이 통과 확인 (2026-05-18 완료)
 
 ---
 

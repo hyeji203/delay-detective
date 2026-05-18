@@ -75,7 +75,7 @@ Flutter 앱은 화면 간 데이터 공유와 비동기 상태(로딩, 오류, �
 
 ## 후속 작업
 
-- [ ] `pubspec.yaml`에 `provider: ^6.x` 추가
+- [x] `pubspec.yaml`에 `provider: ^6.x` 추가 (2026-05-18 완료)
 - [x] `main.dart`에 `MultiProvider` 설정 (2026-05-18 완료)
 - [x] `TaskProvider`, `SyncProvider`, `AIProvider` 클래스 골격 생성 (2026-05-18 완료)
 
