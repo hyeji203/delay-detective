@@ -150,27 +150,9 @@
       font-size:.75em; cursor:pointer; z-index:8890;
     }
 
-    /* ── Timer ──────────────────────────────────────────── */
-    #timer {
-      position:fixed; bottom:22px; right:22px;
-      font-size:2em; font-weight:900; font-family:'Courier New',monospace;
-      letter-spacing:2px; color:var(--c-green);
-      background:rgba(255,255,255,.97); border-radius:14px; padding:7px 20px;
-      box-shadow:0 4px 22px rgba(0,0,0,.13), 0 0 0 3px var(--c-green);
-      z-index:9999; cursor:pointer; user-select:none;
-      transition:color .4s, box-shadow .4s;
-    }
-    #timer:hover { filter:brightness(1.06); transform:scale(1.03); }
-    #timer.warn   { color:var(--c-orange); box-shadow:0 4px 22px rgba(0,0,0,.13),0 0 0 3px var(--c-orange); }
-    #timer.danger { color:var(--c-red);    box-shadow:0 4px 22px rgba(0,0,0,.13),0 0 0 3px var(--c-red);
-                    animation:tpulse .6s ease-in-out infinite alternate; }
-    @keyframes tpulse { from{transform:scale(1)} to{transform:scale(1.06)} }
   </style>
 </head>
 <body>
-
-<!-- ── 2분 타이머 (클릭: 시작 / 다시 클릭: 일시정지) ── -->
-<div id="timer" title="클릭하여 시작 · 다시 클릭: 일시정지">▶ 2:00</div>
 
 <!-- ── 발표 스크립트 패널 ── -->
 <button id="script-toggle" onclick="toggleScript()">📝 스크립트 숨기기</button>
@@ -444,41 +426,6 @@ flowchart TB
     document.getElementById('script-toggle').textContent = scriptVisible ? '📝 스크립트 숨기기' : '📝 스크립트 보기';
   }
 
-  /* ── 2-minute timer ─────────────────────────────────── */
-  var timerEl  = document.getElementById('timer');
-  var timeLeft = 120;
-  var running  = false;
-  var iv       = null;
-
-  function fmt(s) {
-    return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
-  }
-  function colorize() {
-    timerEl.classList.remove('warn','danger');
-    if (timeLeft <= 30) timerEl.classList.add('danger');
-    else if (timeLeft <= 60) timerEl.classList.add('warn');
-  }
-  function tick() {
-    if (timeLeft <= 0) {
-      clearInterval(iv); running = false;
-      timerEl.textContent = '⏰ 종료!';
-      timerEl.classList.add('danger');
-      return;
-    }
-    timeLeft--;
-    timerEl.textContent = fmt(timeLeft);
-    colorize();
-  }
-  timerEl.addEventListener('click', function() {
-    if (!running) {
-      running = true;
-      timerEl.textContent = fmt(timeLeft);
-      iv = setInterval(tick, 1000);
-    } else {
-      clearInterval(iv); iv = null; running = false;
-      timerEl.textContent = '⏸ ' + fmt(timeLeft);
-    }
-  });
 </script>
 
 </body>
