@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delay Detective — 중간 발표</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --c-primary:  #1F3864;
+      --c-accent:   #2E75B6;
+      --c-green:    #5BA545;
+      --c-orange:   #ED7D31;
+      --c-red:      #C00000;
+      --c-light:    #F0F6FF;
+    }
+    .reveal { font-family: 'Noto Sans KR', -apple-system, sans-serif; }
+    .reveal .slides section { text-align: left; box-sizing: border-box; }
+    .reveal h2 {
+      font-size: 1.2em; font-weight: 900; color: var(--c-primary);
+      border-bottom: 3px solid var(--c-accent);
+      padding-bottom: 8px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .reveal p  { font-size: 0.80em; margin: 0.35em 0; }
+    .reveal ul { font-size: 0.80em; }
+
+    /* timing badge — shown top-right of each slide heading */
+    .timing {
+      font-size: 0.6em; font-weight: 700; letter-spacing: .5px;
+      background: var(--c-accent); color: #fff;
+      border-radius: 20px; padding: 2px 12px; flex-shrink: 0;
+    }
+
+    /* ── Cover ──────────────────────────────────────────── */
+    .reveal .slides section.cover h1 {
+      color:#fff; font-size:2.6em; font-weight:900;
+      text-shadow:0 3px 14px rgba(0,0,0,.35); margin-bottom:.15em;
+    }
+    .cover-sub  { font-size:1.08em; color:rgba(255,255,255,.92); margin:.2em 0 1.1em; }
+    .cover-tags { display:flex; gap:9px; flex-wrap:wrap; justify-content:center; margin-bottom:1.2em; }
+    .cover-tag  {
+      background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.45);
+      border-radius:20px; padding:4px 15px; font-size:.76em; color:#fff;
+    }
+    .cover-meta { font-size:.76em; color:rgba(255,255,255,.62); }
+
+    /* ── Problem ────────────────────────────────────────── */
+    .problem-quote {
+      font-size:1.35em; font-weight:900; color:var(--c-red);
+      background:#FFF2F2; border-left:6px solid var(--c-red);
+      border-radius:0 8px 8px 0; padding:13px 20px; margin:0 0 14px;
+    }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+    .cbox { border-radius:10px; padding:12px 16px; font-size:.78em; }
+    .cbox.old { background:#FFF0F0; border:2px solid #E07070; }
+    .cbox.new { background:#F0FFF4; border:2px solid var(--c-green); }
+    .cbox h4  { margin:0 0 7px; font-size:.86em; text-transform:uppercase; letter-spacing:.5px; }
+    .cbox.old h4 { color:var(--c-red); }
+    .cbox.new h4 { color:var(--c-green); }
+    .cbox ul { margin:0; padding-left:15px; }
+    .cbox li { margin:3px 0; line-height:1.5; }
+    .vision-pill {
+      background:var(--c-light); border-left:5px solid var(--c-accent);
+      border-radius:0 8px 8px 0; padding:10px 18px;
+      font-size:.88em; font-weight:700; color:var(--c-primary);
+    }
+
+    /* ── Solution ───────────────────────────────────────── */
+    .flow-row { display:flex; align-items:center; justify-content:center; gap:6px; margin:16px 0 14px; }
+    .flow-step { display:flex; flex-direction:column; align-items:center; gap:7px; }
+    .flow-icon {
+      width:60px; height:60px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5em; color:#fff; font-weight:900;
+      box-shadow:0 4px 14px rgba(0,0,0,.15);
+    }
+    .fi1{background:var(--c-red);} .fi2{background:var(--c-orange);} .fi3{background:var(--c-green);}
+    .flow-label { font-size:.7em; font-weight:700; text-align:center; color:var(--c-primary); line-height:1.4; }
+    .flow-arrow { font-size:1.8em; color:#bbb; flex-shrink:0; margin:0 4px 18px; }
+    .hbox {
+      background:var(--c-light); border:1.5px solid #4472C4;
+      border-radius:9px; padding:11px 16px; font-size:.78em; line-height:1.7;
+    }
+    .agent-bar {
+      margin-top:12px; font-size:.74em; color:#666;
+      display:flex; gap:7px; flex-wrap:wrap; align-items:center;
+    }
+    .achip {
+      background:#EEF3FF; border:1px solid var(--c-accent);
+      border-radius:13px; padding:2px 11px;
+      color:var(--c-primary); font-weight:700; font-size:.9em;
+    }
+
+    /* ── Architecture ───────────────────────────────────── */
+    .mermaid { display:flex; justify-content:center; }
+    .arch-note {
+      font-size:.7em; color:#555; margin-top:8px;
+      background:#FAFAFA; border-radius:6px; padding:7px 13px; border:1px solid #DDD;
+    }
+
+    /* ── WBS ────────────────────────────────────────────── */
+    .wbs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-top:8px; }
+    .wbs-card { border-radius:8px; padding:9px 11px; border:2px solid; font-size:.72em; }
+    .wbs-card.done   { background:#F0FFF4; border-color:var(--c-green); }
+    .wbs-card.active { background:#EFF6FF; border-color:var(--c-accent); }
+    .wbs-card.todo   { background:#F9F9F9; border-color:#CCC; }
+    .wbs-num { font-size:1.25em; font-weight:900; }
+    .wbs-card.done   .wbs-num { color:var(--c-green); }
+    .wbs-card.active .wbs-num { color:var(--c-accent); }
+    .wbs-card.todo   .wbs-num { color:#AAA; }
+    .wbs-name  { font-weight:700; margin:2px 0 3px; line-height:1.3; }
+    .wbs-items { font-size:.84em; color:#666; line-height:1.5; }
+    .wbs-badge { display:inline-block; margin-top:5px; padding:2px 8px; border-radius:9px; font-size:.78em; font-weight:700; }
+    .wbs-card.done   .wbs-badge { background:var(--c-green); color:#fff; }
+    .wbs-card.active .wbs-badge { background:var(--c-accent); color:#fff; }
+    .wbs-card.todo   .wbs-badge { background:#DDD; color:#777; }
+
+    /* ── Speaker Script Panel ───────────────────────────── */
+    /* Shown below slides — only visible to presenter (PC) */
+    #script-panel {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(31,56,100,.92);
+      color: #fff;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: .82em;
+      padding: 9px 22px;
+      z-index: 8888;
+      display: flex; align-items: center; gap: 14px;
+      border-top: 2px solid var(--c-accent);
+      transition: opacity .3s;
+    }
+    #script-panel .sp-label {
+      background: var(--c-accent); border-radius:10px; padding:2px 10px;
+      font-size:.85em; font-weight:700; flex-shrink:0;
+    }
+    #script-panel .sp-text { line-height:1.5; }
+    #script-toggle {
+      position:fixed; bottom:70px; left:14px;
+      background:rgba(31,56,100,.8); color:#fff;
+      border:none; border-radius:8px; padding:5px 13px;
+      font-size:.75em; cursor:pointer; z-index:8890;
+    }
+
+    /* ── Timer ──────────────────────────────────────────── */
+    #timer {
+      position:fixed; bottom:22px; right:22px;
+      font-size:2em; font-weight:900; font-family:'Courier New',monospace;
+      letter-spacing:2px; color:var(--c-green);
+      background:rgba(255,255,255,.97); border-radius:14px; padding:7px 20px;
+      box-shadow:0 4px 22px rgba(0,0,0,.13), 0 0 0 3px var(--c-green);
+      z-index:9999; cursor:pointer; user-select:none;
+      transition:color .4s, box-shadow .4s;
+    }
+    #timer:hover { filter:brightness(1.06); transform:scale(1.03); }
+    #timer.warn   { color:var(--c-orange); box-shadow:0 4px 22px rgba(0,0,0,.13),0 0 0 3px var(--c-orange); }
+    #timer.danger { color:var(--c-red);    box-shadow:0 4px 22px rgba(0,0,0,.13),0 0 0 3px var(--c-red);
+                    animation:tpulse .6s ease-in-out infinite alternate; }
+    @keyframes tpulse { from{transform:scale(1)} to{transform:scale(1.06)} }
+  </style>
+</head>
+<body>
+
+<!-- ── 2분 타이머 (클릭: 시작 / 다시 클릭: 일시정지) ── -->
+<div id="timer" title="클릭하여 시작 · 다시 클릭: 일시정지">▶ 2:00</div>
+
+<!-- ── 발표 스크립트 패널 ── -->
+<button id="script-toggle" onclick="toggleScript()">📝 스크립트 숨기기</button>
+<div id="script-panel">
+  <span class="sp-label">📢 스크립트</span>
+  <span class="sp-text" id="sp-text">← 방향키로 슬라이드를 이동하면 스크립트가 바뀝니다.</span>
+</div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ① COVER  (0:00 – 0:15) ──────────────────────────── -->
+    <section
+      class="cover"
+      data-background-gradient="linear-gradient(135deg,#1F3864 0%,#2E75B6 55%,#4472C4 100%)"
+      style="text-align:center"
+      data-script="안녕하세요. 저는 '딜레이 디텍티브'를 개발하고 있는 혜지입니다. AI가 미루는 태스크를 감지하고, 왜 미루는지 인터뷰해서 실행 가능한 첫 걸음을 만들어주는 할일 관리 앱입니다.">
+
+      <h1>🔍 Delay Detective</h1>
+      <p class="cover-sub">AI 기반 미루기 분석 &amp; 태스크 재구성 앱</p>
+      <div class="cover-tags">
+        <span class="cover-tag">Flutter</span>
+        <span class="cover-tag">Claude API</span>
+        <span class="cover-tag">Firebase Firestore</span>
+        <span class="cover-tag">Hive (오프라인)</span>
+        <span class="cover-tag">Provider</span>
+        <span class="cover-tag">서브에이전트 5종</span>
+      </div>
+      <p class="cover-meta">혜지 &nbsp;·&nbsp; 중간 발표 &nbsp;·&nbsp; 2026-05-27</p>
+
+      <aside class="notes">
+        안녕하세요. 딜레이 디텍티브를 개발 중인 혜지입니다.
+        이 앱은 Flutter + Claude API로 만드는 AI 할일 관리 앱이고요,
+        핵심은 '왜 미루는지'를 AI가 찾아주는 겁니다. (15초)
+      </aside>
+    </section>
+
+    <!-- ② PROBLEM  (0:15 – 0:50) ────────────────────────── -->
+    <section
+      data-script="기존 할일 앱들은 리스트에 적으면, 알림을 보내면 할 거라고 가정합니다. 그런데 현실은 다릅니다. 미루는 건 의지 문제가 아니라 '왜 못 시작하는지' 마찰이 해결 안 됐기 때문입니다. 어떤 앱도 미룬 이유를 물어보지 않는다는 게 문제입니다.">
+      <h2>
+        왜 만들었나 — 문제 정의
+        <span class="timing">0:15 – 0:50</span>
+      </h2>
+
+      <div class="problem-quote">
+        "할일 앱은 넘쳐나지만, 사람들은 여전히 미룬다."
+      </div>
+
+      <div class="compare-grid">
+        <div class="cbox old">
+          <h4>❌ 기존 앱의 가정</h4>
+          <ul>
+            <li>리스트에 적으면 한다</li>
+            <li>알림을 보내면 한다</li>
+            <li>마감일을 보여주면 한다</li>
+          </ul>
+        </div>
+        <div class="cbox new">
+          <h4>✅ 실제로 필요한 것</h4>
+          <ul>
+            <li>왜 미루는지 <strong>이유 파악</strong></li>
+            <li>시작점을 <strong>15분으로 쪼개기</strong></li>
+            <li>AI의 <strong>공감 + 실행 첫 걸음</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="vision-pill">
+        💡 미루는 건 의지 문제가 아니라, 아직 해결되지 않은 마찰(friction)이다.
+      </div>
+
+      <aside class="notes">
+        기존 앱은 기록만 하고 끝입니다.
+        왜 못 시작하는지는 아무도 물어보지 않아요.
+        저는 그게 핵심 문제라고 봤습니다. (35초)
+      </aside>
+    </section>
+
+    <!-- ③ SOLUTION  (0:50 – 1:25) ───────────────────────── -->
+    <section
+      data-script="딜레이 디텍티브는 3단계로 해결합니다. 먼저 마감이 지난 태스크를 자동 감지하고, Claude AI가 2~3턴 인터뷰로 왜 미루는지 파악합니다. 마지막으로 15분씩 할 수 있는 소태스크 3개로 쪼개 줍니다. 예를 들어 '발표 자료 만들기'를 목차 잡기, 첫 장 쓰기, 자료 1개 찾기로 나눠주는 식입니다.">
+      <h2>
+        솔루션 — 3단계 AI 흐름
+        <span class="timing">0:50 – 1:25</span>
+      </h2>
+
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-icon fi1">🔴</div>
+          <div class="flow-label">① 감지<br><span style="font-weight:400">마감 초과<br>자동 탐지</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon fi2">💬</div>
+          <div class="flow-label">② 인터뷰<br><span style="font-weight:400">Claude 3턴<br>원인 파악</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon fi3">✅</div>
+          <div class="flow-label">③ 재구성<br><span style="font-weight:400">소태스크 3개<br>15분 단위</span></div>
+        </div>
+      </div>
+
+      <div class="hbox">
+        <strong>예시:</strong>&nbsp; "발표 자료 만들기"<br>
+        &nbsp;→ ☐ 목차만 잡기 (15분) &nbsp;
+              ☐ 첫 장 초안 쓰기 (15분) &nbsp;
+              ☐ 참고 자료 1개 찾기 (15분)
+      </div>
+
+      <div class="agent-bar">
+        <span>개발 구조:</span>
+        <span class="achip">PM</span><span class="achip">백엔드</span>
+        <span class="achip">프론트</span><span class="achip">QA</span>
+        <span class="achip">AI 통합</span>
+        <span style="color:#888">서브에이전트 5종 + MCP 3개 (Notion · GitHub · Playwright)</span>
+      </div>
+
+      <aside class="notes">
+        감지 → 인터뷰 → 재구성 3단계입니다.
+        인터뷰는 Claude API로 3턴 고정이라 비용 예측이 가능합니다.
+        개발 자체도 서브에이전트 5종으로 팀을 구성해서 진행 중입니다. (35초)
+      </aside>
+    </section>
+
+    <!-- ④ ARCHITECTURE  (1:25 – 1:48) ──────────────────── -->
+    <section
+      data-script="기술 구조는 4개 레이어입니다. 화면을 담당하는 Presentation, 상태를 관리하는 Application Provider, 핵심 데이터 모델인 Domain, 그리고 Hive 로컬 저장소와 Firebase, Claude API를 묶은 Data 레이어입니다. 오프라인에서도 Hive에 먼저 저장하고, 네트워크 복구 시 Firestore로 동기화합니다.">
+      <h2>
+        설계 — 4-레이어 아키텍처
+        <span class="timing">1:25 – 1:48</span>
+      </h2>
+
+      <div class="mermaid">
+flowchart TB
+    P["🖥️ Presentation\nHomeScreen · InterviewScreen · AnalysisResultScreen"]
+    A["⚙️ Application — Provider\nTaskProvider · AIProvider · SyncProvider"]
+    D["📦 Domain — 순수 Dart\nTask · SubTask · InterviewTurn · DelayAnalysis"]
+    DA["💾 Data\nHiveService(로컬) · FirestoreService(클라우드) · AIService(Claude API)"]
+
+    P -->|"사용자 액션"| A
+    A -->|"모델 참조"| D
+    A -->|"저장 · 조회"| DA
+    DA -->|"모델 반환"| D
+
+    style P  fill:#DDEEFF,stroke:#4472C4,color:#1F3864
+    style A  fill:#E2EFDA,stroke:#70AD47,color:#1F3864
+    style D  fill:#FFF2CC,stroke:#ED7D31,color:#7F4C00
+    style DA fill:#FCE4D6,stroke:#C55A11,color:#7F2000
+      </div>
+
+      <div class="arch-note">
+        🔄 <strong>Offline-First</strong>: 쓰기 → Hive 즉시 저장 → 네트워크 복구 시 Firestore 동기화 (Timestamp Last-Write-Wins)
+      </div>
+
+      <aside class="notes">
+        4개 레이어로 분리했고, 의존성은 위에서 아래로만 흐릅니다.
+        오프라인 우선 전략이라 네트워크 없어도 완전히 동작합니다. (23초)
+      </aside>
+    </section>
+
+    <!-- ⑤ WBS  (1:48 – 2:00) ────────────────────────────── -->
+    <section
+      data-script="전체 8단계 WBS 중 기획과 4-레이어 설계는 완료했고, 지금은 UI 구현과 AI 인터뷰를 동시에 진행 중입니다. 5~8단계인 동기화, 알림, 테스트, 배포는 13~14주차에 진행할 예정입니다. 이상입니다.">
+      <h2>
+        WBS &amp; 진행 현황
+        <span class="timing">1:48 – 2:00</span>
+      </h2>
+
+      <div class="wbs-grid">
+        <div class="wbs-card done">
+          <div class="wbs-num">1</div>
+          <div class="wbs-name">기획 &amp; 설계</div>
+          <div class="wbs-items">비전 · 요구사항<br>ADR 3개 · 스키마</div>
+          <div><span class="wbs-badge">✅ 완료</span></div>
+        </div>
+        <div class="wbs-card done">
+          <div class="wbs-num">2</div>
+          <div class="wbs-name">4-레이어 구조</div>
+          <div class="wbs-items">스켈레톤 코드<br>Hello World 빌드</div>
+          <div><span class="wbs-badge">✅ 완료</span></div>
+        </div>
+        <div class="wbs-card active">
+          <div class="wbs-num">3</div>
+          <div class="wbs-name">UI 구현</div>
+          <div class="wbs-items">홈 · 인터뷰<br>결과 화면</div>
+          <div><span class="wbs-badge">🔵 진행 중</span></div>
+        </div>
+        <div class="wbs-card active">
+          <div class="wbs-num">4</div>
+          <div class="wbs-name">AI 인터뷰</div>
+          <div class="wbs-items">Claude API 3턴<br>분석 결과 파싱</div>
+          <div><span class="wbs-badge">🔵 진행 중</span></div>
+        </div>
+        <div class="wbs-card todo">
+          <div class="wbs-num">5</div>
+          <div class="wbs-name">Hive ↔ Firebase</div>
+          <div class="wbs-items">동기화<br>Conflict Resolution</div>
+          <div><span class="wbs-badge">⚪ 예정</span></div>
+        </div>
+        <div class="wbs-card todo">
+          <div class="wbs-num">6</div>
+          <div class="wbs-name">알림 &amp; 감지</div>
+          <div class="wbs-items">지연 자동 감지<br>푸시 알림</div>
+          <div><span class="wbs-badge">⚪ 예정</span></div>
+        </div>
+        <div class="wbs-card todo">
+          <div class="wbs-num">7</div>
+          <div class="wbs-name">테스트 &amp; QA</div>
+          <div class="wbs-items">Playwright MCP<br>통합 테스트</div>
+          <div><span class="wbs-badge">⚪ 예정</span></div>
+        </div>
+        <div class="wbs-card todo">
+          <div class="wbs-num">8</div>
+          <div class="wbs-name">배포 &amp; 마무리</div>
+          <div class="wbs-items">Android · iOS 빌드<br>최종 발표</div>
+          <div><span class="wbs-badge">⚪ 예정</span></div>
+        </div>
+      </div>
+
+      <aside class="notes">
+        8단계 중 2개 완료, 2개 진행 중입니다.
+        13~14주차에 동기화·테스트·배포를 마무리할 계획입니다. (12초)
+      </aside>
+    </section>
+
+  </div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  /* ── Mermaid ────────────────────────────────────────── */
+  mermaid.initialize({ startOnLoad: false, theme: 'base',
+    themeVariables: { fontSize: '12px' },
+    flowchart: { htmlLabels: false, curve: 'linear' }
+  });
+
+  /* ── Reveal ─────────────────────────────────────────── */
+  Reveal.initialize({
+    hash: true, transition: 'slide', transitionSpeed: 'fast',
+    progress: true, controls: true, slideNumber: 'c/t',
+    width: 1280, height: 720, margin: 0.06
+  });
+
+  Reveal.on('ready', function () {
+    mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+    updateScript();
+  });
+
+  /* ── Script panel ───────────────────────────────────── */
+  var scripts = [];
+  document.querySelectorAll('section[data-script]').forEach(function(s) {
+    scripts[Array.from(document.querySelectorAll('section')).indexOf(s)] = s.dataset.script;
+  });
+
+  function updateScript() {
+    var idx = Reveal.getIndices().h;
+    var sections = document.querySelectorAll('.reveal .slides > section');
+    var text = sections[idx] && sections[idx].dataset.script;
+    document.getElementById('sp-text').textContent = text || '—';
+  }
+
+  Reveal.on('slidechanged', updateScript);
+
+  var scriptVisible = true;
+  function toggleScript() {
+    scriptVisible = !scriptVisible;
+    document.getElementById('script-panel').style.opacity = scriptVisible ? '1' : '0';
+    document.getElementById('script-panel').style.pointerEvents = scriptVisible ? 'auto' : 'none';
+    document.getElementById('script-toggle').textContent = scriptVisible ? '📝 스크립트 숨기기' : '📝 스크립트 보기';
+  }
+
+  /* ── 2-minute timer ─────────────────────────────────── */
+  var timerEl  = document.getElementById('timer');
+  var timeLeft = 120;
+  var running  = false;
+  var iv       = null;
+
+  function fmt(s) {
+    return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  function colorize() {
+    timerEl.classList.remove('warn','danger');
+    if (timeLeft <= 30) timerEl.classList.add('danger');
+    else if (timeLeft <= 60) timerEl.classList.add('warn');
+  }
+  function tick() {
+    if (timeLeft <= 0) {
+      clearInterval(iv); running = false;
+      timerEl.textContent = '⏰ 종료!';
+      timerEl.classList.add('danger');
+      return;
+    }
+    timeLeft--;
+    timerEl.textContent = fmt(timeLeft);
+    colorize();
+  }
+  timerEl.addEventListener('click', function() {
+    if (!running) {
+      running = true;
+      timerEl.textContent = fmt(timeLeft);
+      iv = setInterval(tick, 1000);
+    } else {
+      clearInterval(iv); iv = null; running = false;
+      timerEl.textContent = '⏸ ' + fmt(timeLeft);
+    }
+  });
+</script>
+
+</body>
+</html>
