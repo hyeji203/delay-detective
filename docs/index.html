@@ -27,17 +27,9 @@
       font-size: 1.2em; font-weight: 900; color: var(--c-primary);
       border-bottom: 3px solid var(--c-accent);
       padding-bottom: 8px; margin-bottom: 16px;
-      display: flex; align-items: center; justify-content: space-between;
     }
     .reveal p  { font-size: 0.80em; margin: 0.35em 0; }
     .reveal ul { font-size: 0.80em; }
-
-    /* timing badge — shown top-right of each slide heading */
-    .timing {
-      font-size: 0.6em; font-weight: 700; letter-spacing: .5px;
-      background: var(--c-accent); color: #fff;
-      border-radius: 20px; padding: 2px 12px; flex-shrink: 0;
-    }
 
     /* ── Cover ──────────────────────────────────────────── */
     .reveal .slides section.cover h1 {
@@ -195,7 +187,6 @@
       data-script="기존 할일 앱들은 리스트에 적으면, 알림을 보내면 할 거라고 가정합니다. 그런데 현실은 다릅니다. 미루는 건 의지 문제가 아니라 '왜 못 시작하는지' 마찰이 해결 안 됐기 때문입니다. 어떤 앱도 미룬 이유를 물어보지 않는다는 게 문제입니다.">
       <h2>
         왜 만들었나 — 문제 정의
-        <span class="timing">0:15 – 0:50</span>
       </h2>
 
       <div class="problem-quote">
@@ -237,7 +228,6 @@
       data-script="딜레이 디텍티브는 3단계로 해결합니다. 먼저 마감이 지난 태스크를 자동 감지하고, Claude AI가 2~3턴 인터뷰로 왜 미루는지 파악합니다. 마지막으로 15분씩 할 수 있는 소태스크 3개로 쪼개 줍니다. 예를 들어 '발표 자료 만들기'를 목차 잡기, 첫 장 쓰기, 자료 1개 찾기로 나눠주는 식입니다.">
       <h2>
         솔루션 — 3단계 AI 흐름
-        <span class="timing">0:50 – 1:25</span>
       </h2>
 
       <div class="flow-row">
@@ -284,7 +274,6 @@
       data-script="기술 구조는 4개 레이어입니다. 화면을 담당하는 Presentation, 상태를 관리하는 Application Provider, 핵심 데이터 모델인 Domain, 그리고 Hive 로컬 저장소와 Firebase, Claude API를 묶은 Data 레이어입니다. 오프라인에서도 Hive에 먼저 저장하고, 네트워크 복구 시 Firestore로 동기화합니다.">
       <h2>
         설계 — 4-레이어 아키텍처
-        <span class="timing">1:25 – 1:48</span>
       </h2>
 
       <div class="mermaid">
@@ -320,7 +309,6 @@ flowchart TB
       data-script="전체 8단계 WBS 중 기획과 4-레이어 설계는 완료했고, 지금은 UI 구현과 AI 인터뷰를 동시에 진행 중입니다. 5~8단계인 동기화, 알림, 테스트, 배포는 13~14주차에 진행할 예정입니다. 이상입니다.">
       <h2>
         WBS &amp; 진행 현황
-        <span class="timing">1:48 – 2:00</span>
       </h2>
 
       <div class="wbs-grid">
