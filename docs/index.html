@@ -322,7 +322,7 @@ flowchart TB
 
     <!-- ⑤ WBS  (1:48 – 2:00) ────────────────────────────── -->
     <section
-      data-script="이게 엑셀로 만든 WBS 간트 차트입니다. 5월 11일부터 6월 21일까지 7개 Phase로 구성돼 있고요, 지금은 1단계 기획과 설계가 완료됐고, 2단계 데이터 레이어를 진행 중입니다. 5월 31일 중간 발표, 6월 21일 최종 발표가 마일스톤으로 잡혀 있습니다. 이상입니다.">
+      data-script="WBS 간트 차트입니다. 5월 11일부터 6월 21일까지 7개 Phase로 구성돼 있고요. 1단계 기획·설계는 완료됐고, 2단계 데이터 레이어는 데이터 모델 클래스가 완료, Hive·Firebase 구현을 진행 중입니다. 4단계 UI는 TaskProvider·SyncProvider·AIProvider 3개 Provider가 완료된 상태입니다. 5월 31일 중간 발표, 6월 21일 최종 발표가 마일스톤으로 잡혀 있습니다.">
       <h2>
         WBS &amp; 진행 현황
       </h2>
@@ -359,7 +359,8 @@ flowchart TB
           <div class="g-lbl">2. 데이터 레이어</div>
           <div class="g-bars">
             <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar prog" style="left:17.1%;width:14.6%">데이터 레이어 🔵</div>
+            <div class="g-bar done" style="left:17.1%;width:4.9%">모델 ✅</div>
+            <div class="g-bar prog" style="left:22%;width:9.7%">Hive·Firebase 진행중</div>
           </div>
         </div>
 
@@ -377,7 +378,8 @@ flowchart TB
           <div class="g-lbl">4. UI 구현</div>
           <div class="g-bars">
             <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar plan" style="left:34.1%;width:14.6%">UI 구현</div>
+            <div class="g-bar done" style="left:34.1%;width:4.9%">Provider ✅</div>
+            <div class="g-bar prog" style="left:39%;width:9.7%">화면 구현 진행중</div>
             <div class="g-ms" style="left:48.8%"><span>◆</span>중간발표</div>
           </div>
         </div>
@@ -413,7 +415,7 @@ flowchart TB
       </div>
 
       <aside class="notes">
-        8단계 중 2개 완료, 2개 진행 중입니다.
+        데이터 모델·Provider 완료, Hive·Firebase·화면 구현 진행 중입니다.
         13~14주차에 동기화·테스트·배포를 마무리할 계획입니다. (12초)
       </aside>
     </section>
