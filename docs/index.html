@@ -306,60 +306,46 @@ flowchart TB
 
     <!-- ⑤ WBS  (1:48 – 2:00) ────────────────────────────── -->
     <section
-      data-script="전체 8단계 WBS 중 기획과 4-레이어 설계는 완료했고, 지금은 UI 구현과 AI 인터뷰를 동시에 진행 중입니다. 5~8단계인 동기화, 알림, 테스트, 배포는 13~14주차에 진행할 예정입니다. 이상입니다.">
+      data-script="이게 엑셀로 만든 WBS 간트 차트입니다. 5월 11일부터 6월 21일까지 7개 Phase로 구성돼 있고요, 지금은 1단계 기획과 설계가 완료됐고, 2단계 데이터 레이어를 진행 중입니다. 5월 31일 중간 발표, 6월 21일 최종 발표가 마일스톤으로 잡혀 있습니다. 이상입니다.">
       <h2>
         WBS &amp; 진행 현황
       </h2>
 
-      <div class="wbs-grid">
-        <div class="wbs-card done">
-          <div class="wbs-num">1</div>
-          <div class="wbs-name">기획 &amp; 설계</div>
-          <div class="wbs-items">비전 · 요구사항<br>ADR 3개 · 스키마</div>
-          <div><span class="wbs-badge">✅ 완료</span></div>
-        </div>
-        <div class="wbs-card done">
-          <div class="wbs-num">2</div>
-          <div class="wbs-name">4-레이어 구조</div>
-          <div class="wbs-items">스켈레톤 코드<br>Hello World 빌드</div>
-          <div><span class="wbs-badge">✅ 완료</span></div>
-        </div>
-        <div class="wbs-card active">
-          <div class="wbs-num">3</div>
-          <div class="wbs-name">UI 구현</div>
-          <div class="wbs-items">홈 · 인터뷰<br>결과 화면</div>
-          <div><span class="wbs-badge">🔵 진행 중</span></div>
-        </div>
-        <div class="wbs-card active">
-          <div class="wbs-num">4</div>
-          <div class="wbs-name">AI 인터뷰</div>
-          <div class="wbs-items">Claude API 3턴<br>분석 결과 파싱</div>
-          <div><span class="wbs-badge">🔵 진행 중</span></div>
-        </div>
-        <div class="wbs-card todo">
-          <div class="wbs-num">5</div>
-          <div class="wbs-name">Hive ↔ Firebase</div>
-          <div class="wbs-items">동기화<br>Conflict Resolution</div>
-          <div><span class="wbs-badge">⚪ 예정</span></div>
-        </div>
-        <div class="wbs-card todo">
-          <div class="wbs-num">6</div>
-          <div class="wbs-name">알림 &amp; 감지</div>
-          <div class="wbs-items">지연 자동 감지<br>푸시 알림</div>
-          <div><span class="wbs-badge">⚪ 예정</span></div>
-        </div>
-        <div class="wbs-card todo">
-          <div class="wbs-num">7</div>
-          <div class="wbs-name">테스트 &amp; QA</div>
-          <div class="wbs-items">Playwright MCP<br>통합 테스트</div>
-          <div><span class="wbs-badge">⚪ 예정</span></div>
-        </div>
-        <div class="wbs-card todo">
-          <div class="wbs-num">8</div>
-          <div class="wbs-name">배포 &amp; 마무리</div>
-          <div class="wbs-items">Android · iOS 빌드<br>최종 발표</div>
-          <div><span class="wbs-badge">⚪ 예정</span></div>
-        </div>
+      <div class="mermaid">
+gantt
+    title Delay Detective WBS (05/11 ~ 06/21)
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+
+    section 1. 기획 & 설계
+    기획 & 설계          :done, 2026-05-11, 2026-05-17
+    ★ 기획 완료          :milestone, 2026-05-17, 0d
+
+    section 2. 데이터 레이어
+    데이터 레이어         :active, 2026-05-18, 2026-05-24
+    ★ 데이터 레이어 완료 :milestone, 2026-05-24, 0d
+
+    section 3. AI 인터뷰 시스템
+    AI 인터뷰 시스템      :2026-05-22, 2026-05-28
+    ★ AI 시스템 완료     :milestone, 2026-05-28, 0d
+
+    section 4. UI 구현
+    UI 구현               :2026-05-25, 2026-05-31
+    ★ 중간 발표          :crit, milestone, 2026-05-31, 0d
+
+    section 5. 알림 & 지연 감지
+    알림 & 지연 감지      :2026-06-01, 2026-06-04
+
+    section 6. 테스트 & QA
+    테스트 & QA           :2026-06-04, 2026-06-07
+    ★ QA 완료            :milestone, 2026-06-07, 0d
+
+    section 7. 배포 & 마무리
+    배포 & 마무리         :2026-06-08, 2026-06-14
+    ★ 최종 발표 준비 완료 :crit, milestone, 2026-06-14, 0d
+
+    section 최종 발표
+    최종 발표             :crit, 2026-06-15, 2026-06-21
       </div>
 
       <aside class="notes">
