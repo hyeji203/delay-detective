@@ -98,22 +98,38 @@
       background:#FAFAFA; border-radius:6px; padding:7px 13px; border:1px solid #DDD;
     }
 
-    /* ── WBS ────────────────────────────────────────────── */
-    .wbs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-top:8px; }
-    .wbs-card { border-radius:8px; padding:9px 11px; border:2px solid; font-size:.72em; }
-    .wbs-card.done   { background:#F0FFF4; border-color:var(--c-green); }
-    .wbs-card.active { background:#EFF6FF; border-color:var(--c-accent); }
-    .wbs-card.todo   { background:#F9F9F9; border-color:#CCC; }
-    .wbs-num { font-size:1.25em; font-weight:900; }
-    .wbs-card.done   .wbs-num { color:var(--c-green); }
-    .wbs-card.active .wbs-num { color:var(--c-accent); }
-    .wbs-card.todo   .wbs-num { color:#AAA; }
-    .wbs-name  { font-weight:700; margin:2px 0 3px; line-height:1.3; }
-    .wbs-items { font-size:.84em; color:#666; line-height:1.5; }
-    .wbs-badge { display:inline-block; margin-top:5px; padding:2px 8px; border-radius:9px; font-size:.78em; font-weight:700; }
-    .wbs-card.done   .wbs-badge { background:var(--c-green); color:#fff; }
-    .wbs-card.active .wbs-badge { background:var(--c-accent); color:#fff; }
-    .wbs-card.todo   .wbs-badge { background:#DDD; color:#777; }
+    /* ── Gantt ───────────────────────────────────────────── */
+    .g-wrap { width:100%; margin-top:6px; }
+    .g-row  { display:flex; align-items:center; height:46px; position:relative; }
+    .g-row:not(.g-head) { border-top:1px solid #EEE; }
+    .g-lbl  { width:140px; flex-shrink:0; font-size:.7em; font-weight:700;
+               color:var(--c-primary); padding-right:10px; line-height:1.3; }
+    .g-bars { flex:1; position:relative; height:100%;
+               background-image: repeating-linear-gradient(
+                 to right, transparent 0, transparent calc(100%/6 - 1px),
+                 #DDD calc(100%/6 - 1px), #DDD calc(100%/6));
+             }
+    /* week header labels */
+    .g-wk   { position:absolute; top:4px; font-size:.6em; font-weight:700;
+               color:#555; line-height:1.3; text-align:left; padding-left:4px; }
+    /* task bars */
+    .g-bar  { position:absolute; top:50%; transform:translateY(-50%);
+               height:24px; border-radius:5px; display:flex; align-items:center;
+               padding:0 8px; font-size:.63em; font-weight:700;
+               white-space:nowrap; overflow:hidden; }
+    .g-bar.done   { background:var(--c-green); color:#fff; }
+    .g-bar.prog   { background:var(--c-accent); color:#fff; }
+    .g-bar.plan   { background:#B8CCE4; color:#1F3864; }
+    /* milestone diamond */
+    .g-ms { position:absolute; top:50%; transform:translateY(-50%) translateX(-50%);
+             font-size:.62em; font-weight:900; color:var(--c-red);
+             white-space:nowrap; display:flex; flex-direction:column; align-items:center; }
+    .g-ms span { font-size:1.4em; line-height:1; }
+    /* today line */
+    .g-today { position:absolute; top:0; bottom:0; width:2px;
+                background:var(--c-red); opacity:.5; z-index:1; }
+    .g-today::after { content:'TODAY'; position:absolute; top:-16px; left:3px;
+                       font-size:.5em; color:var(--c-red); font-weight:700; }
 
     /* ── Speaker Script Panel ───────────────────────────── */
     /* Shown below slides — only visible to presenter (PC) */
@@ -311,27 +327,89 @@ flowchart TB
         WBS &amp; 진행 현황
       </h2>
 
-      <div class="mermaid">
-gantt
-    title Delay Detective WBS  05/11 - 06/21
-    dateFormat YYYY-MM-DD
-    axisFormat %m/%d
-    section 1. 기획설계
-    기획 설계 완료      :done, 2026-05-11, 7d
-    section 2. 데이터 레이어
-    데이터 레이어       :active, 2026-05-18, 7d
-    section 3. AI 인터뷰
-    AI 인터뷰 시스템    :2026-05-22, 7d
-    section 4. UI 구현
-    UI 구현             :2026-05-25, 7d
-    중간발표            :crit, milestone, 2026-05-31, 1d
-    section 5. 알림 감지
-    알림 지연 감지      :2026-06-01, 4d
-    section 6. 테스트 QA
-    테스트 QA           :2026-06-04, 4d
-    section 7. 배포 마무리
-    배포 마무리         :2026-06-08, 7d
-    최종발표            :crit, milestone, 2026-06-14, 1d
+      <!-- HTML Gantt — 기준: 05/11=0%, 06/21=100%, 총 41일 -->
+      <!-- 각 day의 %: day/41*100  |  today(05/28)=day17 → 41.5% -->
+      <div class="g-wrap">
+
+        <!-- 주차 헤더 -->
+        <div class="g-row g-head" style="height:32px">
+          <div class="g-lbl" style="font-size:.65em;color:#888">Phase</div>
+          <div class="g-bars" style="height:32px">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-wk" style="left:0%">W10<br>05/11</div>
+            <div class="g-wk" style="left:16.7%">W11<br>05/18</div>
+            <div class="g-wk" style="left:33.3%">W12<br>05/25</div>
+            <div class="g-wk" style="left:50%">W13<br>06/01</div>
+            <div class="g-wk" style="left:66.7%">W14<br>06/08</div>
+            <div class="g-wk" style="left:83.3%">W15<br>06/15</div>
+          </div>
+        </div>
+
+        <!-- 1. 기획 & 설계  05/11-05/17 (day 0-6) -->
+        <div class="g-row">
+          <div class="g-lbl">1. 기획 &amp; 설계</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar done" style="left:0%;width:14.6%">기획 &amp; 설계 ✅</div>
+          </div>
+        </div>
+
+        <!-- 2. 데이터 레이어  05/18-05/24 (day 7-13) -->
+        <div class="g-row">
+          <div class="g-lbl">2. 데이터 레이어</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar prog" style="left:17.1%;width:14.6%">데이터 레이어 🔵</div>
+          </div>
+        </div>
+
+        <!-- 3. AI 인터뷰 시스템  05/22-05/28 (day 11-17) -->
+        <div class="g-row">
+          <div class="g-lbl">3. AI 인터뷰 시스템</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar plan" style="left:26.8%;width:14.6%">AI 인터뷰 시스템</div>
+          </div>
+        </div>
+
+        <!-- 4. UI 구현  05/25-05/31 (day 14-20) + 중간발표 milestone -->
+        <div class="g-row">
+          <div class="g-lbl">4. UI 구현</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar plan" style="left:34.1%;width:14.6%">UI 구현</div>
+            <div class="g-ms" style="left:48.8%"><span>◆</span>중간발표</div>
+          </div>
+        </div>
+
+        <!-- 5. 알림 & 지연 감지  06/01-06/04 (day 21-24) -->
+        <div class="g-row">
+          <div class="g-lbl">5. 알림 &amp; 감지</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar plan" style="left:51.2%;width:7.3%">알림 &amp; 감지</div>
+          </div>
+        </div>
+
+        <!-- 6. 테스트 & QA  06/04-06/07 (day 24-27) -->
+        <div class="g-row">
+          <div class="g-lbl">6. 테스트 &amp; QA</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar plan" style="left:58.5%;width:7.3%">테스트 QA</div>
+          </div>
+        </div>
+
+        <!-- 7. 배포 & 마무리  06/08-06/14 (day 28-34) + 최종발표 milestone -->
+        <div class="g-row">
+          <div class="g-lbl">7. 배포 &amp; 마무리</div>
+          <div class="g-bars">
+            <div class="g-today" style="left:41.5%"></div>
+            <div class="g-bar plan" style="left:68.3%;width:14.6%">배포 &amp; 마무리</div>
+            <div class="g-ms" style="left:97.6%"><span>◆</span>최종발표</div>
+          </div>
+        </div>
+
       </div>
 
       <aside class="notes">
