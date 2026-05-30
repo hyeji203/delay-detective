@@ -1,16 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/models/task.dart';
 
-// Secondary 저장소 — 백그라운드 동기화 담당
 class FirestoreService {
-  // 구현 예정: 태스크 업로드 (Hive → Firestore)
-  Future<void> uploadTask(Task task) async {}
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // 구현 예정: 태스크 다운로드 (Firestore → Hive)
-  Future<Task?> fetchTask(String uid, String taskId) async => null;
+  CollectionReference<Map<String, dynamic>> _tasksRef(String uid) =>
+      _db.collection('users').doc(uid).collection('tasks');
 
-  // 구현 예정: 전체 태스크 목록 다운로드
-  Future<List<Task>> fetchAllTasks(String uid) async => [];
+  Future<void> uploadTask(Task task) async {
+    await _tasksRef(task.uid).doc(task.id).set(task.toMap());
+  }
 
-  // 구현 예정: 태스크 삭제
-  Future<void> deleteTask(String uid, String taskId) async {}
+  Future<Task?> fetchTask(String uid, String taskId) async {
+    final doc = await _tasksRef(uid).doc(taskId).get();
+    if (!doc.exists || doc.data() == null) return null;
+    return Task.fromMap(doc.data()!);
+  }
+
+  Future<List<Task>> fetchAllTasks(String uid) async {
+    final snapshot = await _tasksRef(uid).get();
+    return snapshot.docs
+        .map((doc) => Task.fromMap(doc.data()))
+        .toList();
+  }
+
+  Future<void> deleteTask(String uid, String taskId) async {
+    await _tasksRef(uid).doc(taskId).delete();
+  }
 }

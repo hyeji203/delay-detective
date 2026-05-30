@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../application/task_provider.dart';
-import '../../application/sync_provider.dart';
 import '../widgets/task_card.dart';
 import '../widgets/sync_banner.dart';
 
@@ -17,9 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // 앱 시작 시 태스크 불러오기
-    Future.microtask(
-      () => context.read<TaskProvider>().loadTasks(),
-    );
+    Future.microtask(() {
+      if (mounted) context.read<TaskProvider>().loadTasks();
+    });
   }
 
   @override

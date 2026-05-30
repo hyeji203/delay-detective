@@ -26,7 +26,7 @@
     .reveal h2 {
       font-size: 1.2em; font-weight: 900; color: var(--c-primary);
       border-bottom: 3px solid var(--c-accent);
-      padding-bottom: 8px; margin-bottom: 16px;
+      padding-bottom: 4px; margin-bottom: 6px;
     }
     .reveal p  { font-size: 0.80em; margin: 0.35em 0; }
     .reveal ul { font-size: 0.80em; }
@@ -99,38 +99,38 @@
       background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
     }
 
-    /* ── Gantt ───────────────────────────────────────────── */
-    .g-wrap { width:100%; margin-top:6px; }
-    .g-row  { display:flex; align-items:center; height:46px; position:relative; }
-    .g-row:not(.g-head) { border-top:1px solid #EEE; }
-    .g-lbl  { width:140px; flex-shrink:0; font-size:.7em; font-weight:700;
-               color:var(--c-primary); padding-right:10px; line-height:1.3; }
-    .g-bars { flex:1; position:relative; height:100%;
-               background-image: repeating-linear-gradient(
-                 to right, transparent 0, transparent calc(100%/6 - 1px),
-                 #DDD calc(100%/6 - 1px), #DDD calc(100%/6));
-             }
-    /* week header labels */
-    .g-wk   { position:absolute; top:4px; font-size:.6em; font-weight:700;
-               color:#555; line-height:1.3; text-align:left; padding-left:4px; }
-    /* task bars */
-    .g-bar  { position:absolute; top:50%; transform:translateY(-50%);
-               height:24px; border-radius:5px; display:flex; align-items:center;
-               padding:0 8px; font-size:.63em; font-weight:700;
-               white-space:nowrap; overflow:hidden; }
-    .g-bar.done   { background:var(--c-green); color:#fff; }
-    .g-bar.prog   { background:var(--c-accent); color:#fff; }
-    .g-bar.plan   { background:#B8CCE4; color:#1F3864; }
-    /* milestone diamond */
-    .g-ms { position:absolute; top:50%; transform:translateY(-50%) translateX(-50%);
-             font-size:.62em; font-weight:900; color:var(--c-red);
-             white-space:nowrap; display:flex; flex-direction:column; align-items:center; }
-    .g-ms span { font-size:1.4em; line-height:1; }
-    /* today line */
-    .g-today { position:absolute; top:0; bottom:0; width:2px;
-                background:var(--c-red); opacity:.5; z-index:1; }
-    .g-today::after { content:'TODAY'; position:absolute; top:-16px; left:3px;
-                       font-size:.5em; color:var(--c-red); font-weight:700; }
+    /* ── WBS Table ──────────────────────────────────────── */
+    .wbs-table { width:100%; border-collapse:collapse; font-size:.40em; margin-top:2px; table-layout:fixed; line-height:1.1; }
+    .wbs-table th {
+      background:var(--c-primary); color:#fff;
+      padding:1px 2px; text-align:center; line-height:1.1;
+    }
+    .wbs-table th.th-task { text-align:left; padding-left:5px; }
+    .wbs-table td {
+      padding:0 2px; border:1px solid #DDD; text-align:center;
+      vertical-align:middle; white-space:nowrap; overflow:hidden;
+    }
+    .wbs-table td.task-name {
+      text-align:left; font-weight:700; padding-left:5px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .wbs-table td.sub-name {
+      text-align:left; padding-left:13px; color:#333;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .wbs-table tr.phase    { background:#EDF2FF; }
+    .wbs-table tr.sub-ph   { background:#FAFAFA; }
+    .wbs-table tr.milestone{ background:#FFF4E6; }
+    .wbs-badge { border-radius:6px; padding:0 4px; font-size:.9em; font-weight:700; white-space:nowrap; }
+    .wbs-badge.done { background:var(--c-green); color:#fff; }
+    .wbs-badge.prog { background:var(--c-accent); color:#fff; }
+    .wbs-badge.plan { background:#B8CCE4; color:#1F3864; }
+    .wbs-badge.ms   { background:var(--c-red); color:#fff; }
+    .wbs-badge.none { background:#E0E0E0; color:#555; }
+    .wc-done { background:#E2EFDA; color:#375623; font-weight:700; }
+    .wc-prog { background:#DDEEFF; color:#1F3864; font-weight:700; }
+    .wc-plan { background:#EEF3FF; color:#1F3864; }
+    .wc-ms   { color:var(--c-red); font-weight:900; }
 
     /* ── Speaker Script Panel ───────────────────────────── */
     /* Shown below slides — only visible to presenter (PC) */
@@ -288,7 +288,7 @@
 
     <!-- ④ ARCHITECTURE  (1:25 – 1:48) ──────────────────── -->
     <section
-      data-script="기술 구조는 4개 레이어입니다. 화면을 담당하는 Presentation, 상태를 관리하는 Application Provider, 핵심 데이터 모델인 Domain, 그리고 Hive 로컬 저장소와 Firebase, Claude API를 묶은 Data 레이어입니다. 오프라인에서도 Hive에 먼저 저장하고, 네트워크 복구 시 Firestore로 동기화합니다.">
+      data-script="기술 구조는 왼쪽에서 오른쪽으로 4개 레이어가 흐릅니다. Presentation 화면이 사용자 액션을 받으면 Application — Provider 계층이 처리합니다. Provider는 순수 Dart로만 구성된 Domain 모델을 참조하고, Data 레이어의 HiveService·FirestoreService·AIService를 호출해 저장과 조회를 담당합니다. 의존성은 항상 왼쪽에서 오른쪽 방향으로만 흐르고, 쓰기 요청은 Hive에 먼저 저장한 뒤 네트워크 복구 시 Firestore로 동기화하는 오프라인 우선 전략입니다.">
       <h2>
         설계 — 4-레이어 아키텍처
       </h2>
@@ -316,108 +316,155 @@ flowchart LR
       </div>
 
       <aside class="notes">
-        4개 레이어로 분리했고, 의존성은 위에서 아래로만 흐릅니다.
-        오프라인 우선 전략이라 네트워크 없어도 완전히 동작합니다. (23초)
+        4개 레이어, 의존성은 왼쪽에서 오른쪽 방향으로만 흐릅니다.
+        Data 레이어가 Domain 모델 타입을 사용하고, Provider가 둘 다 호출합니다.
+        오프라인 우선 전략으로 네트워크 없어도 완전히 동작합니다. (23초)
       </aside>
     </section>
 
     <!-- ⑤ WBS  (1:48 – 2:00) ────────────────────────────── -->
     <section
-      data-script="WBS 간트 차트입니다. 5월 11일부터 6월 21일까지 7개 Phase로 구성돼 있고요. 1단계 기획·설계는 완료됐고, 2단계 데이터 레이어는 데이터 모델 클래스가 완료, Hive·Firebase 구현을 진행 중입니다. 4단계 UI는 TaskProvider·SyncProvider·AIProvider 3개 Provider가 완료된 상태입니다. 5월 31일 중간 발표, 6월 21일 최종 발표가 마일스톤으로 잡혀 있습니다.">
+      data-script="WBS 진행 현황 표입니다. W10 주차 5월 11일부터 W14 주차 6월 21일까지 수업 주차 기준으로 7개 Phase가 구성돼 있습니다. 1단계 기획·설계는 기획 문서, 설계 문서, 개발 환경 구성 세 항목 모두 완료됐습니다. 2단계 데이터 레이어는 진행 중인데요, 2.1 데이터 모델 클래스는 완료됐고, Hive·Firebase·동기화 서비스는 구현 예정입니다. 4단계 UI에서는 4.3 상태 관리 Provider 세 개가 완료됐고, 나머지 화면 구현이 진행 중입니다. 오늘 W12 주차 6월 1일이 중간 발표이고, W14 주차 6월 21일 최종 발표로 마무리됩니다.">
       <h2>
         WBS &amp; 진행 현황
       </h2>
 
-      <!-- HTML Gantt — 기준: 05/11=0%, 06/21=100%, 총 41일 -->
-      <!-- 각 day의 %: day/41*100  |  today(05/28)=day17 → 41.5% -->
-      <div class="g-wrap">
-
-        <!-- 주차 헤더 -->
-        <div class="g-row g-head" style="height:32px">
-          <div class="g-lbl" style="font-size:.65em;color:#888">Phase</div>
-          <div class="g-bars" style="height:32px">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-wk" style="left:0%">W10<br>05/11</div>
-            <div class="g-wk" style="left:16.7%">W11<br>05/18</div>
-            <div class="g-wk" style="left:33.3%">W12<br>05/25</div>
-            <div class="g-wk" style="left:50%">W13<br>06/01</div>
-            <div class="g-wk" style="left:66.7%">W14<br>06/08</div>
-            <div class="g-wk" style="left:83.3%">W15<br>06/15</div>
-          </div>
-        </div>
-
-        <!-- 1. 기획 & 설계  05/11-05/17 (day 0-6) -->
-        <div class="g-row">
-          <div class="g-lbl">1. 기획 &amp; 설계</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar done" style="left:0%;width:14.6%">기획 &amp; 설계 ✅</div>
-          </div>
-        </div>
-
-        <!-- 2. 데이터 레이어  05/18-05/24 (day 7-13) -->
-        <div class="g-row">
-          <div class="g-lbl">2. 데이터 레이어</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar done" style="left:17.1%;width:4.9%">모델 ✅</div>
-            <div class="g-bar prog" style="left:22%;width:9.7%">Hive·Firebase 진행중</div>
-          </div>
-        </div>
-
-        <!-- 3. AI 인터뷰 시스템  05/22-05/28 (day 11-17) -->
-        <div class="g-row">
-          <div class="g-lbl">3. AI 인터뷰 시스템</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar plan" style="left:26.8%;width:14.6%">AI 인터뷰 시스템</div>
-          </div>
-        </div>
-
-        <!-- 4. UI 구현  05/25-05/31 (day 14-20) + 중간발표 milestone -->
-        <div class="g-row">
-          <div class="g-lbl">4. UI 구현</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar done" style="left:34.1%;width:4.9%">Provider ✅</div>
-            <div class="g-bar prog" style="left:39%;width:9.7%">화면 구현 진행중</div>
-            <div class="g-ms" style="left:48.8%"><span>◆</span>중간발표</div>
-          </div>
-        </div>
-
-        <!-- 5. 알림 & 지연 감지  06/01-06/04 (day 21-24) -->
-        <div class="g-row">
-          <div class="g-lbl">5. 알림 &amp; 감지</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar plan" style="left:51.2%;width:7.3%">알림 &amp; 감지</div>
-          </div>
-        </div>
-
-        <!-- 6. 테스트 & QA  06/04-06/07 (day 24-27) -->
-        <div class="g-row">
-          <div class="g-lbl">6. 테스트 &amp; QA</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar plan" style="left:58.5%;width:7.3%">테스트 QA</div>
-          </div>
-        </div>
-
-        <!-- 7. 배포 & 마무리  06/08-06/14 (day 28-34) + 최종발표 milestone -->
-        <div class="g-row">
-          <div class="g-lbl">7. 배포 &amp; 마무리</div>
-          <div class="g-bars">
-            <div class="g-today" style="left:41.5%"></div>
-            <div class="g-bar plan" style="left:68.3%;width:14.6%">배포 &amp; 마무리</div>
-            <div class="g-ms" style="left:97.6%"><span>◆</span>최종발표</div>
-          </div>
-        </div>
-
-      </div>
+      <table class="wbs-table">
+        <thead>
+          <tr>
+            <th style="width:30px">WBS</th>
+            <th class="th-task" style="width:250px">태스크</th>
+            <th style="width:70px">상태</th>
+            <th style="width:80px">W10<br>05/11</th>
+            <th style="width:80px">W11<br>05/18</th>
+            <th style="width:80px">W12<br>06/01</th>
+            <th style="width:80px">W13<br>06/08</th>
+            <th style="width:80px">W14<br>06/15~21</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="phase">
+            <td>1</td><td class="task-name">기획 &amp; 설계</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>1.1</td><td class="sub-name">기획 문서 (비전·요구사항·WBS)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>1.2</td><td class="sub-name">설계 문서 (Firestore·Hive·AI 플로우)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>1.3</td><td class="sub-name">개발 환경 (Flutter·Firebase·API 키)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="milestone">
+            <td>M1</td><td class="task-name">★ 기획·설계 완료</td>
+            <td><span class="wbs-badge ms">마일스톤</span></td>
+            <td class="wc-ms">◆</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="phase">
+            <td>2</td><td class="task-name">데이터 레이어</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>2.1</td><td class="sub-name">데이터 모델 (Task · SubTask · DelayAnalysis)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>2.2</td><td class="sub-name">로컬 저장소 — HiveService (CRUD)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>2.3</td><td class="sub-name">클라우드 — FirestoreService + Conflict 해결</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>2.4</td><td class="sub-name">동기화 — SyncService (Hive ↔ Firestore)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr class="phase">
+            <td>3</td><td class="task-name">AI 인터뷰 시스템</td>
+            <td><span class="wbs-badge plan">계획</span></td>
+            <td></td><td class="wc-plan">계획</td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>3.1</td><td class="sub-name">Anthropic API 연동 + 프롬프트 템플릿</td>
+            <td><span class="wbs-badge none">미시작</span></td>
+            <td></td><td class="wc-plan">계획</td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>3.2</td><td class="sub-name">인터뷰 플로우 (2~3턴 + 종료 조건)</td>
+            <td><span class="wbs-badge none">미시작</span></td>
+            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>3.3</td><td class="sub-name">분석 결과 생성 (공감·원인·소태스크 3개)</td>
+            <td><span class="wbs-badge none">미시작</span></td>
+            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="phase">
+            <td>4</td><td class="task-name">UI 구현</td>
+            <td><span class="wbs-badge prog">진행중</span></td>
+            <td></td><td></td><td class="wc-prog">진행중</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>4.1</td><td class="sub-name">공통 컴포넌트 (테마·버튼·태스크 카드)</td>
+            <td><span class="wbs-badge none">미시작</span></td>
+            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>4.2</td><td class="sub-name">주요 화면 (Home·Add·Interview·Result·History)</td>
+            <td><span class="wbs-badge none">미시작</span></td>
+            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+          </tr>
+          <tr class="sub-ph">
+            <td>4.3</td><td class="sub-name">상태 관리 Provider (Task·Sync·AI)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
+          </tr>
+          <tr class="milestone">
+            <td>M4</td><td class="task-name">★ 중간 발표</td>
+            <td><span class="wbs-badge ms">마일스톤</span></td>
+            <td></td><td></td><td class="wc-ms">◆</td><td></td><td></td>
+          </tr>
+          <tr class="phase">
+            <td>5</td><td class="task-name">알림 &amp; 지연 감지 (로컬 알림·D-day 스케줄러)</td>
+            <td><span class="wbs-badge plan">계획</span></td>
+            <td></td><td></td><td></td><td class="wc-plan">계획</td><td></td>
+          </tr>
+          <tr class="phase">
+            <td>6</td><td class="task-name">테스트 &amp; QA (단위·통합·Playwright MCP)</td>
+            <td><span class="wbs-badge plan">계획</span></td>
+            <td></td><td></td><td></td><td class="wc-plan">계획</td><td class="wc-plan">계획</td>
+          </tr>
+          <tr class="phase">
+            <td>7</td><td class="task-name">배포 &amp; 마무리 (APK·문서·발표 자료)</td>
+            <td><span class="wbs-badge plan">계획</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-plan">계획</td>
+          </tr>
+          <tr class="milestone">
+            <td>M6</td><td class="task-name">★ 최종 발표</td>
+            <td><span class="wbs-badge ms">마일스톤</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-ms">◆</td>
+          </tr>
+        </tbody>
+      </table>
 
       <aside class="notes">
-        데이터 모델·Provider 완료, Hive·Firebase·화면 구현 진행 중입니다.
-        13~14주차에 동기화·테스트·배포를 마무리할 계획입니다. (12초)
+        수업 주차 기준 W10~W14, 총 5개 주차.
+        Phase 1 완료, Phase 2 데이터 모델 완료·나머지 예정, Phase 4 Provider 완료·화면 진행 중.
+        오늘 W12(06/01) 중간 발표, W14(06/21) 최종 발표. (15초)
       </aside>
     </section>
 

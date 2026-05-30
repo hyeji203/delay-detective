@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'application/task_provider.dart';
 import 'application/ai_provider.dart';
 import 'application/sync_provider.dart';
@@ -14,6 +15,7 @@ import 'presentation/screens/analysis_result_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
 
   // 구현 예정: Firebase 초기화 + 익명 로그인
   // await Firebase.initializeApp();

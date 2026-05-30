@@ -1,28 +1,42 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../domain/models/task.dart';
 
-// Primary 저장소 — 모든 읽기·쓰기의 1순위
 class HiveService {
   static const String _tasksBox = 'tasks';
   static const String _syncQueueBox = 'sync_queue';
 
-  // 구현 예정: Hive 초기화
-  Future<void> init() async {}
+  late Box<Map> _tasks;
+  late Box<String> _syncQueue;
 
-  // 구현 예정: 태스크 전체 조회
-  Future<List<Task>> getAllTasks() async => [];
+  Future<void> init() async {
+    await Hive.initFlutter();
+    _tasks = await Hive.openBox<Map>(_tasksBox);
+    _syncQueue = await Hive.openBox<String>(_syncQueueBox);
+  }
 
-  // 구현 예정: 태스크 저장 (생성 또는 업데이트)
-  Future<void> saveTask(Task task) async {}
+  Future<List<Task>> getAllTasks() async {
+    return _tasks.values
+        .map((m) => Task.fromMap(Map<String, dynamic>.from(m)))
+        .toList();
+  }
 
-  // 구현 예정: 태스크 삭제
-  Future<void> deleteTask(String id) async {}
+  Future<void> saveTask(Task task) async {
+    await _tasks.put(task.id, task.toMap());
+  }
 
-  // 구현 예정: sync_queue에 taskId 등록
-  Future<void> enqueueSync(String taskId) async {}
+  Future<void> deleteTask(String id) async {
+    await _tasks.delete(id);
+  }
 
-  // 구현 예정: 대기 중인 sync_queue 목록 반환
-  Future<List<String>> getPendingSyncIds() async => [];
+  Future<void> enqueueSync(String taskId) async {
+    await _syncQueue.put(taskId, taskId);
+  }
 
-  // 구현 예정: sync_queue에서 제거 (Firestore 업로드 성공 후)
-  Future<void> dequeueSync(String taskId) async {}
+  Future<List<String>> getPendingSyncIds() async {
+    return _syncQueue.values.toList();
+  }
+
+  Future<void> dequeueSync(String taskId) async {
+    await _syncQueue.delete(taskId);
+  }
 }
