@@ -135,43 +135,9 @@
     .wc-plan { background:#EEF3FF; color:#1F3864; }
     .wc-ms   { color:var(--c-red); font-weight:900; }
 
-    /* ── Speaker Script Panel ───────────────────────────── */
-    /* Shown below slides — only visible to presenter (PC) */
-    #script-panel {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(31,56,100,.92);
-      color: #fff;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: .82em;
-      padding: 9px 22px;
-      z-index: 8888;
-      display: flex; align-items: center; gap: 14px;
-      border-top: 2px solid var(--c-accent);
-      transition: opacity .3s;
-    }
-    #script-panel .sp-label {
-      background: var(--c-accent); border-radius:10px; padding:2px 10px;
-      font-size:.85em; font-weight:700; flex-shrink:0;
-    }
-    #script-panel .sp-text { line-height:1.5; }
-    #script-toggle {
-      position:fixed; bottom:70px; left:14px;
-      background:rgba(31,56,100,.8); color:#fff;
-      border:none; border-radius:8px; padding:5px 13px;
-      font-size:.75em; cursor:pointer; z-index:8890;
-    }
-
   </style>
 </head>
 <body>
-
-<!-- ── 발표 스크립트 패널 ── -->
-<button id="script-toggle" onclick="toggleScript()">📝 스크립트 숨기기</button>
-<div id="script-panel">
-  <span class="sp-label">📢 스크립트</span>
-  <span class="sp-text" id="sp-text">← 방향키로 슬라이드를 이동하면 스크립트가 바뀝니다.</span>
-</div>
 
 <div class="reveal">
   <div class="slides">
@@ -493,29 +459,6 @@ flowchart LR
     mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
     updateScript();
   });
-
-  /* ── Script panel ───────────────────────────────────── */
-  var scripts = [];
-  document.querySelectorAll('section[data-script]').forEach(function(s) {
-    scripts[Array.from(document.querySelectorAll('section')).indexOf(s)] = s.dataset.script;
-  });
-
-  function updateScript() {
-    var idx = Reveal.getIndices().h;
-    var sections = document.querySelectorAll('.reveal .slides > section');
-    var text = sections[idx] && sections[idx].dataset.script;
-    document.getElementById('sp-text').textContent = text || '—';
-  }
-
-  Reveal.on('slidechanged', updateScript);
-
-  var scriptVisible = true;
-  function toggleScript() {
-    scriptVisible = !scriptVisible;
-    document.getElementById('script-panel').style.opacity = scriptVisible ? '1' : '0';
-    document.getElementById('script-panel').style.pointerEvents = scriptVisible ? 'auto' : 'none';
-    document.getElementById('script-toggle').textContent = scriptVisible ? '📝 스크립트 숨기기' : '📝 스크립트 보기';
-  }
 
 </script>
 
