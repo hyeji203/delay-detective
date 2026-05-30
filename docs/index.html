@@ -475,8 +475,8 @@ flowchart LR
 <script>
   /* ── Mermaid ────────────────────────────────────────── */
   mermaid.initialize({ startOnLoad: false, theme: 'base',
-    themeVariables: { fontSize: '13px' },
-    flowchart: { curve: 'linear', useMaxWidth: true, nodeSpacing: 40, rankSpacing: 60 }
+    themeVariables: { fontSize: '13px', fontFamily: 'Arial, sans-serif' },
+    flowchart: { curve: 'linear', useMaxWidth: true, padding: 20, htmlLabels: false }
   });
 
   /* ── Reveal ─────────────────────────────────────────── */
@@ -487,10 +487,7 @@ flowchart LR
   });
 
   Reveal.on('ready', function () {
-    // 폰트 로드 완료 후 Mermaid 실행 — 폰트 미로드 시 텍스트 너비 오측정 방지
-    document.fonts.ready.then(function () {
-      mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
-    });
+    mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
     updateScript();
   });
 
