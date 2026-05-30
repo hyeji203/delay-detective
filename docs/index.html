@@ -92,10 +92,11 @@
     }
 
     /* ── Architecture ───────────────────────────────────── */
-    .mermaid { display:flex; justify-content:center; }
+    .mermaid { display:flex; justify-content:center; min-height:320px; }
+    .mermaid svg { max-width:100%; height:auto; }
     .arch-note {
-      font-size:.7em; color:#555; margin-top:8px;
-      background:#FAFAFA; border-radius:6px; padding:7px 13px; border:1px solid #DDD;
+      font-size:.68em; color:#555; margin-top:6px;
+      background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
     }
 
     /* ── Gantt ───────────────────────────────────────────── */
@@ -293,16 +294,16 @@
       </h2>
 
       <div class="mermaid">
-flowchart TB
-    P["🖥️ Presentation\nHomeScreen · InterviewScreen · AnalysisResultScreen"]
-    A["⚙️ Application — Provider\nTaskProvider · AIProvider · SyncProvider"]
-    D["📦 Domain — 순수 Dart\nTask · SubTask · InterviewTurn · DelayAnalysis"]
-    DA["💾 Data\nHiveService(로컬) · FirestoreService(클라우드) · AIService(Claude API)"]
+flowchart LR
+    P["Presentation\nHomeScreen\nInterviewScreen\nAnalysisResultScreen"]
+    A["Application\nTaskProvider\nAIProvider\nSyncProvider"]
+    D["Domain\nTask · SubTask\nInterviewTurn\nDelayAnalysis"]
+    DA["Data\nHiveService\nFirestoreService\nAIService"]
 
-    P -->|"사용자 액션"| A
+    P -->|"액션"| A
     A -->|"모델 참조"| D
-    A -->|"저장 · 조회"| DA
-    DA -->|"모델 반환"| D
+    A -->|"저장·조회"| DA
+    DA -->|"D 모델 사용"| D
 
     style P  fill:#DDEEFF,stroke:#4472C4,color:#1F3864
     style A  fill:#E2EFDA,stroke:#70AD47,color:#1F3864
@@ -427,8 +428,8 @@ flowchart TB
 <script>
   /* ── Mermaid ────────────────────────────────────────── */
   mermaid.initialize({ startOnLoad: false, theme: 'base',
-    themeVariables: { fontSize: '12px' },
-    flowchart: { htmlLabels: false, curve: 'linear' }
+    themeVariables: { fontSize: '15px' },
+    flowchart: { curve: 'linear', useMaxWidth: true }
   });
 
   /* ── Reveal ─────────────────────────────────────────── */
