@@ -92,8 +92,8 @@
     }
 
     /* ── Architecture ───────────────────────────────────── */
-    .mermaid { display:flex; justify-content:center; min-height:320px; }
-    .mermaid svg { max-width:100%; height:auto; }
+    .mermaid { display:flex; justify-content:center; min-height:320px; overflow:visible; }
+    .mermaid svg { width:100% !important; max-width:100% !important; height:auto; }
     .arch-note {
       font-size:.68em; color:#555; margin-top:6px;
       background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
@@ -475,8 +475,8 @@ flowchart LR
 <script>
   /* ── Mermaid ────────────────────────────────────────── */
   mermaid.initialize({ startOnLoad: false, theme: 'base',
-    themeVariables: { fontSize: '15px' },
-    flowchart: { curve: 'linear', useMaxWidth: true }
+    themeVariables: { fontSize: '13px' },
+    flowchart: { curve: 'linear', useMaxWidth: true, nodeSpacing: 40, rankSpacing: 60 }
   });
 
   /* ── Reveal ─────────────────────────────────────────── */
