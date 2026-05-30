@@ -94,9 +94,9 @@
     /* ── Architecture ───────────────────────────────────── */
     .mermaid { display:flex; justify-content:center; min-height:360px; }
     .mermaid svg { max-width:100%; height:auto; }
-    /* 화살표 레이블 배경 흰색 → 선과 겹쳐 보이지 않도록 */
-    .mermaid .edgeLabel .label-container { fill: white !important; stroke: none !important; }
-    .mermaid .edgeLabel text { font-size: 13px !important; }
+    /* 노드 레이블 클립 해제 — htmlLabels:true 텍스트 잘림 방지 */
+    .mermaid .node .label { clip-path: none !important; }
+    .mermaid .node foreignObject { overflow: visible !important; }
     .arch-note {
       font-size:.68em; color:#555; margin-top:6px;
       background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
@@ -479,7 +479,7 @@ flowchart LR
   /* ── Mermaid ────────────────────────────────────────── */
   mermaid.initialize({ startOnLoad: false, theme: 'base',
     themeVariables: { fontSize: '16px', fontFamily: 'Arial, sans-serif' },
-    flowchart: { curve: 'linear', useMaxWidth: true, padding: 25, htmlLabels: false }
+    flowchart: { curve: 'linear', useMaxWidth: true, padding: 25, htmlLabels: true }
   });
 
   /* ── Reveal ─────────────────────────────────────────── */
