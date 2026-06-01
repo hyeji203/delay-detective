@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/models/task.dart';
 
 class FirestoreService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  FirebaseFirestore get _db => FirebaseFirestore.instance;
 
   CollectionReference<Map<String, dynamic>> _tasksRef(String uid) =>
       _db.collection('users').doc(uid).collection('tasks');

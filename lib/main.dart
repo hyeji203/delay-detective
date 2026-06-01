@@ -25,6 +25,7 @@ void main() async {
 
   final hive = HiveService();
   await hive.init();
+  await hive.clearAll(); // 구 Map 형식 데이터 초기화 (1회성)
 
   final firestore = FirestoreService();
   final aiService = AIService();

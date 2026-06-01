@@ -8,37 +8,37 @@ import '../../domain/models/sub_task.dart';
 
 class AIService {
   static const int maxTurns = 3;
-  static const String _endpoint = 'https://api.anthropic.com/v1/messages';
-  static const String _model = 'claude-haiku-4-5-20251001';
+  static const String _endpoint =
+      'https://api.groq.com/openai/v1/chat/completions';
+  static const String _model = 'llama-3.3-70b-versatile';
 
-  // 4.2 — 인터뷰 시스템 프롬프트
   static const String _interviewSystemPrompt = '''
+You must respond ONLY in Korean (한국어). Never use any other language including English, Vietnamese, Chinese, or Japanese.
+
 당신은 공감 능력이 뛰어난 생산성 코치입니다.
 사용자가 미루고 있는 태스크에 대해 따뜻하고 짧은 질문 하나만 합니다.
 질문은 판단 없이 호기심 어린 톤으로, 1~2문장 이내로 작성하세요.
-추가 설명이나 조언은 하지 마세요. 오직 질문만 하세요.
+추가 설명이나 조언은 하지 마세요. 오직 순수한 한국어 질문만 하세요.
+한국어 이외의 단어를 절대 사용하지 마세요.
 ''';
 
-  String get _apiKey => dotenv.env['ANTHROPIC_API_KEY'] ?? '';
+  String get _apiKey => dotenv.env['GROQ_API_KEY'] ?? '';
 
-  // 4.1 — 턴 1: 인터뷰 시작
   Future<String> startInterview(Task task) async {
     final messages = [
-      {
-        'role': 'user',
-        'content': _buildTaskIntro(task),
-      },
+      {'role': 'system', 'content': _interviewSystemPrompt},
+      {'role': 'user', 'content': _buildTaskIntro(task)},
     ];
-    return _chat(_interviewSystemPrompt, messages);
+    return _chat(messages);
   }
 
-  // 4.1 — 턴 2~3: 이전 대화 맥락 포함 후속 질문
   Future<String> continueInterview(
     Task task,
     List<InterviewTurn> previousTurns,
     int currentTurn,
   ) async {
     final messages = <Map<String, dynamic>>[
+      {'role': 'system', 'content': _interviewSystemPrompt},
       {'role': 'user', 'content': _buildTaskIntro(task)},
     ];
 
@@ -47,10 +47,9 @@ class AIService {
       messages.add({'role': 'user', 'content': turn.answer});
     }
 
-    return _chat(_interviewSystemPrompt, messages);
+    return _chat(messages);
   }
 
-  // 4.3 — 인터뷰 결과 파싱: empathy + cause + subtasks JSON 추출
   Future<DelayAnalysis> parseResult(
     List<InterviewTurn> turns,
     String rawResponse,
@@ -60,13 +59,17 @@ class AIService {
 
     final messages = [
       {
+        'role': 'system',
+        'content': '당신은 JSON만 출력하는 분석가입니다. 코드블록 없이 순수 JSON만 반환하세요.',
+      },
+      {
         'role': 'user',
         'content': '''
 다음은 사용자의 미루는 태스크에 대한 인터뷰 내용입니다:
 
 $conversation
 
-위 내용만 보고 아래 JSON 형식으로만 응답하세요. 코드블록이나 다른 텍스트 없이 JSON만 출력하세요:
+위 내용을 분석해서 아래 JSON 형식으로만 응답하세요:
 {
   "empathy": "사용자에게 전달할 공감 메시지 (따뜻한 한 문장)",
   "cause": "지연 원인 핵심 요약 (한 문장)",
@@ -80,27 +83,21 @@ $conversation
       },
     ];
 
-    final response = await _chat(_interviewSystemPrompt, messages);
+    final response = await _chat(messages);
     return _parseAnalysisJson(response, turns);
   }
 
-  // Anthropic Messages API 호출
-  Future<String> _chat(
-    String systemPrompt,
-    List<Map<String, dynamic>> messages,
-  ) async {
+  Future<String> _chat(List<Map<String, dynamic>> messages) async {
     final response = await http.post(
       Uri.parse(_endpoint),
       headers: {
-        'x-api-key': _apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
+        'Authorization': 'Bearer $_apiKey',
+        'Content-Type': 'application/json',
       },
       body: jsonEncode({
         'model': _model,
-        'max_tokens': 512,
-        'system': systemPrompt,
         'messages': messages,
+        'max_tokens': 512,
       }),
     );
 
@@ -109,14 +106,13 @@ $conversation
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    final content = data['content'] as List<dynamic>;
-    return (content.first as Map<String, dynamic>)['text'] as String;
+    final choices = data['choices'] as List<dynamic>;
+    final message = choices.first['message'] as Map<String, dynamic>;
+    return message['content'] as String;
   }
 
-  // 4.3 — JSON 파싱 및 폴백 처리
   DelayAnalysis _parseAnalysisJson(String raw, List<InterviewTurn> turns) {
     try {
-      // 마크다운 코드블록 제거 후 JSON 추출
       String jsonStr = raw.trim();
       if (jsonStr.contains('```')) {
         final start = jsonStr.indexOf('{');

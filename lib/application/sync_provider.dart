@@ -48,7 +48,8 @@ class SyncProvider extends ChangeNotifier {
       await _syncService.mergeFromFirestore(uid);
       _status = SyncStatus.synced;
     } catch (_) {
-      _status = SyncStatus.error;
+      // Firebase 미초기화 등 sync 불가 시 오프라인으로 처리
+      _status = SyncStatus.offline;
     }
     notifyListeners();
   }
