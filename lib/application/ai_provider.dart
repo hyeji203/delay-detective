@@ -33,7 +33,7 @@ class AIProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       state = InterviewState.error;
-      errorMessage = '에러: $e';
+      errorMessage = '인터뷰를 시작할 수 없어요. 다시 시도해주세요.\n($e)';
       notifyListeners();
     }
   }

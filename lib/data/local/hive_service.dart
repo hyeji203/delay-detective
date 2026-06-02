@@ -16,9 +16,15 @@ class HiveService {
   }
 
   Future<List<Task>> getAllTasks() async {
-    return _tasks.values
-        .map((s) => Task.fromMap(jsonDecode(s) as Map<String, dynamic>))
-        .toList();
+    try {
+      return _tasks.values
+          .map((s) => Task.fromMap(jsonDecode(s) as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      // 구 형식(Map) 데이터 감지 시 자동 초기화
+      await _tasks.clear();
+      return [];
+    }
   }
 
   Future<void> saveTask(Task task) async {

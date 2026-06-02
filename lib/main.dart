@@ -25,7 +25,6 @@ void main() async {
 
   final hive = HiveService();
   await hive.init();
-  await hive.clearAll(); // 구 Map 형식 데이터 초기화 (1회성)
 
   final firestore = FirestoreService();
   final aiService = AIService();
@@ -56,9 +55,51 @@ class DelayDetectiveApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Delay Detective',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF3F51B5),
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFFF8F9FF),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 1,
+          centerTitle: false,
+          titleTextStyle: TextStyle(
+            color: Color(0xFF1A1A2E),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.3,
+          ),
+          iconTheme: IconThemeData(color: Color(0xFF1A1A2E)),
+        ),
+        cardTheme: CardThemeData(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          color: Colors.white,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: const Color(0xFFF3F4F8),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFF3F51B5), width: 1.5),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        ),
       ),
       initialRoute: '/',
       routes: {
