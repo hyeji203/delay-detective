@@ -59,6 +59,65 @@ class _HomeScreenState extends State<HomeScreen> {
     return allTasks.where((t) => t.dueDate == null).toList();
   }
 
+  Widget _taskChip(Task task) {
+    return Container(
+      margin: const EdgeInsets.only(top: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+      constraints: const BoxConstraints(maxWidth: 46),
+      decoration: BoxDecoration(
+        color: task.isDelayed
+            ? const Color(0xFFEF5350).withOpacity(0.12)
+            : const Color(0xFF3F51B5).withOpacity(0.10),
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: Text(
+        task.title,
+        style: TextStyle(
+          fontSize: 9,
+          color: task.isDelayed
+              ? const Color(0xFFEF5350)
+              : const Color(0xFF3F51B5),
+          fontWeight: FontWeight.w500,
+        ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      ),
+    );
+  }
+
+  Widget _dayCell(
+    DateTime day,
+    List<Task> tasks, {
+    BoxDecoration? circleDeco,
+    TextStyle? numStyle,
+  }) {
+    final numWidget = circleDeco != null
+        ? Container(
+            width: 30,
+            height: 30,
+            alignment: Alignment.center,
+            decoration: circleDeco,
+            child: Text('${day.day}', style: numStyle),
+          )
+        : SizedBox(
+            width: 30,
+            height: 30,
+            child: Center(child: Text('${day.day}', style: numStyle)),
+          );
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const SizedBox(height: 6),
+        numWidget,
+        ...tasks.take(2).map(_taskChip),
+        if (tasks.length > 2)
+          Text('+${tasks.length - 2}',
+              style: const TextStyle(fontSize: 8, color: Color(0xFF9E9EAE))),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskProvider>();
@@ -93,19 +152,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                     eventLoader: (day) => _getTasksForDay(allTasks, day),
                     calendarFormat: CalendarFormat.month,
+                    rowHeight: 72,
                     calendarBuilders: CalendarBuilders(
                       dowBuilder: (context, day) {
                         const labels = ['월', '화', '수', '목', '금', '토', '일'];
                         final label = labels[day.weekday - 1];
-                        final isRedHeader = day.weekday == DateTime.sunday;
-                        final isBlueHeader = day.weekday == DateTime.saturday;
                         return Center(
                           child: Text(
                             label,
                             style: TextStyle(
-                              color: isRedHeader
+                              color: day.weekday == DateTime.sunday
                                   ? const Color(0xFFEF5350)
-                                  : isBlueHeader
+                                  : day.weekday == DateTime.saturday
                                       ? const Color(0xFF3F51B5)
                                       : const Color(0xFF9E9EAE),
                               fontWeight: FontWeight.w600,
@@ -115,56 +173,44 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       defaultBuilder: (context, day, focusedDay) {
-                        if (_isRedDay(day)) {
-                          return Center(
-                            child: Text(
-                              '${day.day}',
-                              style: const TextStyle(
-                                color: Color(0xFFEF5350),
-                                fontSize: 14,
-                              ),
-                            ),
-                          );
-                        }
-                        if (_isSaturday(day)) {
-                          return Center(
-                            child: Text(
-                              '${day.day}',
-                              style: const TextStyle(
-                                color: Color(0xFF3F51B5),
-                                fontSize: 14,
-                              ),
-                            ),
-                          );
-                        }
-                        return null;
+                        final tasks = _getTasksForDay(allTasks, day);
+                        final color = _isRedDay(day)
+                            ? const Color(0xFFEF5350)
+                            : _isSaturday(day)
+                                ? const Color(0xFF3F51B5)
+                                : const Color(0xFF1A1A2E);
+                        return _dayCell(day, tasks,
+                            numStyle: TextStyle(fontSize: 14, color: color));
                       },
-                      outsideBuilder: (context, day, focusedDay) {
-                        if (_isRedDay(day)) {
-                          return Center(
-                            child: Text(
-                              '${day.day}',
-                              style: const TextStyle(
-                                color: Color(0xFFEF5350),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          );
-                        }
-                        if (_isSaturday(day)) {
-                          return Center(
-                            child: Text(
-                              '${day.day}',
-                              style: const TextStyle(
-                                color: Color(0xFF3F51B5),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          );
-                        }
-                        return null;
+                      todayBuilder: (context, day, focusedDay) {
+                        final tasks = _getTasksForDay(allTasks, day);
+                        return _dayCell(
+                          day, tasks,
+                          circleDeco: BoxDecoration(
+                            color: const Color(0xFF3F51B5).withOpacity(0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          numStyle: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF3F51B5),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        );
+                      },
+                      selectedBuilder: (context, day, focusedDay) {
+                        final tasks = _getTasksForDay(allTasks, day);
+                        return _dayCell(
+                          day, tasks,
+                          circleDeco: const BoxDecoration(
+                            color: Color(0xFF3F51B5),
+                            shape: BoxShape.circle,
+                          ),
+                          numStyle: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        );
                       },
                     ),
                     headerStyle: const HeaderStyle(
@@ -184,30 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color(0xFF3F51B5),
                       ),
                     ),
-                    calendarStyle: CalendarStyle(
+                    calendarStyle: const CalendarStyle(
                       outsideDaysVisible: false,
-                      todayDecoration: BoxDecoration(
-                        color: const Color(0xFF3F51B5).withOpacity(0.15),
-                        shape: BoxShape.circle,
-                      ),
-                      todayTextStyle: const TextStyle(
-                        color: Color(0xFF3F51B5),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      selectedDecoration: const BoxDecoration(
-                        color: Color(0xFF3F51B5),
-                        shape: BoxShape.circle,
-                      ),
-                      selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      markerDecoration: const BoxDecoration(
-                        color: Color(0xFFEF5350),
-                        shape: BoxShape.circle,
-                      ),
-                      markerSize: 5,
-                      markersMaxCount: 3,
+                      markersMaxCount: 0,
                     ),
                     onDaySelected: (selected, focused) {
                       setState(() {
