@@ -21,6 +21,8 @@ final Set<DateTime> _holidays = {
   DateTime(2026, 12, 25),
 };
 
+String _formatMonthTitle(DateTime date, dynamic locale) => '${date.month}월';
+
 bool _isHoliday(DateTime day) =>
     _holidays.any((h) => h.year == day.year && h.month == day.month && h.day == day.day);
 
@@ -57,6 +59,77 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Task> _getTasksWithoutDate(List<Task> allTasks) {
     return allTasks.where((t) => t.dueDate == null).toList();
+  }
+
+  Future<void> _showMonthPicker(BuildContext context) async {
+    int year = _focusedDay.year;
+
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialog) => AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.chevron_left, color: Color(0xFF3F51B5)),
+                onPressed: () => setDialog(() => year--),
+              ),
+              Text('$year년',
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1A1A2E))),
+              IconButton(
+                icon: const Icon(Icons.chevron_right, color: Color(0xFF3F51B5)),
+                onPressed: () => setDialog(() => year++),
+              ),
+            ],
+          ),
+          content: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: List.generate(12, (i) {
+              final month = i + 1;
+              final isSelected =
+                  year == _focusedDay.year && month == _focusedDay.month;
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _focusedDay = DateTime(year, month);
+                  });
+                  Navigator.pop(ctx);
+                },
+                child: Container(
+                  width: 72,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? const Color(0xFF3F51B5)
+                        : const Color(0xFFF3F4F8),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    '$month월',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF1A1A2E),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _taskChip(Task task) {
@@ -229,7 +302,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.chevron_right,
                         color: Color(0xFF3F51B5),
                       ),
+                      titleTextFormatter: _formatMonthTitle,
                     ),
+                    onHeaderTapped: (_) => _showMonthPicker(context),
                     calendarStyle: const CalendarStyle(
                       outsideDaysVisible: false,
                       markersMaxCount: 0,

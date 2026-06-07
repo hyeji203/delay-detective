@@ -71,21 +71,46 @@ style: |
 
 ---
 
-## 기술 스택 & 현재 상황 　　　　　　　　
+## 아키텍처 — 4-레이어 구조
 
-| 영역 | 기술 |
-|:---|:---|
-| 앱 | Flutter (Android · iOS 동시 지원) |
-| 상태관리 | Provider (TaskProvider · AIProvider · SyncProvider) |
-| 저장 | Hive (로컬) + Firestore (클라우드 동기화) |
-| AI | Claude API — 3턴 고정으로 비용 제어 |
+```mermaid
+graph TB
+    P["🎨 Presentation\nHomeScreen · AddTask · Interview · Analysis"]
+    A["⚙️ Application\nTaskProvider · AIProvider · SyncProvider"]
+    D["📦 Domain\nTask · SubTask · DelayAnalysis"]
+    Da["💾 Data\nHive(로컬) ↔ Firestore(클라우드) · Claude API"]
 
-<br>
+    P --> A --> D --> Da
 
-**진행 상황**
-- ✅ 10주차: 기획·설계 완료 (문서 10개, ADR 3개)
-- ✅ 11주차: 4-레이어 구조 + 스켈레톤 코드 완성
-- 🔵 12주차: UI 구현 진행 중 (발표 당일까지 시연 준비)
+    style P  fill:#DDEEFF,stroke:#2E75B6,color:#000
+    style A  fill:#E8F5E9,stroke:#43A047,color:#000
+    style D  fill:#FFF8E1,stroke:#F9A825,color:#000
+    style Da fill:#FCE4EC,stroke:#E53935,color:#000
+```
+
+---
+
+## 기술 스택 — 왜 선택했는지
+
+```mermaid
+mindmap
+  root((Delay Detective))
+    Flutter
+      iOS · Android 단일 코드베이스
+      Dart로 빠른 UI 개발
+    Provider
+      단순하고 예측 가능한 상태 관리
+      ChangeNotifier로 화면 자동 갱신
+    Hive
+      오프라인에서도 데이터 유지
+      NoSQL 키-값, 빠른 로컬 I/O
+    Firestore
+      실시간 클라우드 동기화
+      멀티 디바이스 지원
+    Claude API
+      3턴 고정 인터뷰로 비용 제어
+      미루는 이유 맞춤 분석
+```
 
 ---
 

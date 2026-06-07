@@ -102,6 +102,25 @@
       background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
     }
 
+    /* ── Tech Stack Table ──────────────────────────────── */
+    .arch-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; margin-top:6px; }
+    .arch-grid-label { font-size:.72em; font-weight:700; color:var(--c-primary); margin:0 0 6px; }
+    .tech-table { width:100%; border-collapse:collapse; font-size:.72em; }
+    .tech-table th { background:var(--c-primary); color:#fff; padding:4px 10px; text-align:left; }
+    .tech-table td { padding:4px 10px; border:1px solid #DDD; vertical-align:middle; line-height:1.4; }
+    .tech-table tr:nth-child(even) td { background:#F7F9FF; }
+    .tech-table td:first-child { font-weight:700; color:var(--c-primary); white-space:nowrap; }
+
+    /* ── Demo Video ─────────────────────────────────────── */
+    .demo-video-wrap { display:flex; justify-content:center; margin-top:14px; }
+    .demo-video-wrap video {
+      width:auto; height:auto; max-width:34%; max-height:520px; border-radius:18px;
+      box-shadow:0 6px 24px rgba(0,0,0,.25); background:#000;
+    }
+    .demo-caption {
+      text-align:center; font-size:.74em; color:#666; margin-top:10px;
+    }
+
     /* ── WBS Table ──────────────────────────────────────── */
     .wbs-table { width:100%; border-collapse:collapse; font-size:.40em; margin-top:2px; table-layout:fixed; line-height:1.1; }
     .wbs-table th {
@@ -159,7 +178,7 @@
         <span class="cover-tag">Provider</span>
         <span class="cover-tag">서브에이전트 5종</span>
       </div>
-      <p class="cover-meta">신혜지 &nbsp;·&nbsp; 중간 발표 &nbsp;·&nbsp; 2026-06-01</p>
+      <p class="cover-meta">신혜지 &nbsp;·&nbsp; 중간 발표 &nbsp;·&nbsp; 2026-06-08</p>
 
       <aside class="notes">
         안녕하세요. 딜레이 디텍티브를 개발 중인 신혜지입니다.
@@ -255,24 +274,22 @@
       </aside>
     </section>
 
-    <!-- ④ ARCHITECTURE  (1:25 – 1:48) ──────────────────── -->
+    <!-- ④ ARCHITECTURE & TECH STACK  (1:25 – 1:48) ────────── -->
     <section
-      data-script="기술 구조는 왼쪽에서 오른쪽으로 4개 레이어가 흐릅니다. Presentation 화면이 사용자 액션을 받으면 Application — Provider 계층이 처리합니다. Provider는 순수 Dart로만 구성된 Domain 모델을 참조하고, Data 레이어의 HiveService·FirestoreService·AIService를 호출해 저장과 조회를 담당합니다. 의존성은 항상 왼쪽에서 오른쪽 방향으로만 흐르고, 쓰기 요청은 Hive에 먼저 저장한 뒤 네트워크 복구 시 Firestore로 동기화하는 오프라인 우선 전략입니다.">
-      <h2>
-        설계 — 4-레이어 아키텍처
-      </h2>
+      data-script="아키텍처는 4개 레이어로 구성돼 있습니다. Presentation이 사용자 액션을 받고, Application Provider가 처리하고, Domain 모델을 거쳐, Data 레이어에서 저장과 AI 호출을 담당합니다. 오른쪽은 각 기술을 왜 선택했는지입니다. Flutter는 iOS와 Android를 단일 코드로 지원하고, Provider는 단순하고 예측 가능한 상태 관리를 위해, Hive는 오프라인 우선 설계로, Firestore는 실시간 동기화를 위해, Claude API는 3턴 고정으로 비용을 제어하면서 미루기 원인을 분석하기 위해 선택했습니다.">
+      <h2>아키텍처 &amp; 기술 스택</h2>
 
-      <div class="mermaid">
+      <!-- 위: Mermaid LR 다이어그램 -->
+      <div class="mermaid" style="min-height:auto; margin:4px 0 8px;">
 flowchart LR
-    P["Presentation\nHomeScreen\nInterviewScreen\nAnalysisResultScreen"]
-    A["Application\nTaskProvider\nAIProvider\nSyncProvider"]
-    D["Domain\nTask · SubTask\nInterviewTurn\nDelayAnalysis"]
-    DA["Data\nHiveService\nFirestoreService\nAIService"]
+    P["🎨 Presentation\nHomeScreen · Interview"]
+    A["⚙️ Application\nTaskProvider · AIProvider"]
+    D["📦 Domain\nTask · DelayAnalysis"]
+    DA["💾 Data\nHive · Firestore · AI"]
 
     P -->|"액션"| A
     A -->|"모델 참조"| D
     A -->|"저장·조회"| DA
-    DA -->|"D 모델 사용"| D
 
     style P  fill:#DDEEFF,stroke:#4472C4,color:#1F3864
     style A  fill:#E2EFDA,stroke:#70AD47,color:#1F3864
@@ -280,20 +297,55 @@ flowchart LR
     style DA fill:#FCE4D6,stroke:#C55A11,color:#7F2000
       </div>
 
-      <div class="arch-note">
-        🔄 <strong>Offline-First</strong>: 쓰기 → Hive 즉시 저장 → 네트워크 복구 시 Firestore 동기화 (Timestamp Last-Write-Wins)
+      <!-- 아래: 기술 선택 이유 테이블 -->
+      <table class="tech-table">
+        <thead>
+          <tr><th style="width:110px">기술</th><th>선택 이유</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Flutter</td><td>iOS · Android 단일 코드베이스 — 한 번 개발, 두 플랫폼 동시 지원</td></tr>
+          <tr><td>Provider</td><td>단순한 상태 관리 — ChangeNotifier로 화면 자동 갱신</td></tr>
+          <tr><td>Hive</td><td>오프라인 우선 로컬 DB — 네트워크 없이도 즉시 저장</td></tr>
+          <tr><td>Firestore</td><td>실시간 클라우드 동기화 — 멀티 디바이스 동일 데이터 유지</td></tr>
+          <tr><td>Claude API</td><td>3턴 고정 인터뷰 — 비용 제어 + 미루는 이유 맞춤 분석</td></tr>
+        </tbody>
+      </table>
+      <div class="arch-note" style="margin-top:6px;">
+        🔄 <strong>Offline-First</strong>: Hive 즉시 저장 → 복구 시 Firestore 동기화 (Last-Write-Wins)
       </div>
 
       <aside class="notes">
-        4개 레이어, 의존성은 왼쪽에서 오른쪽 방향으로만 흐릅니다.
-        Data 레이어가 Domain 모델 타입을 사용하고, Provider가 둘 다 호출합니다.
-        오프라인 우선 전략으로 네트워크 없어도 완전히 동작합니다. (23초)
+        왼쪽은 4-레이어 구조, 오른쪽은 각 기술 선택 이유입니다.
+        Flutter로 iOS·Android 동시 지원, Hive로 오프라인, Firestore로 동기화,
+        Claude API 3턴 고정으로 비용 제어합니다. (23초)
+      </aside>
+    </section>
+
+    <!-- ④-2 DEMO VIDEO  (약 33초, 시작화면 포함) ──────────────────────────── -->
+    <section
+      data-script="실제 동작하는 모습을 영상으로 보여드리겠습니다. 태스크를 추가하고, 마감이 지난 항목이 자동으로 감지되고, AI 인터뷰가 시작되는 흐름입니다.">
+      <h2>데모 영상</h2>
+
+      <div class="demo-video-wrap">
+        <video controls preload="metadata" poster="">
+          <source src="demo.webm" type="video/webm">
+          <source src="demo.mp4" type="video/mp4">
+          영상을 재생할 수 없습니다. <a href="demo.webm">데모 영상 다운로드</a>
+        </video>
+      </div>
+      <p class="demo-caption">
+        ▶ 태스크 추가 → 지연 감지 → AI 인터뷰 시작까지의 핵심 흐름
+      </p>
+
+      <aside class="notes">
+        실제 앱 화면입니다. 태스크를 추가하면 마감 초과 시 빨간 배지로 표시되고,
+        AI 인터뷰 화면으로 바로 진입하는 흐름을 30초로 담았습니다.
       </aside>
     </section>
 
     <!-- ⑤ WBS  (1:48 – 2:00) ────────────────────────────── -->
     <section
-      data-script="WBS 진행 현황 표입니다. 10주차부터 15주차까지 수업 주차 기준으로 7개 Phase가 구성돼 있습니다. 1단계 기획·설계는 기획 문서, 설계 문서, 개발 환경 구성 세 항목 모두 완료됐습니다. 2단계 데이터 레이어도 모두 완료됐습니다. Hive 로컬 저장소, Firebase 클라우드 저장소, 동기화 서비스까지 구현을 마쳤습니다. 12주차가 중간 발표이고, 15주차 최종 발표로 마무리됩니다.">
+      data-script="WBS 진행 현황 표입니다. 10주차부터 15주차까지 수업 주차 기준으로 7개 Phase가 구성돼 있습니다. 1단계 기획·설계는 기획 문서, 설계 문서, 개발 환경 구성 세 항목 모두 완료됐습니다. 2단계 데이터 레이어도 모두 완료됐습니다. Hive 로컬 저장소, Firebase 클라우드 저장소, 동기화 서비스까지 구현을 마쳤습니다. 3단계 AI 인터뷰 시스템도 완료됐습니다. Anthropic API 연동, 인터뷰 플로우, 분석 결과 생성까지 모두 구현했습니다. 13주차가 중간 발표이고, 15주차 최종 발표로 마무리됩니다.">
       <h2>
         WBS &amp; 진행 현황
       </h2>
@@ -364,23 +416,23 @@ flowchart LR
           </tr>
           <tr class="phase">
             <td>3</td><td class="task-name">AI 인터뷰 시스템</td>
-            <td><span class="wbs-badge plan">계획</span></td>
-            <td></td><td class="wc-plan">계획</td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
           <tr class="sub-ph">
             <td>3.1</td><td class="sub-name">Anthropic API 연동 + 프롬프트 템플릿</td>
-            <td><span class="wbs-badge none">미시작</span></td>
-            <td></td><td class="wc-plan">계획</td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
           <tr class="sub-ph">
             <td>3.2</td><td class="sub-name">인터뷰 플로우 (2~3턴 + 종료 조건)</td>
-            <td><span class="wbs-badge none">미시작</span></td>
-            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
           <tr class="sub-ph">
             <td>3.3</td><td class="sub-name">분석 결과 생성 (공감·원인·소태스크 3개)</td>
-            <td><span class="wbs-badge none">미시작</span></td>
-            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
           <tr class="phase">
             <td>4</td><td class="task-name">UI 구현</td>
@@ -389,13 +441,13 @@ flowchart LR
           </tr>
           <tr class="sub-ph">
             <td>4.1</td><td class="sub-name">공통 컴포넌트 (테마·버튼·태스크 카드)</td>
-            <td><span class="wbs-badge none">미시작</span></td>
-            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
           <tr class="sub-ph">
             <td>4.2</td><td class="sub-name">주요 화면 (Home·Add·Interview·Result·History)</td>
-            <td><span class="wbs-badge none">미시작</span></td>
-            <td></td><td></td><td class="wc-plan">계획</td><td></td><td></td>
+            <td><span class="wbs-badge prog">진행중</span></td>
+            <td></td><td></td><td class="wc-prog">진행중</td><td></td><td></td>
           </tr>
           <tr class="sub-ph">
             <td>4.3</td><td class="sub-name">상태 관리 Provider (Task·Sync·AI)</td>
@@ -405,7 +457,7 @@ flowchart LR
           <tr class="milestone">
             <td>M4</td><td class="task-name">★ 중간 발표</td>
             <td><span class="wbs-badge ms">마일스톤</span></td>
-            <td></td><td></td><td class="wc-ms">◆</td><td></td><td></td>
+            <td></td><td></td><td></td><td class="wc-ms">◆</td><td></td>
           </tr>
           <tr class="phase">
             <td>5</td><td class="task-name">알림 &amp; 지연 감지 (로컬 알림·D-day 스케줄러)</td>
@@ -432,8 +484,8 @@ flowchart LR
 
       <aside class="notes">
         수업 주차 기준 W10~W14, 총 5개 주차.
-        Phase 1 완료, Phase 2 데이터 모델 완료·나머지 예정, Phase 4 Provider 완료·화면 진행 중.
-        오늘 W12(06/01) 중간 발표, W14(06/21) 최종 발표. (15초)
+        Phase 1·2·3 완료, Phase 4 공통 컴포넌트·Provider 완료·주요 화면 진행 중.
+        오늘 W13(06/08) 중간 발표, W14(06/21) 최종 발표. (15초)
       </aside>
     </section>
 
@@ -451,7 +503,7 @@ flowchart LR
         🔍 Delay Detective — AI 기반 미루기 분석 &amp; 태스크 재구성 앱
       </p>
 
-      <p style="font-size:.78em; color:rgba(255,255,255,.55);">신혜지 &nbsp;·&nbsp; 중간 발표 &nbsp;·&nbsp; 2026-06-01</p>
+      <p style="font-size:.78em; color:rgba(255,255,255,.55);">신혜지 &nbsp;·&nbsp; 중간 발표 &nbsp;·&nbsp; 2026-06-08</p>
 
       <aside class="notes">
         이상으로 Delay Detective 중간 발표를 마치겠습니다. 감사합니다.

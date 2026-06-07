@@ -8,6 +8,7 @@ import 'data/local/hive_service.dart';
 import 'data/remote/ai_service.dart';
 import 'data/remote/firestore_service.dart';
 import 'data/sync/sync_service.dart';
+import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/add_task_screen.dart';
 import 'presentation/screens/interview_screen.dart';
@@ -101,9 +102,8 @@ class DelayDetectiveApp extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         ),
       ),
-      initialRoute: '/',
+      home: const SplashScreen(),
       routes: {
-        '/': (_) => const HomeScreen(),
         '/add-task': (_) => const AddTaskScreen(),
         '/interview': (_) => const InterviewScreen(),
         '/result': (_) => const AnalysisResultScreen(),
