@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 import 'application/task_provider.dart';
 import 'application/ai_provider.dart';
 import 'application/sync_provider.dart';
@@ -9,20 +12,31 @@ import 'data/remote/ai_service.dart';
 import 'data/remote/firestore_service.dart';
 import 'data/sync/sync_service.dart';
 import 'presentation/screens/splash_screen.dart';
-import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/add_task_screen.dart';
 import 'presentation/screens/interview_screen.dart';
 import 'presentation/screens/analysis_result_screen.dart';
+
+Future<String> _initFirebase() async {
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    final auth = FirebaseAuth.instance;
+    if (auth.currentUser == null) {
+      await auth.signInAnonymously();
+    }
+    return auth.currentUser!.uid;
+  } catch (_) {
+    // Firebase 미설정 또는 네트워크 없음 → 오프라인 전용 모드
+    return 'offline-user-${DateTime.now().millisecondsSinceEpoch}';
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
 
-  // 구현 예정: Firebase 초기화 + 익명 로그인
-  // await Firebase.initializeApp();
-  // final uid = await _signInAnonymously();
-
-  const uid = 'anonymous-placeholder'; // Firebase 연결 전 임시값
+  final uid = await _initFirebase();
 
   final hive = HiveService();
   await hive.init();

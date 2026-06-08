@@ -68,4 +68,31 @@ class TaskProvider extends ChangeNotifier {
     task.subtasks = subtasks;
     await updateTask(task);
   }
+
+  // 소태스크 완료 토글 → Hive 영구 저장
+  Future<void> toggleSubtask(String taskId, String subtaskId) async {
+    final task = _tasks.firstWhere((t) => t.id == taskId);
+    final sub = task.subtasks.firstWhere((s) => s.id == subtaskId);
+    sub.isDone = !sub.isDone;
+    await updateTask(task);
+  }
+
+  // task.analysis를 Hive에 영구 저장
+  Future<void> saveAnalysis(String taskId, analysis) async {
+    final task = _tasks.firstWhere((t) => t.id == taskId);
+    task.analysis = analysis;
+    await updateTask(task);
+  }
+
+  Task? getTaskById(String id) {
+    try {
+      return _tasks.firstWhere((t) => t.id == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  List<Task> get tasksWithAnalysis =>
+      _tasks.where((t) => t.analysis != null).toList()
+        ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
 }

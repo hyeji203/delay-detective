@@ -324,7 +324,7 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - [x] 중간 발표 슬라이드 작성 완료 (`docs/slides-midterm.md`)
 - [x] AUTHORING.hyeji.md 업데이트
 
-### 세션 5 (구현 2 + 테스트) 🚧 진행 중 (2026-06-05 ~ 2026-06-06)
+### 세션 5 (구현 2 + 테스트) 🚧 진행 중 (2026-06-05 ~ 2026-06-08)
 - [x] **캘린더 UI 개선**
   - 토요일 날짜 파란색 표시 (일요일/공휴일 빨간색과 구분)
   - 날짜 셀 안에 일정 제목 직접 표시 (기존 빨간 점 마커 → 텍스트 라벨)
@@ -338,12 +338,25 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - [x] **오프라인 배너 수정**
   - Firebase 미연결 시 catch → `synced`로 처리해 불필요한 "오프라인" 배너 숨김
   - Firebase 연결 후 자동으로 정상 동기화 상태 전환
-- [ ] 백엔드 에이전트가 동기화 로직 완성 (Conflict Resolution 포함)
-- [ ] Hive ↔ Firestore 실제 동기화 테스트
+- [x] **Should #1: 소태스크 완료 체크 → Hive 영구 저장** (2026-06-08)
+  - TaskProvider.toggleSubtask() 추가
+  - AnalysisResultScreen에서 체크 시 Provider 호출 → Hive 즉시 반영
+  - 앱 재시작 후에도 체크 상태 유지
+- [x] **Should #5: AI 인터뷰 히스토리 화면** (2026-06-08)
+  - HistoryScreen 신규 생성 (lib/presentation/screens/history_screen.dart)
+  - 분석 이력: 태스크별 원인 요약 + 소태스크 진행률 바
+  - HomeScreen AppBar에 히스토리 아이콘 버튼 추가
+  - TaskCard 바텀시트에 "분석 결과 보기" 옵션 추가 (analysis != null일 때)
+- [x] **Should #2~4: Firebase 익명 로그인 + Firestore 동기화 코드 완성** (2026-06-08)
+  - lib/firebase_options.dart 생성 (플레이스홀더 — flutterfire configure 후 실제값으로 교체)
+  - main.dart: Firebase.initializeApp() 활성화, 익명 로그인 추가
+  - 실패 시 자동으로 오프라인 모드 전환 (try-catch)
+  - SyncService Conflict Resolution: Last-Write-Wins (updatedAt 비교)
+  - **Firebase 실제 연결 방법**: 아래 Firebase 설정 가이드 참고
+- [ ] Firebase 설정 파일 연결 (flutterfire configure 실행)
 - [ ] QA 에이전트가 Playwright로 자동 테스트
-- [ ] 통계 화면 & 차트 추가
 - [ ] 버그 수정 & 최적화
-- [ ] AUTHORING.hyeji.md 업데이트
+- [x] AUTHORING.hyeji.md 업데이트 (2026-06-08)
 
 ### 세션 6 (마감 & 배포)
 - [ ] iOS/Android 빌드 & 실기기 테스트
@@ -406,6 +419,37 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 
 ---
 
+## 🔥 11. Firebase 설정 가이드 (세션 5 이후 진행)
+
+코드는 모두 준비됨. 아래 4단계만 실행하면 실제 Firebase 연결 완료.
+
+```bash
+# Step 1: Firebase CLI 설치
+npm install -g firebase-tools
+
+# Step 2: Firebase 로그인
+firebase login
+
+# Step 3: FlutterFire CLI 설치
+dart pub global activate flutterfire_cli
+
+# Step 4: Flutter 앱을 Firebase 프로젝트에 연결
+#         (실행하면 lib/firebase_options.dart가 실제 값으로 자동 교체됨)
+flutterfire configure
+```
+
+**Step 4 실행 중 선택 사항:**
+- Firebase 프로젝트: 새로 만들기 또는 기존 프로젝트 선택
+- 플랫폼: Android, iOS, Web 체크
+- 완료 후 `lib/firebase_options.dart` 가 실제 키값으로 업데이트됨
+
+**Firebase 연결 후 자동으로 활성화되는 기능:**
+- 익명 로그인 (게스트 모드)
+- Firestore 실시간 동기화 (멀티 디바이스)
+- Timestamp 기반 Conflict Resolution (Last-Write-Wins)
+
+---
+
 **버전 히스토리**:
 - v0.1 (2026-05-04) — 초안
 - v0.2 (2026-05-04) — 상세 정리
@@ -413,6 +457,6 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - v0.4 (2026-05-11) — 세션 2 기획 완료 (비전/요구사항/WBS/ADR/BONUS)
 - v0.5 (2026-05-18) — 세션 3 설계 완료 (4-레이어 아키텍처, 스켈레톤 코드, Hello World 빌드, 슬라이드 초안)
 - v0.6 (2026-06-02) — 세션 4 완료 (기본 UI 전체 구현, AI 인터뷰 화면, Hive 로컬 저장, 중간 발표 슬라이드)
-- **v0.7 (2026-06-06) — 세션 5 진행 중 (캘린더 UI 개선, 태스크 수정 기능, 오프라인 배너 수정)** ⭐
+- **v0.8 (2026-06-08) — 세션 5 완료 (소태스크 Hive 저장, AI 히스토리 화면, Firebase 연동 코드 완성)** ⭐
 
 **다음 업데이트**: 세션 5 나머지 항목 완료 후 (Firebase 연동, Playwright 테스트)

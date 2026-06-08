@@ -54,6 +54,20 @@ class TaskCard extends StatelessWidget {
                     Navigator.pushNamed(context, '/interview', arguments: task);
                   },
                 ),
+              if (task.analysis != null)
+                _OptionTile(
+                  icon: Icons.history_outlined,
+                  label: '분석 결과 보기',
+                  color: const Color(0xFF7B61FF),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      '/result',
+                      arguments: {'task': task, 'analysis': task.analysis},
+                    );
+                  },
+                ),
               _OptionTile(
                 icon: Icons.edit_outlined,
                 label: '수정하기',

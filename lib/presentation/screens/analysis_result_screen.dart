@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../application/task_provider.dart';
 import '../../domain/models/delay_analysis.dart';
+import '../../domain/models/task.dart';
 
 class AnalysisResultScreen extends StatefulWidget {
   const AnalysisResultScreen({super.key});
@@ -9,7 +12,8 @@ class AnalysisResultScreen extends StatefulWidget {
 }
 
 class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
-  late List<bool> _checked;
+  Task? _task;
+  DelayAnalysis? _analysis;
   bool _initialized = false;
 
   @override
@@ -17,16 +21,28 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
     super.didChangeDependencies();
     if (!_initialized) {
       _initialized = true;
-      final analysis =
-          ModalRoute.of(context)?.settings.arguments as DelayAnalysis?;
-      _checked = List.filled(analysis?.suggestedSubtasks.length ?? 0, false);
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Map<String, dynamic>) {
+        _task = args['task'] as Task?;
+        _analysis = args['analysis'] as DelayAnalysis?;
+      } else if (args is DelayAnalysis) {
+        _analysis = args;
+      }
     }
+  }
+
+  Future<void> _toggleSubtask(String subtaskId) async {
+    if (_task == null) return;
+    final provider = context.read<TaskProvider>();
+    await provider.toggleSubtask(_task!.id, subtaskId);
+    if (!mounted) return;
+    final updated = provider.getTaskById(_task!.id);
+    if (updated != null) setState(() => _task = updated);
   }
 
   @override
   Widget build(BuildContext context) {
-    final analysis =
-        ModalRoute.of(context)?.settings.arguments as DelayAnalysis?;
+    final analysis = _analysis ?? _task?.analysis;
 
     if (analysis == null) {
       return Scaffold(
@@ -35,7 +51,15 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
       );
     }
 
-    final allDone = _checked.isNotEmpty && _checked.every((c) => c);
+    // subtask 완료 상태: task에 저장된 값 우선 사용
+    List<bool> checked;
+    if (_task != null && _task!.subtasks.isNotEmpty) {
+      checked = _task!.subtasks.map((s) => s.isDone).toList();
+    } else {
+      checked = List.filled(analysis.suggestedSubtasks.length, false);
+    }
+
+    final allDone = checked.isNotEmpty && checked.every((c) => c);
 
     return Scaffold(
       appBar: AppBar(
@@ -169,65 +193,72 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
             ),
             const SizedBox(height: 12),
             ...analysis.suggestedSubtasks.asMap().entries.map(
-              (entry) => GestureDetector(
-                onTap: () =>
-                    setState(() => _checked[entry.key] = !_checked[entry.key]),
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: _checked[entry.key]
-                        ? const Color(0xFF3F51B5).withOpacity(0.05)
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: _checked[entry.key]
-                          ? const Color(0xFF3F51B5).withOpacity(0.3)
-                          : const Color(0xFFEEEEF5),
+              (entry) {
+                final idx = entry.key;
+                final sub = entry.value;
+                final isDone = idx < checked.length ? checked[idx] : false;
+
+                return GestureDetector(
+                  onTap: () => _task != null
+                      ? _toggleSubtask(sub.id)
+                      : null,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: isDone
+                          ? const Color(0xFF3F51B5).withOpacity(0.05)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isDone
+                            ? const Color(0xFF3F51B5).withOpacity(0.3)
+                            : const Color(0xFFEEEEF5),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 22,
+                          height: 22,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDone
+                                ? const Color(0xFF3F51B5)
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: isDone
+                                  ? const Color(0xFF3F51B5)
+                                  : const Color(0xFFCCCCDD),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: isDone
+                              ? const Icon(Icons.check,
+                                  size: 13, color: Colors.white)
+                              : null,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            sub.title,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isDone
+                                  ? const Color(0xFF9E9EAE)
+                                  : const Color(0xFF1A1A2E),
+                              decoration: isDone
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 22,
-                        height: 22,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _checked[entry.key]
-                              ? const Color(0xFF3F51B5)
-                              : Colors.transparent,
-                          border: Border.all(
-                            color: _checked[entry.key]
-                                ? const Color(0xFF3F51B5)
-                                : const Color(0xFFCCCCDD),
-                            width: 1.5,
-                          ),
-                        ),
-                        child: _checked[entry.key]
-                            ? const Icon(Icons.check,
-                                size: 13, color: Colors.white)
-                            : null,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          entry.value.title,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: _checked[entry.key]
-                                ? const Color(0xFF9E9EAE)
-                                : const Color(0xFF1A1A2E),
-                            decoration: _checked[entry.key]
-                                ? TextDecoration.lineThrough
-                                : null,
-                            height: 1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                );
+              },
             ),
           ],
 

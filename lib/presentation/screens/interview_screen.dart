@@ -62,15 +62,15 @@ class _InterviewScreenState extends State<InterviewScreen> {
     _scrollToBottom();
 
     if (ai.isDone && mounted) {
-      await context.read<TaskProvider>().applySubtasks(
-            task.id,
-            ai.result!.suggestedSubtasks,
-          );
+      final taskProvider = context.read<TaskProvider>();
+      final result = ai.result!;
+      await taskProvider.applySubtasks(task.id, result.suggestedSubtasks);
+      await taskProvider.saveAnalysis(task.id, result);
       if (mounted) {
         Navigator.pushReplacementNamed(
           context,
           '/result',
-          arguments: ai.result,
+          arguments: {'task': task, 'analysis': result},
         );
       }
     }

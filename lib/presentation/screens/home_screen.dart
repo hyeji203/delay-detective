@@ -5,6 +5,7 @@ import '../../application/task_provider.dart';
 import '../../domain/models/task.dart';
 import '../widgets/task_card.dart';
 import '../widgets/sync_banner.dart';
+import 'history_screen.dart';
 
 // 한국 공휴일
 final Set<DateTime> _holidays = {
@@ -202,6 +203,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Delay Detective'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            tooltip: '분석 히스토리',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const HistoryScreen()),
+            ),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(height: 1, color: const Color(0xFFEEEEF5)),
