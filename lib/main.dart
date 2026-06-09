@@ -49,7 +49,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => TaskProvider(hive: hive),
+          create: (_) => TaskProvider(hive: hive, firestore: firestore, uid: uid),
         ),
         ChangeNotifierProvider(
           create: (_) => AIProvider(aiService: aiService),

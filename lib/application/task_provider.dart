@@ -3,11 +3,22 @@ import '../domain/models/task.dart';
 import '../domain/models/sub_task.dart';
 import '../domain/enums/task_status.dart';
 import '../data/local/hive_service.dart';
+import '../data/remote/firestore_service.dart';
 
 class TaskProvider extends ChangeNotifier {
   final HiveService _hive;
+  final FirestoreService? _firestore;
+  final String? _uid;
 
-  TaskProvider({required HiveService hive}) : _hive = hive;
+  TaskProvider({
+    required HiveService hive,
+    FirestoreService? firestore,
+    String? uid,
+  })  : _hive = hive,
+        _firestore = firestore,
+        _uid = uid;
+
+  String get uid => _uid ?? 'offline';
 
   List<Task> _tasks = [];
 
@@ -36,30 +47,50 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  // 태스크 추가 — Hive에 즉시 저장 후 화면 갱신
+  // 태스크 추가 — Hive 저장 후 Firestore 즉시 업로드, 실패 시 큐에 적재
   Future<void> addTask(Task task) async {
     await _hive.saveTask(task);
-    await _hive.enqueueSync(task.id);
     _tasks.add(task);
     notifyListeners();
+    await _syncToFirestore(task);
   }
 
   // 태스크 수정 — updatedAt 갱신 후 저장
   Future<void> updateTask(Task task) async {
     task.updatedAt = DateTime.now();
     await _hive.saveTask(task);
-    await _hive.enqueueSync(task.id);
     final index = _tasks.indexWhere((t) => t.id == task.id);
     if (index != -1) _tasks[index] = task;
     notifyListeners();
+    await _syncToFirestore(task);
   }
 
   // 태스크 삭제
   Future<void> deleteTask(String id) async {
     await _hive.deleteTask(id);
-    await _hive.enqueueSync(id);
     _tasks.removeWhere((t) => t.id == id);
     notifyListeners();
+    try {
+      if (_firestore != null && _uid != null) {
+        await _firestore.deleteTask(_uid, id);
+      } else {
+        await _hive.enqueueSync(id);
+      }
+    } catch (_) {
+      await _hive.enqueueSync(id);
+    }
+  }
+
+  Future<void> _syncToFirestore(Task task) async {
+    try {
+      if (_firestore != null && _uid != null) {
+        await _firestore.uploadTask(task);
+      } else {
+        await _hive.enqueueSync(task.id);
+      }
+    } catch (_) {
+      await _hive.enqueueSync(task.id);
+    }
   }
 
   // AI 분석 결과 소태스크 적용

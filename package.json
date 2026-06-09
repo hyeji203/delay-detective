@@ -1,0 +1,29 @@
+{
+  "name": "delay-detective",
+  "version": "1.0.0",
+  "description": "> AI-Powered Procrastination Analyzer with Offline-First Architecture",
+  "main": "test_firestore.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyeji203/delay-detective.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hyeji203/delay-detective/issues"
+  },
+  "homepage": "https://github.com/hyeji203/delay-detective#readme",
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}

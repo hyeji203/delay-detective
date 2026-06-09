@@ -71,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (ctx, setDialog) => AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          titlePadding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+          contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -93,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           content: Wrap(
             spacing: 8,
             runSpacing: 8,
+            alignment: WrapAlignment.center,
             children: List.generate(12, (i) {
               final month = i + 1;
               final isSelected =

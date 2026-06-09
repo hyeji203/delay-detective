@@ -73,7 +73,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     } else {
       final task = Task(
         id: 'task_${now.millisecondsSinceEpoch}',
-        uid: 'anonymous-placeholder',
+        uid: provider.uid,
         title: _titleController.text.trim(),
         description: _descController.text.trim().isEmpty
             ? null
