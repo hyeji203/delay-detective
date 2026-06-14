@@ -114,9 +114,15 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final daysLeft = task.dueDate != null
-        ? task.dueDate!.difference(DateTime.now()).inDays
-        : null;
+    int? daysLeft;
+    if (task.dueDate != null) {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final dueDay = DateTime(
+          task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
+      daysLeft = dueDay.difference(today).inDays;
+    }
+    final isTodayDue = daysLeft == 0 && !isDelayed;
 
     return GestureDetector(
       onTap: () => isDelayed
@@ -126,14 +132,18 @@ class TaskCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isTodayDue ? const Color(0xFFFFF8F0) : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: isDelayed
               ? Border.all(color: const Color(0xFFEF5350).withOpacity(0.3))
-              : null,
+              : isTodayDue
+                  ? Border.all(color: const Color(0xFFFF9800).withOpacity(0.6))
+                  : null,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: isTodayDue
+                  ? const Color(0xFFFF9800).withOpacity(0.10)
+                  : Colors.black.withOpacity(0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -152,6 +162,16 @@ class TaskCard extends StatelessWidget {
                     color: Color(0xFFEF5350),
                     shape: BoxShape.circle,
                   ),
+                )
+              else if (isTodayDue)
+                Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.only(right: 12),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFFF9800),
+                    shape: BoxShape.circle,
+                  ),
                 ),
               Expanded(
                 child: Column(
@@ -159,10 +179,12 @@ class TaskCard extends StatelessWidget {
                   children: [
                     Text(
                       task.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF1A1A2E),
+                        color: isTodayDue
+                            ? const Color(0xFF1A1A2E)
+                            : const Color(0xFF1A1A2E),
                       ),
                     ),
                     if (task.dueDate != null) ...[
@@ -170,11 +192,15 @@ class TaskCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            Icons.calendar_today_outlined,
+                            isTodayDue
+                                ? Icons.access_alarm
+                                : Icons.calendar_today_outlined,
                             size: 11,
                             color: isDelayed
                                 ? const Color(0xFFEF5350)
-                                : const Color(0xFF9E9EAE),
+                                : isTodayDue
+                                    ? const Color(0xFFE65100)
+                                    : const Color(0xFF9E9EAE),
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -183,9 +209,11 @@ class TaskCard extends StatelessWidget {
                               fontSize: 12,
                               color: isDelayed
                                   ? const Color(0xFFEF5350)
-                                  : const Color(0xFF9E9EAE),
-                              fontWeight: isDelayed
-                                  ? FontWeight.w500
+                                  : isTodayDue
+                                      ? const Color(0xFFE65100)
+                                      : const Color(0xFF9E9EAE),
+                              fontWeight: (isDelayed || isTodayDue)
+                                  ? FontWeight.w600
                                   : FontWeight.normal,
                             ),
                           ),
@@ -209,6 +237,30 @@ class TaskCard extends StatelessWidget {
                       color: Color(0xFFEF5350),
                       fontWeight: FontWeight.w600,
                     ),
+                  ),
+                )
+              else if (isTodayDue)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF9800).withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.local_fire_department,
+                          size: 12, color: Color(0xFFE65100)),
+                      SizedBox(width: 3),
+                      Text(
+                        '오늘 마감',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFE65100),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               else

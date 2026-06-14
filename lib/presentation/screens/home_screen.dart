@@ -5,7 +5,6 @@ import '../../application/task_provider.dart';
 import '../../domain/models/task.dart';
 import '../widgets/task_card.dart';
 import '../widgets/sync_banner.dart';
-import 'history_screen.dart';
 
 // 한국 공휴일
 final Set<DateTime> _holidays = {
@@ -60,6 +59,183 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Task> _getTasksWithoutDate(List<Task> allTasks) {
     return allTasks.where((t) => t.dueDate == null).toList();
+  }
+
+  void _showDaySheet(BuildContext context, DateTime day) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Consumer<TaskProvider>(
+        builder: (ctx, taskProvider, _) {
+          final allTasks = [
+            ...taskProvider.delayedTasks,
+            ...taskProvider.normalTasks,
+          ];
+          final dayTasks = _getTasksForDay(allTasks, day);
+          final noDateTasks = _getTasksWithoutDate(allTasks);
+          final isToday = isSameDay(day, DateTime.now());
+
+          return Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFFF8F8FC),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 36,
+                    height: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 8, 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 3,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF3F51B5),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        isToday
+                            ? '오늘 ${day.month}/${day.day}'
+                            : '${day.month}/${day.day}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF3F51B5),
+                        ),
+                      ),
+                      if (dayTasks.isNotEmpty) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 1),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF3F51B5).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${dayTasks.length}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF3F51B5),
+                            ),
+                          ),
+                        ),
+                      ],
+                      const Spacer(),
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          Navigator.pushNamed(
+                            context,
+                            '/add-task',
+                            arguments: day,
+                          );
+                        },
+                        icon: const Icon(Icons.add, size: 16),
+                        label: const Text('할일 추가'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFF3F51B5),
+                          textStyle: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (dayTasks.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: Text(
+                        '이 날 할일이 없어요',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF9E9EAE),
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(ctx).size.height * 0.45,
+                    ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      children: dayTasks
+                          .map((t) =>
+                              TaskCard(task: t, isDelayed: t.isDelayed))
+                          .toList(),
+                    ),
+                  ),
+                if (noDateTasks.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 3,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF9E9EAE),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '마감일 없음',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF9E9EAE),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(ctx).size.height * 0.25,
+                    ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      children: noDateTasks
+                          .map((t) =>
+                              TaskCard(task: t, isDelayed: t.isDelayed))
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Future<void> _showMonthPicker(BuildContext context) async {
@@ -137,9 +313,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _taskChip(Task task) {
     return Container(
-      margin: const EdgeInsets.only(top: 2),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-      constraints: const BoxConstraints(maxWidth: 46),
+      margin: const EdgeInsets.only(top: 2, left: 2, right: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      width: double.infinity,
       decoration: BoxDecoration(
         color: task.isDelayed
             ? const Color(0xFFEF5350).withOpacity(0.12)
@@ -156,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fontWeight: FontWeight.w500,
         ),
         overflow: TextOverflow.ellipsis,
-        maxLines: 1,
+        maxLines: 2,
       ),
     );
   }
@@ -181,16 +357,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Center(child: Text('${day.day}', style: numStyle)),
           );
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const SizedBox(height: 6),
-        numWidget,
-        ...tasks.take(2).map(_taskChip),
-        if (tasks.length > 2)
-          Text('+${tasks.length - 2}',
-              style: const TextStyle(fontSize: 8, color: Color(0xFF9E9EAE))),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 3),
+          numWidget,
+          ...tasks.take(2).map(_taskChip),
+          if (tasks.length > 2)
+            Text('+${tasks.length - 2}',
+                style: const TextStyle(fontSize: 8, color: Color(0xFF9E9EAE))),
+        ],
+      ),
     );
   }
 
@@ -198,23 +378,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskProvider>();
     final allTasks = [...taskProvider.delayedTasks, ...taskProvider.normalTasks];
-    final selectedTasks = _getTasksForDay(allTasks, _selectedDay);
-    final noDateTasks = _getTasksWithoutDate(allTasks);
-    final isToday = isSameDay(_selectedDay, DateTime.now());
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Delay Detective'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.history),
-            tooltip: '분석 히스토리',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const HistoryScreen()),
-            ),
-          ),
-        ],
+        actions: const [],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(height: 1, color: const Color(0xFFEEEEF5)),
@@ -224,13 +392,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const SyncBanner(),
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.only(bottom: 100),
-              children: [
-                // 캘린더
-                Container(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                const headerHeight = 52.0;
+                const dowHeight = 28.0;
+                final rowHeight =
+                    (constraints.maxHeight - headerHeight - dowHeight) / 6;
+                return Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(bottom: 8),
                   child: TableCalendar<Task>(
                     firstDay: DateTime.utc(2024, 1, 1),
                     lastDay: DateTime.utc(2027, 12, 31),
@@ -238,7 +407,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                     eventLoader: (day) => _getTasksForDay(allTasks, day),
                     calendarFormat: CalendarFormat.month,
-                    rowHeight: 72,
+                    daysOfWeekHeight: dowHeight,
+                    rowHeight: rowHeight,
                     calendarBuilders: CalendarBuilders(
                       dowBuilder: (context, day) {
                         const labels = ['월', '화', '수', '목', '금', '토', '일'];
@@ -327,123 +497,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         _selectedDay = selected;
                         _focusedDay = focused;
                       });
+                      _showDaySheet(context, selected);
                     },
                     onPageChanged: (focused) {
                       setState(() => _focusedDay = focused);
                     },
                   ),
-                ),
-
-                // 선택된 날짜 섹션
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 3, height: 16,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF3F51B5),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        isToday
-                            ? '오늘 ${_selectedDay.month}/${_selectedDay.day}'
-                            : '${_selectedDay.month}/${_selectedDay.day}',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF3F51B5),
-                        ),
-                      ),
-                      if (selectedTasks.isNotEmpty) ...[
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 1),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF3F51B5).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '${selectedTasks.length}',
-                            style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF3F51B5),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-
-                if (selectedTasks.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Center(
-                      child: Text(
-                        '이 날 할 일이 없어요',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF9E9EAE),
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: selectedTasks
-                          .map((t) => TaskCard(
-                                task: t,
-                                isDelayed: t.isDelayed,
-                              ))
-                          .toList(),
-                    ),
-                  ),
-
-                // 날짜 없는 태스크
-                if (noDateTasks.isNotEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 3, height: 16,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9E9EAE),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          '마감일 없음',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF9E9EAE),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: noDateTasks
-                          .map((t) => TaskCard(
-                                task: t,
-                                isDelayed: t.isDelayed,
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ],
+                );
+              },
             ),
           ),
         ],

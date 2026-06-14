@@ -21,13 +21,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_editingTask == null) {
-      final task = ModalRoute.of(context)?.settings.arguments as Task?;
-      if (task != null) {
-        _editingTask = task;
-        _titleController.text = task.title;
-        _descController.text = task.description ?? '';
-        _dueDate = task.dueDate;
+    if (_editingTask == null && _dueDate == null) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Task) {
+        _editingTask = args;
+        _titleController.text = args.title;
+        _descController.text = args.description ?? '';
+        _dueDate = args.dueDate;
+      } else if (args is DateTime) {
+        _dueDate = args;
       }
     }
   }

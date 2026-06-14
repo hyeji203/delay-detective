@@ -30,6 +30,14 @@ class TaskProvider extends ChangeNotifier {
   List<Task> get normalTasks =>
       _tasks.where((t) => !t.isDelayed).toList();
 
+  // 진행중 태스크 (완료 제외)
+  List<Task> get activeTasks =>
+      _tasks.where((t) => t.status != TaskStatus.done).toList();
+
+  // 완료된 태스크
+  List<Task> get completedTasks =>
+      _tasks.where((t) => t.status == TaskStatus.done).toList();
+
   // 앱 시작 시 Hive에서 태스크 불러오기
   Future<void> loadTasks() async {
     _tasks = await _hive.getAllTasks();
