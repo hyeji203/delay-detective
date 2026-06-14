@@ -1,9 +1,9 @@
 # AUTHORING.hyeji.md — Delay Detective 프로젝트 AI Agent 구성
 
-**버전**: v0.7 (세션 5 진행 중 — 캘린더 UI 개선, 태스크 수정 기능, 오프라인 배너 수정)  
+**버전**: v0.9 (세션 5 추가 구현 — 바텀 네비게이션, 캘린더 개편, AGENTS.md 문서화)  
 **프로젝트**: Delay Detective (지연 감지 & 재구성 AI 할 일 관리 앱)  
 **시작**: 2026-05-04 (세션 1 오리엔테이션)  
-**최근 업데이트**: 2026-06-06 (세션 5 UI 개선 진행 중)
+**최근 업데이트**: 2026-06-14 (세션 5 추가 구현)
 
 ---
 
@@ -324,7 +324,7 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - [x] 중간 발표 슬라이드 작성 완료 (`docs/slides-midterm.md`)
 - [x] AUTHORING.hyeji.md 업데이트
 
-### 세션 5 (구현 2 + 테스트) 🚧 진행 중 (2026-06-05 ~ 2026-06-08)
+### 세션 5 (구현 2 + 테스트) 🚧 진행 중 (2026-06-05 ~ 2026-06-14)
 - [x] **캘린더 UI 개선**
   - 토요일 날짜 파란색 표시 (일요일/공휴일 빨간색과 구분)
   - 날짜 셀 안에 일정 제목 직접 표시 (기존 빨간 점 마커 → 텍스트 라벨)
@@ -353,10 +353,37 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
   - 실패 시 자동으로 오프라인 모드 전환 (try-catch)
   - SyncService Conflict Resolution: Last-Write-Wins (updatedAt 비교)
   - **Firebase 실제 연결 방법**: 아래 Firebase 설정 가이드 참고
+- [x] **오늘 마감 태스크 강조 표시** (2026-06-14)
+  - TaskCard에 dueDate == 오늘인 경우 주황 배경·테두리·alarm 아이콘·🔥 chip 표시
+  - 날짜 계산 버그 수정: `DateTime.now().inDays` 대신 `DateTime(y,m,d)` 비교로 정확도 개선
+- [x] **캘린더 chip UI 전면 개선** (2026-06-14)
+  - 배경박스 스타일 (색상 배경 + 둥근 모서리), maxLines: 2로 텍스트 2줄까지 표시
+  - `width: double.infinity`로 날짜 셀 너비 꽉 차게, 좌우 여백 추가
+  - LayoutBuilder로 rowHeight 동적 계산 → 캘린더가 화면 높이를 꽉 채움
+- [x] **날짜 클릭 바텀 시트** (2026-06-14)
+  - 날짜 클릭 시 해당 날짜 할일 목록을 아래에서 위로 슬라이드 표시
+  - 바텀 시트 내 "할일 추가" 버튼 → AddTaskScreen으로 이동 (날짜 pre-fill)
+  - 기존 태스크 목록 스크롤 영역 제거, 바텀 시트로 대체
+- [x] **바텀 네비게이션 바 4탭 추가** (2026-06-14)
+  - MainScreen 신규 생성: 홈 / 할일 / AI분석 / 통계 4탭
+  - IndexedStack으로 탭 전환 시 각 화면 상태 유지
+  - SplashScreen → MainScreen으로 진입 경로 변경
+- [x] **TaskListScreen 신규 생성** (2026-06-14)
+  - 진행중 / 완료 TabBar로 태스크 구분 표시
+  - activeTasks / completedTasks 게터 추가 (TaskProvider)
+- [x] **StatsScreen 신규 생성** (2026-06-14)
+  - 전체 / 지연중 / 완료 요약 카드
+  - 완료율 LinearProgressIndicator
+  - 태스크 현황 바 차트, AI 분석 건수 및 소태스크 진행률
+- [x] **AGENTS.md 신규 생성** (2026-06-14)
+  - 에이전트 5종 역할·권한·책임·정책 문서화
+  - `.claude/agents/` 정책 파일 연계 (가산점 +1 요건 충족)
+- [x] **notes/ LLM Wiki 5개 파일 내용 완성** (2026-06-14)
+  - 01~05 파일 모두 실제 경험 기반 내용으로 채움
 - [ ] Firebase 설정 파일 연결 (flutterfire configure 실행)
 - [ ] QA 에이전트가 Playwright로 자동 테스트
 - [ ] 버그 수정 & 최적화
-- [x] AUTHORING.hyeji.md 업데이트 (2026-06-08)
+- [x] AUTHORING.hyeji.md 업데이트 (2026-06-14)
 
 ### 세션 6 (마감 & 배포)
 - [ ] iOS/Android 빌드 & 실기기 테스트
@@ -457,6 +484,7 @@ flutterfire configure
 - v0.4 (2026-05-11) — 세션 2 기획 완료 (비전/요구사항/WBS/ADR/BONUS)
 - v0.5 (2026-05-18) — 세션 3 설계 완료 (4-레이어 아키텍처, 스켈레톤 코드, Hello World 빌드, 슬라이드 초안)
 - v0.6 (2026-06-02) — 세션 4 완료 (기본 UI 전체 구현, AI 인터뷰 화면, Hive 로컬 저장, 중간 발표 슬라이드)
-- **v0.8 (2026-06-08) — 세션 5 완료 (소태스크 Hive 저장, AI 히스토리 화면, Firebase 연동 코드 완성)** ⭐
+- v0.8 (2026-06-08) — 세션 5 1차 (소태스크 Hive 저장, AI 히스토리 화면, Firebase 연동 코드 완성)
+- **v0.9 (2026-06-14) — 세션 5 2차 (바텀 네비게이션 4탭, 캘린더 개편, 오늘 마감 강조, AGENTS.md, LLM Wiki 완성)** ⭐
 
 **다음 업데이트**: 세션 5 나머지 항목 완료 후 (Firebase 연동, Playwright 테스트)
