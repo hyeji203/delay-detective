@@ -81,12 +81,12 @@ Delay Detective는 두 가지 데이터 요구사항이 있다:
 
 ## 후속 작업
 
-- [ ] Firebase 프로젝트 생성 및 `google-services.json` / `GoogleService-Info.plist` 다운로드
 - [ ] Firestore 보안 규칙 초안 작성 (`users/{userId}/tasks/{taskId}` 구조)
-- [ ] Firebase 프로젝트 생성 및 `google-services.json` / `GoogleService-Info.plist` 다운로드
-- [ ] Firestore 보안 규칙 초안 작성 (`users/{userId}/tasks/{taskId}` 구조)
+- [x] Firebase 프로젝트 생성 및 `firebase_options.dart` 실제 키 연결 완료 (2026-06-15)
 - [x] `pubspec.yaml`에 `hive`, `hive_flutter`, `firebase_core`, `cloud_firestore`, `firebase_auth` 추가 (2026-05-18 완료)
 - [x] `SyncService` 설계 문서 작성 → `docs/architecture.md`에 포함 (2026-05-18 완료)
+- [x] 오프라인 UID 영속화 — HiveService settings 박스로 uid 저장, Firestore 중복 데이터 방지 (2026-06-15)
+- [x] Google 로그인 도입 — `google_sign_in` 패키지, AuthService / AuthProvider 구현 (2026-06-15)
 
 ---
 
@@ -96,7 +96,7 @@ Delay Detective는 두 가지 데이터 요구사항이 있다:
 
 | 항목 | 결정 | 이유 |
 |:---|:---|:---|
-| 로그인 | Firebase 익명 로그인만 | 설정 시간 최소화, "바로 사용" UX |
+| 로그인 | ~~Firebase 익명 로그인만~~ → **Google 로그인으로 변경** (2026-06-15) | 기능 추가 요구, Firestore uid 중복 문제 해결 |
 | 소태스크 저장 | Task 문서 내 배열 필드 | 별도 컬렉션 대비 쿼리 단순화 |
 | AI 인터뷰 비용 | 3턴 고정 | 무제한 대화 대비 비용 예측 가능 |
 | 알림 | 로컬 알림만 | FCM 대비 구현 복잡도 1/10 |
@@ -113,3 +113,31 @@ users/{uid}/tasks/{taskId}/
 네트워크 연결 시 `SyncService.flushQueue()`가 Firestore로 업로드한다.
 
 참고: [docs/architecture.md](../../docs/architecture.md)
+
+---
+
+## 업데이트 — Google 로그인 & 인증 구조 변경 (2026-06-15)
+
+### 변경 사항
+
+기존에는 Firebase 익명 로그인만 사용했으나, 다음 문제로 Google 로그인으로 전환:
+
+1. **Firestore 중복 데이터 문제**: 익명 로그인 실패 시 `offline-user-타임스탬프`가 매 실행마다 새로 생성되어 Firestore에 동일 할일이 중복 저장됨
+2. **UX 요구**: 로그인 기능이 명시적으로 필요
+
+### 새 인증 구조
+
+| 파일 | 역할 |
+|:---|:---|
+| `lib/data/remote/auth_service.dart` | Google 로그인/로그아웃 (웹: signInWithPopup, 모바일: google_sign_in) |
+| `lib/application/auth_provider.dart` | `authStateChanges` 스트림 구독, uid/isLoggedIn 노출 |
+| `lib/presentation/screens/login_screen.dart` | Google 로그인 버튼 화면 |
+| `main.dart` — `_AuthGate` | 인증 상태에 따라 SplashScreen / LoginScreen / MainScreen 분기 |
+
+### 웹 특이사항
+
+`google_sign_in` 패키지의 `signIn()` 메서드는 웹에서 `idToken`을 반환하지 않아 Firebase 인증이 불가능. 웹에서는 `FirebaseAuth.instance.signInWithPopup(GoogleAuthProvider())`를 직접 사용하여 해결.
+
+### UID 영속화
+
+Firebase Auth가 성공하면 Firebase SDK가 uid를 자동 영속화. 실패(오프라인) 시에는 HiveService `settings` 박스에 uid를 저장해 재사용 — 더 이상 타임스탬프 기반 임시 uid가 생성되지 않음.

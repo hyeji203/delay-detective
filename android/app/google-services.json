@@ -12,7 +12,20 @@
           "package_name": "com.hyeji.delay_detective"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "861708455158-2cuiihosnil1kr7ql4c6hg2n9cvad7i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hyeji.delay_detective",
+            "certificate_hash": "1f1e3c9be1252a450660ad3edba472b66f8e86ac"
+          }
+        },
+        {
+          "client_id": "861708455158-9hjskqvvn0l4i7i6rvi27nt52vqconnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBeHwxDNYHf61SG7NjtwMoDkyBD-9BcISk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861708455158-9hjskqvvn0l4i7i6rvi27nt52vqconnc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "861708455158-hdpg9c4ulha7p2f0dd3s42lcd6pnsv5a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hyeji.delayDetective"
+              }
+            }
+          ]
         }
       }
     }

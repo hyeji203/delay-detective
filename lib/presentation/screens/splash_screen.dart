@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
-import 'main_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  void _goToHome() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const MainScreen()),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: const Icon(Icons.search_rounded, size: 48, color: Color(0xFF3F51B5)),
+              child: const Icon(
+                Icons.search_rounded,
+                size: 48,
+                color: Color(0xFF3F51B5),
+              ),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -52,23 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             const SizedBox(height: 48),
-            SizedBox(
-              width: 200,
-              height: 48,
-              child: ElevatedButton(
-                onPressed: _goToHome,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: const Color(0xFF3F51B5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: const Text(
-                  '시작하기',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                ),
+            const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: Colors.white,
               ),
             ),
           ],

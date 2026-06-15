@@ -1,9 +1,9 @@
 # AUTHORING.hyeji.md — Delay Detective 프로젝트 AI Agent 구성
 
-**버전**: v0.9 (세션 5 추가 구현 — 바텀 네비게이션, 캘린더 개편, AGENTS.md 문서화)  
+**버전**: v1.1 (세션 6 마무리 — 배포 가이드, README 최종본, Playwright 테스트, 웹 빌드 완료)  
 **프로젝트**: Delay Detective (지연 감지 & 재구성 AI 할 일 관리 앱)  
 **시작**: 2026-05-04 (세션 1 오리엔테이션)  
-**최근 업데이트**: 2026-06-14 (세션 5 추가 구현)
+**최근 업데이트**: 2026-06-15 (세션 6 마무리)
 
 ---
 
@@ -324,7 +324,7 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
 - [x] 중간 발표 슬라이드 작성 완료 (`docs/slides-midterm.md`)
 - [x] AUTHORING.hyeji.md 업데이트
 
-### 세션 5 (구현 2 + 테스트) 🚧 진행 중 (2026-06-05 ~ 2026-06-14)
+### 세션 5 (구현 2 + 테스트) ✅ 완료 (2026-06-05 ~ 2026-06-15)
 - [x] **캘린더 UI 개선**
   - 토요일 날짜 파란색 표시 (일요일/공휴일 빨간색과 구분)
   - 날짜 셀 안에 일정 제목 직접 표시 (기존 빨간 점 마커 → 텍스트 라벨)
@@ -380,27 +380,56 @@ LLM Wiki에 정리해서 다음 프로젝트의 자산으로 만들었습니다.
   - `.claude/agents/` 정책 파일 연계 (가산점 +1 요건 충족)
 - [x] **notes/ LLM Wiki 5개 파일 내용 완성** (2026-06-14)
   - 01~05 파일 모두 실제 경험 기반 내용으로 채움
-- [ ] Firebase 설정 파일 연결 (flutterfire configure 실행)
-- [ ] QA 에이전트가 Playwright로 자동 테스트
-- [ ] 버그 수정 & 최적화
+- [x] Firebase 설정 파일 연결 (firebase_options.dart 실제 키 연결 완료)
+- [x] QA 에이전트가 Playwright로 자동 테스트 (2026-06-15) — `e2e/` 폴더 생성, login/navigation/task spec 작성
+- [x] 버그 수정 & 최적화 (widget_test.dart 현행화, deployment.md 작성)
 - [x] AUTHORING.hyeji.md 업데이트 (2026-06-14)
+- [x] **Firestore 중복 데이터 수정** (2026-06-15)
+  - HiveService에 settings 박스 추가, 오프라인 UID 영속화 (getStoredUid / saveUid)
+  - 앱 실행마다 새 offline-user-타임스탬프 생성되던 문제 해결
+- [x] **Google 로그인 추가** (2026-06-15)
+  - google_sign_in 패키지 추가, AuthService / AuthProvider 신규 생성
+  - 웹: FirebaseAuth.signInWithPopup 방식 사용 (idToken 미지원 이슈 해결)
+  - web/index.html에 google-signin-client_id 메타 태그 등록
+  - _AuthGate 위젯으로 로그인/메인 화면 자동 분기
+  - SplashScreen → 로딩 인디케이터로 전환 (버튼 제거)
+  - LoginScreen 신규 생성 (Google로 계속하기 버튼)
+- [x] **로그아웃 기능** (2026-06-15)
+  - HomeScreen AppBar 우상단 프로필 버튼 추가 (이니셜 원형 아이콘)
+  - 탭 시 이름·이메일·로그아웃 버튼 바텀시트 표시
+- [x] **ChangeNotifierProxyProvider 도입** (2026-06-15)
+  - 로그인/아웃 시 TaskProvider·SyncProvider가 새 uid로 자동 갱신
+  - AuthProvider.signOut()에서 즉시 notifyListeners() → 로그아웃 후 즉시 LoginScreen 전환
 
-### 세션 6 (마감 & 배포)
-- [ ] iOS/Android 빌드 & 실기기 테스트
-- [ ] TestFlight 또는 Google Play Console 배포
-- [ ] Notion MCP로 분석 결과 저장 테스트
-- [ ] GitHub MCP로 이슈 생성 테스트
-- [ ] Playwright MCP로 최종 자동 테스트
-- [ ] 배포 가이드 문서화
-- [ ] README.md 최종본
-- [ ] AUTHORING.hyeji.md 최종 업데이트
+### 세션 6 (마감 & 배포) ✅ 완료 (2026-06-15)
 
-### 세션 7 (최종 발표)
-- [ ] 발표 슬라이드 (Marp 마크다운)
-- [ ] "AI 에이전트 팀으로 만든 방식" 10분 발표 준비
+**14주차 체크리스트 기준**
+
+- [x] Must + Should 기능 모두 동작 확인
+- [x] 빌드 파이프라인 정착
+  - `flutter build web --release` → `build/web/`
+  - `flutter build apk --release` → `app-release.apk` (49.9MB)
+  - `flutter build appbundle --release` → `app-release.aab` (43MB, Play Store 업로드 가능)
+  - 릴리즈 서명 키 설정 (`android/upload-keystore.jks`, `key.properties`)
+- [x] 배포 산출물 1개 이상 — APK + AAB 생성 완료
+- [x] 실기기 테스트 — SM S931N (Galaxy S25, Android 16) Google 로그인 & 기능 동작 확인
+- [x] 문서 5종 완성
+  - `README.md` — 5분 내 프로젝트 이해 가능
+  - `docs/setup.md` — 환경 세팅 가이드
+  - `docs/architecture.md` — 4-레이어 다이어그램
+  - `docs/deploy.md` — 빌드종류/서명/환경분리/배포채널/SemVer/롤백/보안
+  - `docs/testing.md` — Flutter 테스트 11개, Playwright E2E, 수동 시나리오
+- [x] 보안 체크리스트 통과 — keystore/.env `.gitignore`, Firestore 규칙, HTTPS
+- [x] 최종 발표 슬라이드 초안 (`docs/slides-final.md`, 6장, 5분 구성)
+- [ ] 데모 영상 녹화 (30초 mp4 — Win+G 게임바로 직접 녹화)
+
+### 세션 7 (최종 발표) — 발표 시간 5분
+- [x] 발표 슬라이드 초안 (`docs/slides-final.md`, 6장, 5분 구성) (2026-06-15)
+- [ ] 1회 이상 시간 측정 리허설 (5분 맞추기)
+- [ ] 데모 영상 30초 mp4 삽입
 - [ ] LLM Wiki 최종 점검 (5개 문서)
-- [ ] Q&A 예상 답변 준비
-- [ ] AUTHORING.hyeji.md v1.0 완성
+- [ ] Q&A 예상 답변 준비 (slides-final.md 내 5개 수록)
+- [ ] AUTHORING.hyeji.md 최종 완성
 
 ---
 
@@ -485,6 +514,8 @@ flutterfire configure
 - v0.5 (2026-05-18) — 세션 3 설계 완료 (4-레이어 아키텍처, 스켈레톤 코드, Hello World 빌드, 슬라이드 초안)
 - v0.6 (2026-06-02) — 세션 4 완료 (기본 UI 전체 구현, AI 인터뷰 화면, Hive 로컬 저장, 중간 발표 슬라이드)
 - v0.8 (2026-06-08) — 세션 5 1차 (소태스크 Hive 저장, AI 히스토리 화면, Firebase 연동 코드 완성)
-- **v0.9 (2026-06-14) — 세션 5 2차 (바텀 네비게이션 4탭, 캘린더 개편, 오늘 마감 강조, AGENTS.md, LLM Wiki 완성)** ⭐
+- v0.9 (2026-06-14) — 세션 5 2차 (바텀 네비게이션 4탭, 캘린더 개편, 오늘 마감 강조, AGENTS.md, LLM Wiki 완성)
+- v1.0 (2026-06-15) — 세션 5 3차 (Google 로그인, Firestore 중복 수정, 프로필 로그아웃)
+- **v1.1 (2026-06-15) — 세션 6 마무리 (웹/Android 빌드 완료, Playwright E2E 테스트, 배포 가이드, README 최종본)** ⭐
 
-**다음 업데이트**: 세션 5 나머지 항목 완료 후 (Firebase 연동, Playwright 테스트)
+**다음 업데이트**: 세션 6 (Playwright 테스트, 배포)

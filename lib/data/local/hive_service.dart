@@ -5,15 +5,22 @@ import '../../domain/models/task.dart';
 class HiveService {
   static const String _tasksBox = 'tasks';
   static const String _syncQueueBox = 'sync_queue';
+  static const String _settingsBox = 'settings';
 
   late Box<String> _tasks;
   late Box<String> _syncQueue;
+  late Box<String> _settings;
 
   Future<void> init() async {
     await Hive.initFlutter();
     _tasks = await Hive.openBox<String>(_tasksBox);
     _syncQueue = await Hive.openBox<String>(_syncQueueBox);
+    _settings = await Hive.openBox<String>(_settingsBox);
   }
+
+  Future<String?> getStoredUid() async => _settings.get('uid');
+
+  Future<void> saveUid(String uid) async => _settings.put('uid', uid);
 
   Future<List<Task>> getAllTasks() async {
     try {

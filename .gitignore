@@ -46,3 +46,10 @@ app.*.map.json
 
 # 환경변수 (API 키)
 .env
+
+# Android 릴리즈 서명 키 (절대 커밋하지 말 것)
+android/upload-keystore.jks
+android/key.properties
+
+# Node.js
+node_modules/

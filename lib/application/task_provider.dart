@@ -16,9 +16,12 @@ class TaskProvider extends ChangeNotifier {
     String? uid,
   })  : _hive = hive,
         _firestore = firestore,
-        _uid = uid;
+        _uid = uid {
+    loadTasks();
+  }
 
   String get uid => _uid ?? 'offline';
+  String? get rawUid => _uid;
 
   List<Task> _tasks = [];
 
