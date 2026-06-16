@@ -336,27 +336,15 @@ class _HomeScreenState extends State<HomeScreen> {
         color: chipColor,
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (hasAnalysis)
-            Padding(
-              padding: const EdgeInsets.only(right: 2),
-              child: Icon(Icons.check_circle, size: 8, color: textColor),
-            ),
-          Expanded(
-            child: Text(
-              task.title,
-              style: TextStyle(
-                fontSize: 9,
-                color: textColor,
-                fontWeight: FontWeight.w500,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ),
-        ],
+      child: Text(
+        hasAnalysis ? '✓ ${task.title}' : task.title,
+        style: TextStyle(
+          fontSize: 9,
+          color: textColor,
+          fontWeight: FontWeight.w500,
+        ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
       ),
     );
   }
