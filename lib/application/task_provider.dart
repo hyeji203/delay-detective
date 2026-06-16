@@ -44,24 +44,26 @@ class TaskProvider extends ChangeNotifier {
   // 앱 시작 시 Hive에서 태스크 불러오기
   Future<void> loadTasks() async {
     _tasks = await _hive.getAllTasks();
-    checkDelayStatus();
+    await checkDelayStatus();
     notifyListeners();
   }
 
-  // 지연 감지 규칙: dueDate < 오늘 AND status != done → isDelayed = true
-  void checkDelayStatus() {
+  // 지연 감지: dueDate가 어제 이전(날짜 단위) AND 미완료 → isDelayed = true, Hive 저장
+  Future<void> checkDelayStatus() async {
     for (final task in _tasks) {
       if (task.shouldBeDelayed && !task.isDelayed) {
         task.isDelayed = true;
         task.status = TaskStatus.delayed;
+        await _hive.saveTask(task);
       }
     }
   }
 
-  // 태스크 추가 — Hive 저장 후 Firestore 즉시 업로드, 실패 시 큐에 적재
+  // 태스크 추가 — Hive 저장 후 지연 감지, Firestore 업로드
   Future<void> addTask(Task task) async {
     await _hive.saveTask(task);
     _tasks.add(task);
+    await checkDelayStatus();
     notifyListeners();
     await _syncToFirestore(task);
   }

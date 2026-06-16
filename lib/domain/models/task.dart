@@ -29,11 +29,14 @@ class Task {
     this.analysis,
   });
 
-  // 지연 판정 규칙: dueDate가 오늘보다 과거 AND 완료되지 않은 상태
-  bool get shouldBeDelayed =>
-      dueDate != null &&
-      dueDate!.isBefore(DateTime.now()) &&
-      status != TaskStatus.done;
+  // 지연 판정 규칙: dueDate가 어제 이전(날짜 단위) AND 완료되지 않은 상태
+  bool get shouldBeDelayed {
+    if (dueDate == null || status == TaskStatus.done) return false;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dueDay = DateTime(dueDate!.year, dueDate!.month, dueDate!.day);
+    return dueDay.isBefore(today);
+  }
 
   Map<String, dynamic> toMap() => {
         'id': id,
