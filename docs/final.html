@@ -223,6 +223,30 @@
       border-radius: 6px; padding: 8px 20px; margin-bottom: 1.5em;
     }
 
+    /* ── WBS 테이블 ─────────────────────────────────────── */
+    .wbs-table { width:100%; border-collapse:collapse; font-size:.40em; table-layout:fixed; line-height:1.15; }
+    .wbs-table th {
+      background:var(--surface); color:var(--cyan);
+      padding:2px 3px; text-align:center; border:1px solid var(--border);
+      font-family:'JetBrains Mono',monospace; font-weight:700;
+    }
+    .wbs-table th.th-task { text-align:left; padding-left:6px; }
+    .wbs-table td {
+      padding:1px 3px; border:1px solid var(--border);
+      text-align:center; vertical-align:middle;
+      white-space:nowrap; overflow:hidden; color:var(--text);
+    }
+    .wbs-table td.task-name { text-align:left; font-weight:700; padding-left:6px; color:var(--cyan); }
+    .wbs-table td.sub-name  { text-align:left; padding-left:16px; color:var(--muted); }
+    .wbs-table tr.phase     { background:rgba(56,189,248,.05); }
+    .wbs-table tr.milestone { background:rgba(251,146,60,.06); }
+    .wbs-badge { border-radius:4px; padding:0 5px; font-size:.88em; font-weight:700;
+                 white-space:nowrap; font-family:'JetBrains Mono',monospace; }
+    .wbs-badge.done { background:rgba(74,222,128,.15);  color:var(--green);  border:1px solid var(--green); }
+    .wbs-badge.ms   { background:rgba(251,146,60,.15);  color:var(--amber);  border:1px solid var(--amber); }
+    .wc-done { background:rgba(74,222,128,.12); color:var(--green); font-weight:700; }
+    .wc-ms   { color:var(--amber); font-weight:900; font-family:'JetBrains Mono',monospace; }
+
     /* ── 에이전트 칩 ────────────────────────────────────── */
     .chip-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
     .chip {
@@ -355,7 +379,162 @@
       <aside class="notes">6주 동안 기획부터 배포까지 모든 단계를 완료했습니다.</aside>
     </section>
 
-    <!-- 6. 기술 스택 ─────────────────────────────────────── -->
+    <!-- 6. WBS ──────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>WBS & 진행 현황</h2>
+      <table class="wbs-table">
+        <thead>
+          <tr>
+            <th style="width:28px">No</th>
+            <th class="th-task" style="width:240px">태스크</th>
+            <th style="width:68px">상태</th>
+            <th style="width:68px">W10<br>05/11</th>
+            <th style="width:68px">W11<br>05/18</th>
+            <th style="width:68px">W12<br>06/01</th>
+            <th style="width:68px">W13<br>06/08</th>
+            <th style="width:68px">W14<br>06/16</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Phase 1 -->
+          <tr class="phase">
+            <td>1</td><td class="task-name">기획 & 설계</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>1.1</td><td class="sub-name">기획 문서 (비전·요구사항·WBS)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>1.2</td><td class="sub-name">설계 문서 (Firestore·Hive·AI 플로우)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>1.3</td><td class="sub-name">개발 환경 (Flutter·Firebase·API 키)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
+          </tr>
+          <!-- Phase 2 -->
+          <tr class="phase">
+            <td>2</td><td class="task-name">데이터 레이어</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2.1</td><td class="sub-name">데이터 모델 (Task · SubTask · DelayAnalysis)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2.2</td><td class="sub-name">로컬 저장소 — HiveService (CRUD)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2.3</td><td class="sub-name">클라우드 — FirestoreService + Conflict 해결</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2.4</td><td class="sub-name">동기화 — SyncService (Hive ↔ Firestore)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <!-- Phase 3 -->
+          <tr class="phase">
+            <td>3</td><td class="task-name">AI 인터뷰 시스템</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>3.1</td><td class="sub-name">Anthropic API 연동 + 프롬프트 템플릿</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>3.2</td><td class="sub-name">인터뷰 플로우 (3턴 + 종료 조건)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>3.3</td><td class="sub-name">분석 결과 생성 (공감·원인·소태스크 3개)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
+          </tr>
+          <!-- Phase 4 -->
+          <tr class="phase">
+            <td>4</td><td class="task-name">UI 구현</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td>
+          </tr>
+          <tr>
+            <td>4.1</td><td class="sub-name">공통 컴포넌트 (테마·버튼·태스크 카드)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>4.2</td><td class="sub-name">화면 9개 (Home·Add·Interview·Result·History 외)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td>
+          </tr>
+          <tr>
+            <td>4.3</td><td class="sub-name">Google 로그인 (웹·Android 분기 처리)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td class="wc-done">완료</td><td></td>
+          </tr>
+          <!-- Milestone M4 -->
+          <tr class="milestone">
+            <td>M4</td><td class="task-name">★ 중간 발표</td>
+            <td><span class="wbs-badge ms">마일스톤</span></td>
+            <td></td><td></td><td></td><td class="wc-ms">◆ 완료</td><td></td>
+          </tr>
+          <!-- Phase 5 -->
+          <tr class="phase">
+            <td>5</td><td class="task-name">테스트 & QA</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td>
+          </tr>
+          <tr>
+            <td>5.1</td><td class="sub-name">Flutter 단위 테스트 11개 (전체 통과)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td class="wc-done">완료</td><td></td>
+          </tr>
+          <tr>
+            <td>5.2</td><td class="sub-name">Playwright E2E (login · navigation)</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
+          </tr>
+          <!-- Phase 6 -->
+          <tr class="phase">
+            <td>6</td><td class="task-name">배포 & 마무리</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
+          </tr>
+          <tr>
+            <td>6.1</td><td class="sub-name">APK (49.9MB) · AAB (43MB) · 웹 빌드</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
+          </tr>
+          <tr>
+            <td>6.2</td><td class="sub-name">Firebase Hosting 배포 · 발표 자료</td>
+            <td><span class="wbs-badge done">완료</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
+          </tr>
+          <!-- Milestone M6 -->
+          <tr class="milestone">
+            <td>M6</td><td class="task-name">★ 최종 발표</td>
+            <td><span class="wbs-badge ms">마일스톤</span></td>
+            <td></td><td></td><td></td><td></td><td class="wc-ms">◆ 오늘</td>
+          </tr>
+        </tbody>
+      </table>
+      <aside class="notes">6주 전 Phase 1부터 시작해서 오늘 최종 발표까지 모든 Phase를 완료했습니다.</aside>
+    </section>
+
+    <!-- 7. 기술 스택 ─────────────────────────────────────── -->
     <section data-background-color="#0F172A">
       <h2>기술 스택</h2>
       <table>
