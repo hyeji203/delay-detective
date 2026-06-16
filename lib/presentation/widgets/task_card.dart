@@ -123,27 +123,63 @@ class TaskCard extends StatelessWidget {
       daysLeft = dueDay.difference(today).inDays;
     }
     final isTodayDue = daysLeft == 0 && !isDelayed;
+    final hasAnalysis = task.analysis != null;
+
+    // 소태스크 진행률
+    final subtaskTotal = task.subtasks.length;
+    final subtaskDone = task.subtasks.where((s) => s.isDone).length;
+
+    Color dotColor;
+    Color borderColor;
+    Color bgColor;
+    if (hasAnalysis) {
+      dotColor = const Color(0xFF7B61FF);
+      borderColor = const Color(0xFF7B61FF);
+      bgColor = const Color(0xFFF8F6FF);
+    } else if (isDelayed) {
+      dotColor = const Color(0xFFEF5350);
+      borderColor = const Color(0xFFEF5350);
+      bgColor = Colors.white;
+    } else if (isTodayDue) {
+      dotColor = const Color(0xFFFF9800);
+      borderColor = const Color(0xFFFF9800);
+      bgColor = const Color(0xFFFFF8F0);
+    } else {
+      dotColor = Colors.transparent;
+      borderColor = Colors.transparent;
+      bgColor = Colors.white;
+    }
 
     return GestureDetector(
-      onTap: () => isDelayed
-          ? Navigator.pushNamed(context, '/interview', arguments: task)
-          : _showOptions(context),
+      onTap: () {
+        if (hasAnalysis) {
+          Navigator.pushNamed(
+            context,
+            '/result',
+            arguments: {'task': task, 'analysis': task.analysis},
+          );
+        } else if (isDelayed) {
+          Navigator.pushNamed(context, '/interview', arguments: task);
+        } else {
+          _showOptions(context);
+        }
+      },
       onLongPress: () => _showOptions(context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: isTodayDue ? const Color(0xFFFFF8F0) : Colors.white,
+          color: bgColor,
           borderRadius: BorderRadius.circular(14),
-          border: isDelayed
-              ? Border.all(color: const Color(0xFFEF5350).withOpacity(0.3))
-              : isTodayDue
-                  ? Border.all(color: const Color(0xFFFF9800).withOpacity(0.6))
-                  : null,
+          border: (isDelayed || isTodayDue)
+              ? Border.all(color: borderColor.withOpacity(0.35))
+              : null,
           boxShadow: [
             BoxShadow(
-              color: isTodayDue
-                  ? const Color(0xFFFF9800).withOpacity(0.10)
-                  : Colors.black.withOpacity(0.04),
+              color: hasAnalysis
+                  ? const Color(0xFF7B61FF).withOpacity(0.07)
+                  : isTodayDue
+                      ? const Color(0xFFFF9800).withOpacity(0.10)
+                      : Colors.black.withOpacity(0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -152,41 +188,76 @@ class TaskCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (isDelayed)
+              // 왼쪽 상태 도트
+              if (isDelayed || isTodayDue)
                 Container(
                   width: 8,
                   height: 8,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEF5350),
-                    shape: BoxShape.circle,
-                  ),
-                )
-              else if (isTodayDue)
-                Container(
-                  width: 8,
-                  height: 8,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFFF9800),
+                  margin: const EdgeInsets.only(right: 12, top: 4),
+                  decoration: BoxDecoration(
+                    color: dotColor,
                     shape: BoxShape.circle,
                   ),
                 ),
+              // 제목 + 부가 정보
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       task.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: isTodayDue
-                            ? const Color(0xFF1A1A2E)
-                            : const Color(0xFF1A1A2E),
+                        color: Color(0xFF1A1A2E),
                       ),
                     ),
+                    // 분석 완료: causeSummary 한 줄 표시
+                    if (hasAnalysis) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        task.analysis!.causeSummary,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF7B61FF),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    // 소태스크 진행률
+                    if (subtaskTotal > 0) ...[
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          ...List.generate(
+                            subtaskTotal,
+                            (i) => Container(
+                              width: 20,
+                              height: 4,
+                              margin: const EdgeInsets.only(right: 3),
+                              decoration: BoxDecoration(
+                                color: i < subtaskDone
+                                    ? const Color(0xFF43A047)
+                                    : const Color(0xFFE0E0E0),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            '$subtaskDone/$subtaskTotal',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF9E9EAE),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                     if (task.dueDate != null) ...[
                       const SizedBox(height: 4),
                       Row(
@@ -196,23 +267,27 @@ class TaskCard extends StatelessWidget {
                                 ? Icons.access_alarm
                                 : Icons.calendar_today_outlined,
                             size: 11,
-                            color: isDelayed
-                                ? const Color(0xFFEF5350)
-                                : isTodayDue
-                                    ? const Color(0xFFE65100)
-                                    : const Color(0xFF9E9EAE),
+                            color: hasAnalysis
+                                ? const Color(0xFF9E9EAE)
+                                : isDelayed
+                                    ? const Color(0xFFEF5350)
+                                    : isTodayDue
+                                        ? const Color(0xFFE65100)
+                                        : const Color(0xFF9E9EAE),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             _formatDueDate(daysLeft, task.dueDate!),
                             style: TextStyle(
                               fontSize: 12,
-                              color: isDelayed
-                                  ? const Color(0xFFEF5350)
-                                  : isTodayDue
-                                      ? const Color(0xFFE65100)
-                                      : const Color(0xFF9E9EAE),
-                              fontWeight: (isDelayed || isTodayDue)
+                              color: hasAnalysis
+                                  ? const Color(0xFF9E9EAE)
+                                  : isDelayed
+                                      ? const Color(0xFFEF5350)
+                                      : isTodayDue
+                                          ? const Color(0xFFE65100)
+                                          : const Color(0xFF9E9EAE),
+                              fontWeight: (!hasAnalysis && (isDelayed || isTodayDue))
                                   ? FontWeight.w600
                                   : FontWeight.normal,
                             ),
@@ -223,7 +298,33 @@ class TaskCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isDelayed)
+              const SizedBox(width: 8),
+              // 오른쪽 배지
+              if (hasAnalysis)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF7B61FF).withOpacity(0.10),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.check_circle_outline,
+                          size: 12, color: Color(0xFF7B61FF)),
+                      SizedBox(width: 3),
+                      Text(
+                        '분석완료',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF7B61FF),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else if (isDelayed)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(

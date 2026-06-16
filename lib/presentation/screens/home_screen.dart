@@ -313,27 +313,50 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _taskChip(Task task) {
+    final hasAnalysis = task.analysis != null;
+    final Color chipColor;
+    final Color textColor;
+
+    if (hasAnalysis) {
+      chipColor = const Color(0xFF7B61FF).withOpacity(0.12);
+      textColor = const Color(0xFF7B61FF);
+    } else if (task.isDelayed) {
+      chipColor = const Color(0xFFEF5350).withOpacity(0.12);
+      textColor = const Color(0xFFEF5350);
+    } else {
+      chipColor = const Color(0xFF3F51B5).withOpacity(0.10);
+      textColor = const Color(0xFF3F51B5);
+    }
+
     return Container(
       margin: const EdgeInsets.only(top: 2, left: 2, right: 2),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: task.isDelayed
-            ? const Color(0xFFEF5350).withOpacity(0.12)
-            : const Color(0xFF3F51B5).withOpacity(0.10),
+        color: chipColor,
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Text(
-        task.title,
-        style: TextStyle(
-          fontSize: 9,
-          color: task.isDelayed
-              ? const Color(0xFFEF5350)
-              : const Color(0xFF3F51B5),
-          fontWeight: FontWeight.w500,
-        ),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (hasAnalysis)
+            Padding(
+              padding: const EdgeInsets.only(right: 2),
+              child: Icon(Icons.check_circle, size: 8, color: textColor),
+            ),
+          Expanded(
+            child: Text(
+              task.title,
+              style: TextStyle(
+                fontSize: 9,
+                color: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          ),
+        ],
       ),
     );
   }
