@@ -247,6 +247,37 @@
     .wc-done { background:rgba(74,222,128,.12); color:var(--green); font-weight:700; }
     .wc-ms   { color:var(--amber); font-weight:900; font-family:'JetBrains Mono',monospace; }
 
+    /* ── 사용자 시나리오 ────────────────────────────────── */
+    .scenario-timeline { display:flex; flex-direction:column; gap:8px; }
+    .scenario-step {
+      display:flex; align-items:flex-start; gap:14px;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:8px; padding:10px 14px; font-size:.78em;
+    }
+    .scenario-icon { font-size:1.4em; flex-shrink:0; width:30px; text-align:center; }
+    .scenario-text p { margin:2px 0 0; color:var(--muted); font-size:.9em; }
+
+    /* ── 아키텍처 레이어 다이어그램 ─────────────────────── */
+    .layer-diagram { display:flex; flex-direction:column; gap:5px; margin:10px 0; }
+    .arch-layer-box {
+      display:flex; align-items:center; gap:14px;
+      border-radius:8px; padding:10px 16px;
+    }
+    .arch-layer-box.pres { background:rgba(56,189,248,.10); border:1px solid rgba(56,189,248,.4); }
+    .arch-layer-box.app  { background:rgba(74,222,128,.08); border:1px solid rgba(74,222,128,.35); }
+    .arch-layer-box.dom  { background:rgba(251,146,60,.08); border:1px solid rgba(251,146,60,.35); }
+    .arch-layer-box.dat  { background:rgba(167,139,250,.10); border:1px solid rgba(167,139,250,.35); }
+    .arch-layer-name { font-weight:900; font-size:.82em; white-space:nowrap; min-width:145px; }
+    .pres .arch-layer-name { color:var(--cyan); }
+    .app  .arch-layer-name { color:var(--green); }
+    .dom  .arch-layer-name { color:var(--amber); }
+    .dat  .arch-layer-name { color:var(--purple); }
+    .arch-layer-detail { font-size:.72em; color:var(--muted); line-height:1.5; }
+    .arch-arrow-row {
+      text-align:center; color:var(--border); font-size:.75em;
+      font-family:'JetBrains Mono',monospace; line-height:1; padding:0 16px;
+    }
+
     /* ── 에이전트 칩 ────────────────────────────────────── */
     .chip-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
     .chip {
@@ -282,9 +313,41 @@
           <span class="cover-tag">Provider</span>
           <span class="cover-tag">Sub-Agent × 5</span>
         </div>
-        <p class="cover-meta">신혜지 &nbsp;·&nbsp; Shingu College &nbsp;·&nbsp; 2026.06.16</p>
+        <p class="cover-meta">신혜지 &nbsp;·&nbsp; Shingu College &nbsp;·&nbsp; 2026.06.22</p>
       </div>
       <aside class="notes">안녕하세요. 미루는 태스크를 AI가 분석해주는 앱, Delay Detective를 개발한 신혜지입니다.</aside>
+    </section>
+
+    <!-- 비전 제시 ────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>비전 제시</h2>
+      <div class="callout" style="font-size:1.05em; margin-bottom:18px;">
+        <strong style="color:var(--cyan);">"미루는 사람을 탓하지 말자 — AI가 먼저 물어봐주면 된다"</strong>
+      </div>
+      <div class="grid3" style="margin-bottom:16px;">
+        <div class="stat-card"><div class="stat-num">92%</div><div class="stat-label">사람들이 미루기를 경험한다</div></div>
+        <div class="stat-card"><div class="stat-num">0개</div><div class="stat-label">왜 미루는지 물어보는 앱</div></div>
+        <div class="stat-card"><div class="stat-num">15분</div><div class="stat-label">첫 소태스크의 목표 시간</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card cyan-top">
+          <p style="font-weight:700; color:var(--cyan); margin-bottom:6px;">🎯 타겟 사용자</p>
+          <ul>
+            <li>할일은 알지만 시작을 못 하는 사람</li>
+            <li>할일 앱은 쓰지만 매번 미루는 사람</li>
+            <li>혼자서 일을 쪼개기 어려운 사람</li>
+          </ul>
+        </div>
+        <div class="card amber-top">
+          <p style="font-weight:700; color:var(--amber); margin-bottom:6px;">💡 핵심 가치</p>
+          <ul>
+            <li>판단이 아니라 <strong>공감</strong>으로 시작</li>
+            <li>알림이 아니라 <strong>대화</strong>로 해결</li>
+            <li>의지력이 아니라 <strong>구조</strong>로 실행</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="notes">이 앱의 비전은 단순합니다. 미루는 사람을 탓하지 않고, AI가 먼저 왜 못 시작하는지 물어봐주는 것입니다.</aside>
     </section>
 
     <!-- 2. 문제 정의 ─────────────────────────────────────── -->
@@ -341,6 +404,49 @@
       <aside class="notes">인터뷰는 Claude API로 3턴 고정이라 비용 예측이 가능합니다.</aside>
     </section>
 
+    <!-- 사용자 시나리오 ─────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>사용자 시나리오 기반 시연</h2>
+      <div style="display:flex; gap:16px; align-items:flex-start;">
+        <div class="card" style="min-width:150px; text-align:center; padding:16px 12px; flex-shrink:0;">
+          <div style="font-size:2.2em;">👩‍💻</div>
+          <p style="font-weight:700; color:var(--cyan); margin:6px 0 2px;">혜지 (22세)</p>
+          <p style="font-size:.70em; color:var(--muted); line-height:1.5;">발표 준비를<br>자꾸 미루는 대학생</p>
+        </div>
+        <div class="scenario-timeline" style="flex:1;">
+          <div class="scenario-step">
+            <div class="scenario-icon">📋</div>
+            <div class="scenario-text">
+              <strong style="color:var(--text);">할일 등록</strong> — "발표 자료 만들기" 마감일 설정
+              <p>앱에 태스크 추가, 기한을 이틀 뒤로 설정</p>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-icon">🔥</div>
+            <div class="scenario-text">
+              <strong style="color:var(--red);">마감 초과 감지</strong> — 기한이 지난 태스크 자동 표시
+              <p>앱이 불꽃 배지로 강조, "아직 시작 못 했나요?" 알림</p>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-icon">💬</div>
+            <div class="scenario-text">
+              <strong style="color:var(--amber);">AI 인터뷰</strong> — Claude: "이 태스크를 미룬 이유가 뭔가요?"
+              <p>혜지: "어디서부터 시작해야 할지 모르겠어요" → 원인: 시작점 불명확</p>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-icon">✅</div>
+            <div class="scenario-text">
+              <strong style="color:var(--green);">소태스크 생성</strong> — 15분짜리 3개로 분해
+              <p>☐ 목차만 잡기 &nbsp; ☐ 첫 장 초안 쓰기 &nbsp; ☐ 자료 1개 찾기</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">이 시나리오가 바로 다음 슬라이드 데모에서 실제로 보여드릴 흐름입니다.</aside>
+    </section>
+
     <!-- 4. 데모 ──────────────────────────────────────────── -->
     <section data-background-color="#0F172A">
       <h2>데모 시연</h2>
@@ -392,7 +498,7 @@
             <th style="width:68px">W11<br>05/18</th>
             <th style="width:68px">W12<br>06/01</th>
             <th style="width:68px">W13<br>06/08</th>
-            <th style="width:68px">W14<br>06/16</th>
+            <th style="width:68px">W14<br>06/22</th>
           </tr>
         </thead>
         <tbody>
@@ -555,18 +661,28 @@
     <!-- 7. 아키텍처 ──────────────────────────────────────── -->
     <section data-background-color="#0F172A">
       <h2>아키텍처 — 4-레이어 구조</h2>
-      <div class="code-block"><span class="hl">lib/</span>
-├── <span class="hl">presentation/</span>   ← UI 화면 9개, 위젯
-│     screens/: Home, AddTask, Interview, AnalysisResult,
-│               History, Stats, Login, Splash, TaskList
-├── <span class="hl">application/</span>    ← Provider (TaskProvider, AuthProvider, SyncProvider)
-├── <span class="hl">domain/</span>         ← Task, SubTask, DelayAnalysis 모델, Enum
-└── <span class="hl">data/</span>
-      local/    → <span class="hl-g">HiveService</span>      (오프라인 CRUD)
-      remote/   → <span class="hl-g">FirestoreService</span>  (클라우드 동기화)
-                  <span class="hl-g">AIService</span>         (Claude API 호출)
-      sync/     → <span class="hl-g">SyncService</span>       (sync_queue 패턴)</div>
-      <div class="callout" style="font-size:.75em;">
+      <div class="layer-diagram">
+        <div class="arch-layer-box pres">
+          <div class="arch-layer-name">🎨 Presentation</div>
+          <div class="arch-layer-detail">HomeScreen · AddTask · Interview · AnalysisResult · History · Stats · Login · Splash · TaskList</div>
+        </div>
+        <div class="arch-arrow-row">↓ &nbsp;액션 전달</div>
+        <div class="arch-layer-box app">
+          <div class="arch-layer-name">⚙️ Application</div>
+          <div class="arch-layer-detail">TaskProvider · AuthProvider · SyncProvider &nbsp;(ChangeNotifier 기반 상태 관리)</div>
+        </div>
+        <div class="arch-arrow-row">↓ &nbsp;모델 참조 &nbsp;&nbsp; ↑ &nbsp;도메인 구현</div>
+        <div class="arch-layer-box dom">
+          <div class="arch-layer-name">📦 Domain</div>
+          <div class="arch-layer-detail">Task · SubTask · DelayAnalysis · DelayCategory &nbsp;(외부 의존 없음 — 순수 Dart)</div>
+        </div>
+        <div class="arch-arrow-row">↑ &nbsp;implements</div>
+        <div class="arch-layer-box dat">
+          <div class="arch-layer-name">💾 Data</div>
+          <div class="arch-layer-detail">HiveService (로컬) · FirestoreService (클라우드) · AIService (Claude API) · SyncService (sync_queue)</div>
+        </div>
+      </div>
+      <div class="callout" style="font-size:.74em; margin-top:8px;">
         의존성 방향: Presentation → Application → Domain ← Data &nbsp;·&nbsp; ADR-0001 참고
       </div>
       <aside class="notes">클린 아키텍처의 4-레이어를 적용했습니다. Domain 레이어는 외부에 의존하지 않습니다.</aside>
@@ -591,6 +707,45 @@
   google_sign_in      <span class="hl-a">// Android: 네이티브 계정 선택</span>
 }</div>
       <aside class="notes">오프라인에서 변경한 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해서 더 최신 데이터를 선택합니다.</aside>
+    </section>
+
+    <!-- 개발 환경 설정 & 설치 가이드 ─────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>개발 환경 설정 & GitHub 설치 가이드</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">개발 환경</p>
+          <table>
+            <thead><tr><th>도구</th><th>용도</th></tr></thead>
+            <tbody>
+              <tr><td>Flutter 3.x</td><td>크로스 플랫폼 앱 개발</td></tr>
+              <tr><td>Firebase CLI</td><td><code>flutterfire configure</code></td></tr>
+              <tr><td>Android Studio</td><td>USB 디버깅, AVD 에뮬레이터</td></tr>
+              <tr><td>VS Code</td><td>Flutter 확장, GitHub Copilot</td></tr>
+              <tr><td>Claude Code</td><td>서브에이전트 5종 운용</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">설치 가이드</p>
+          <div class="code-block"><span class="hl-a"># 1. 저장소 클론</span>
+git clone https://github.com/hyeji203/delay-detective
+cd delay-detective
+
+<span class="hl-a"># 2. 패키지 설치</span>
+flutter pub get
+
+<span class="hl-a"># 3. Firebase 연결</span>
+flutterfire configure
+
+<span class="hl-a"># 4. 웹 실행 (OAuth 포트 고정)</span>
+flutter run -d chrome <span class="hl">--web-port 5000</span>
+
+<span class="hl-a"># 5. Android 실행</span>
+flutter run -d &lt;device-id&gt;</div>
+        </div>
+      </div>
+      <aside class="notes">웹 실행 시 --web-port 5000 고정이 핵심입니다. Google OAuth가 이 포트를 허용 목록에 등록했기 때문입니다.</aside>
     </section>
 
     <!-- 9. 시행착오 ──────────────────────────────────────── -->
@@ -627,6 +782,36 @@
         </tbody>
       </table>
       <aside class="notes">특히 웹과 모바일의 Google 로그인 방식이 달라서 kIsWeb으로 분기해야 했던 것이 가장 배움이 컸습니다.</aside>
+    </section>
+
+    <!-- 성능 최적화 & 코드 품질 ─────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>성능 최적화 & 코드 품질</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">⚡ 성능 최적화</p>
+          <div class="card cyan-top">
+            <ul>
+              <li><strong>Hive</strong> — RAM 수준 읽기, SQLite 대비 빠른 응답</li>
+              <li><strong>Provider 범위 최소화</strong> — 불필요한 위젯 리빌드 방지</li>
+              <li><strong>Firestore Future 우선</strong> — 리스너 최소화, 실시간 비용 절감</li>
+              <li><strong>릴리즈 APK 49.9MB</strong> — 이미지 없이 아이콘 폰트만 사용</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">🛡️ 코드 품질</p>
+          <div class="card cyan-top">
+            <ul>
+              <li><strong>4-레이어 아키텍처</strong> — 관심사 분리, 단방향 의존성</li>
+              <li><strong>ChangeNotifierProxyProvider</strong> — uid 변경 시 Provider 자동 재생성</li>
+              <li><strong>analysis_options.yaml</strong> — Flutter 공식 린트 규칙 적용</li>
+              <li><strong>민감 정보 보호</strong> — keystore, .env 전부 .gitignore 처리</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">성능 측면에서 Hive가 핵심입니다. 오프라인 우선이라 네트워크 상태와 관계없이 즉각 반응합니다.</aside>
     </section>
 
     <!-- 10. 테스트 & 배포 ───────────────────────────────── -->
@@ -757,6 +942,39 @@ firebase deploy --only hosting</div>
         </div>
       </div>
       <aside class="notes">가장 힘들었던 건 웹과 Android의 Google 로그인 차이였습니다. 직접 코드를 읽고 kIsWeb 분기를 작성했고, 이 경험이 플랫폼 차이에 대한 이해를 가장 높여줬습니다.</aside>
+    </section>
+
+    <!-- 활용 방안 & 향후 발전 방향 ─────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>활용 방안 & 향후 발전 방향</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-weight:700; color:var(--green); font-size:.82em; margin-bottom:8px;">✅ 현재 활용 가능</p>
+          <div class="card green-top">
+            <ul>
+              <li>개인 할일 관리 + AI 미루기 원인 분석</li>
+              <li>오프라인 환경에서도 완전 동작 (Hive)</li>
+              <li>웹(Chrome) + Android 멀티 플랫폼</li>
+              <li>Google 계정 하나로 기기 간 자동 동기화</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--amber); font-size:.82em; margin-bottom:8px;">🚀 향후 발전 방향</p>
+          <div class="card amber-top">
+            <ul>
+              <li>iOS 지원 (TestFlight 배포)</li>
+              <li>FCM 푸시 알림 (마감 D-1 알림)</li>
+              <li>미루기 패턴 장기 통계 + AI 인사이트 대시보드</li>
+              <li>Notion / GitHub 연동 → 소태스크 자동 이슈 생성</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px; font-size:.78em;">
+        💡 AUTHORING.hyeji.md 단일 파일 부트스트랩 방식 → 다음 프로젝트에도 그대로 재사용 가능
+      </div>
+      <aside class="notes">현재는 웹과 Android 두 플랫폼에서 사용 가능합니다. 가장 먼저 추가하고 싶은 기능은 FCM 푸시 알림으로, 마감 하루 전에 자동으로 알려주는 기능입니다.</aside>
     </section>
 
     <!-- 14. 가산점 ───────────────────────────────────────── -->
