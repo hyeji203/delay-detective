@@ -7,151 +7,233 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
+    /* ── 팔레트 ─────────────────────────────────────────── */
     :root {
-      --c-primary: #1F3864;
-      --c-accent:  #2E75B6;
-      --c-green:   #5BA545;
-      --c-orange:  #ED7D31;
-      --c-red:     #C00000;
-      --c-light:   #F0F6FF;
+      --bg:      #0F172A;
+      --surface: #1E293B;
+      --border:  #334155;
+      --cyan:    #38BDF8;
+      --amber:   #FB923C;
+      --green:   #4ADE80;
+      --red:     #F87171;
+      --purple:  #A78BFA;
+      --text:    #F1F5F9;
+      --muted:   #94A3B8;
     }
-    .reveal { font-family: 'Noto Sans KR', -apple-system, sans-serif; }
-    .reveal .slides section { text-align: left; box-sizing: border-box; }
+
+    /* ── 전역 ───────────────────────────────────────────── */
+    .reveal {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .reveal .slides section {
+      text-align: left;
+      box-sizing: border-box;
+      padding: 0 10px;
+    }
+    .reveal .progress span { background: var(--cyan); }
+    .reveal .controls button { color: var(--cyan); }
+    .reveal .slide-number { color: var(--muted); font-size: .6em; }
+
+    /* ── 헤더 ───────────────────────────────────────────── */
     .reveal h2 {
-      font-size: 1.15em; font-weight: 900; color: var(--c-primary);
-      border-bottom: 3px solid var(--c-accent);
-      padding-bottom: 4px; margin-bottom: 10px;
+      font-size: 1.1em; font-weight: 900;
+      color: var(--cyan); text-transform: none; letter-spacing: 0;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
     }
-    .reveal p  { font-size: 0.80em; margin: 0.35em 0; }
-    .reveal ul, .reveal ol { font-size: 0.80em; }
-    .reveal li { margin: 4px 0; }
-    .reveal code { font-size: 0.85em; }
-    .reveal pre  { font-size: 0.72em; }
+    .reveal h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px; height: 1.1em;
+      background: var(--cyan);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
 
-    /* ── Cover ──────────────────────────────────────────── */
-    .reveal .slides section.cover h1 {
-      color:#fff; font-size:2.4em; font-weight:900;
-      text-shadow:0 3px 14px rgba(0,0,0,.35); margin-bottom:.15em;
+    .reveal p  { font-size: .80em; margin: .35em 0; color: var(--text); }
+    .reveal ul, .reveal ol { font-size: .80em; color: var(--text); }
+    .reveal li { margin: 5px 0; }
+
+    /* ── 커버 ───────────────────────────────────────────── */
+    .cover-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%; text-align: center;
+      padding: 0 40px;
     }
-    .cover-sub  { font-size:1.0em; color:rgba(255,255,255,.92); margin:.2em 0 1em; }
+    .cover-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72em; color: var(--cyan);
+      letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .cover-title {
+      font-size: 3em; font-weight: 900; line-height: 1.1;
+      color: var(--text); margin: 0 0 8px;
+    }
+    .cover-title span { color: var(--cyan); }
+    .cover-sub { font-size: .9em; color: var(--muted); margin: 0 0 28px; }
     .cover-quote {
-      font-size:.95em; font-style:italic; color:rgba(255,255,255,.85);
-      background:rgba(255,255,255,.12); border-left:4px solid rgba(255,255,255,.5);
-      padding:10px 20px; border-radius:0 8px 8px 0; margin:1em auto; max-width:80%;
+      font-size: .88em; color: var(--text);
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: 10px; padding: 14px 28px;
+      margin-bottom: 28px; max-width: 620px;
     }
-    .cover-tags { display:flex; gap:9px; flex-wrap:wrap; justify-content:center; margin:1em 0; }
-    .cover-tag  {
-      background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.45);
-      border-radius:20px; padding:4px 15px; font-size:.76em; color:#fff;
+    .cover-tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+    .cover-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65em; color: var(--cyan);
+      border: 1px solid var(--cyan); border-radius: 4px;
+      padding: 3px 10px; opacity: .85;
     }
-    .cover-meta { font-size:.76em; color:rgba(255,255,255,.62); margin-top:1em; }
+    .cover-meta { font-size: .70em; color: var(--muted); }
 
-    /* ── Common boxes ───────────────────────────────────── */
-    .hbox {
-      background:var(--c-light); border:1.5px solid #4472C4;
-      border-radius:9px; padding:11px 16px; font-size:.80em; line-height:1.7;
+    /* ── カード ─────────────────────────────────────────── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 18px;
+      font-size: .80em; line-height: 1.7;
     }
-    .vision-pill {
-      background:var(--c-light); border-left:5px solid var(--c-accent);
-      border-radius:0 8px 8px 0; padding:10px 18px;
-      font-size:.85em; font-weight:700; color:var(--c-primary); margin-top:10px;
+    .card.cyan-top  { border-top: 3px solid var(--cyan); }
+    .card.amber-top { border-top: 3px solid var(--amber); }
+    .card.green-top { border-top: 3px solid var(--green); }
+    .card.red-top   { border-top: 3px solid var(--red); }
+
+    /* ── 그리드 ─────────────────────────────────────────── */
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 10px 0; }
+    .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
+
+    /* ── 하이라이트 박스 ────────────────────────────────── */
+    .callout {
+      background: rgba(56,189,248,.08);
+      border-left: 4px solid var(--cyan);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 16px; font-size: .82em; margin: 10px 0;
+      color: var(--text);
     }
+    .callout.amber { background: rgba(251,146,60,.08); border-left-color: var(--amber); }
+    .callout.green { background: rgba(74,222,128,.08); border-left-color: var(--green); }
 
-    /* ── Compare grid ───────────────────────────────────── */
-    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0; }
-    .cbox { border-radius:10px; padding:12px 16px; font-size:.78em; }
-    .cbox.old { background:#FFF0F0; border:2px solid #E07070; }
-    .cbox.new { background:#F0FFF4; border:2px solid var(--c-green); }
-    .cbox h4  { margin:0 0 7px; font-size:.86em; text-transform:uppercase; letter-spacing:.5px; }
-    .cbox.old h4 { color:var(--c-red); }
-    .cbox.new h4 { color:var(--c-green); }
-    .cbox ul { margin:0; padding-left:15px; }
-    .cbox li { margin:3px 0; line-height:1.5; }
+    /* ── 테이블 ─────────────────────────────────────────── */
+    .reveal table { font-size: .74em; width: 100%; border-collapse: collapse; margin: 8px 0; }
+    .reveal table th {
+      background: var(--surface); color: var(--cyan);
+      padding: 7px 12px; text-align: left;
+      border-bottom: 2px solid var(--cyan);
+      font-weight: 700;
+    }
+    .reveal table td {
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top; line-height: 1.5; color: var(--text);
+    }
+    .reveal table td:first-child { color: var(--cyan); font-weight: 700; white-space: nowrap; }
+    .reveal table tr:last-child td { border-bottom: none; }
 
-    /* ── Flow ───────────────────────────────────────────── */
-    .flow-row { display:flex; align-items:center; justify-content:center; gap:6px; margin:16px 0 14px; }
-    .flow-step { display:flex; flex-direction:column; align-items:center; gap:7px; }
+    /* ── 플로우 ─────────────────────────────────────────── */
+    .flow-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 18px 0; }
+    .flow-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .flow-icon {
-      width:60px; height:60px; border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      font-size:1.5em; color:#fff; font-weight:900;
-      box-shadow:0 4px 14px rgba(0,0,0,.15);
+      width: 64px; height: 64px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5em;
     }
-    .fi1{background:var(--c-red);} .fi2{background:var(--c-orange);} .fi3{background:var(--c-green);}
-    .flow-label { font-size:.7em; font-weight:700; text-align:center; color:var(--c-primary); line-height:1.4; }
-    .flow-arrow { font-size:1.8em; color:#bbb; flex-shrink:0; margin:0 4px 18px; }
+    .fi1 { background: rgba(248,113,113,.15); border: 2px solid var(--red); }
+    .fi2 { background: rgba(251,146,60,.15); border: 2px solid var(--amber); }
+    .fi3 { background: rgba(74,222,128,.15); border: 2px solid var(--green); }
+    .flow-label { font-size: .68em; font-weight: 700; text-align: center; color: var(--text); line-height: 1.4; }
+    .flow-arrow { font-size: 1.4em; color: var(--border); flex-shrink: 0; margin-bottom: 20px; }
 
-    /* ── Tables ─────────────────────────────────────────── */
-    .reveal table { font-size:.74em; width:100%; border-collapse:collapse; margin:8px 0; }
-    .reveal table th { background:var(--c-primary); color:#fff; padding:6px 10px; text-align:left; }
-    .reveal table td { padding:5px 10px; border:1px solid #DDD; vertical-align:top; line-height:1.5; }
-    .reveal table tr:nth-child(even) td { background:#F7F9FF; }
-    .reveal table td:first-child { font-weight:700; color:var(--c-primary); white-space:nowrap; }
-
-    /* ── Bug table ──────────────────────────────────────── */
-    .bug-table th:nth-child(2), .bug-table td:nth-child(2) { white-space:normal; }
-    .bug-table td:first-child { white-space:nowrap; color:#C00; font-weight:700; }
-
-    /* ── Agent chips ────────────────────────────────────── */
-    .agent-bar { margin-top:12px; font-size:.74em; color:#666; display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
-    .achip {
-      background:#EEF3FF; border:1px solid var(--c-accent);
-      border-radius:13px; padding:2px 11px; color:var(--c-primary); font-weight:700;
+    /* ── 코드 박스 ──────────────────────────────────────── */
+    .code-block {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020817; border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 18px;
+      font-size: .68em; line-height: 1.8; color: #CBD5E1;
+      white-space: pre; overflow: hidden; margin: 8px 0;
     }
+    .code-block .hl { color: var(--cyan); }
+    .code-block .hl-g { color: var(--green); }
+    .code-block .hl-a { color: var(--amber); }
+    .reveal pre  { background: #020817; border: 1px solid var(--border); border-radius: 8px; font-size: .68em; }
+    .reveal code { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-size: .88em; }
 
-    /* ── Badge ──────────────────────────────────────────── */
+    /* ── 배지 ───────────────────────────────────────────── */
     .badge {
-      display:inline-block; border-radius:5px; padding:1px 8px;
-      font-size:.78em; font-weight:700; vertical-align:middle;
+      display: inline-block; border-radius: 4px; padding: 2px 8px;
+      font-size: .72em; font-weight: 700; vertical-align: middle;
+      font-family: 'JetBrains Mono', monospace;
     }
-    .badge.done  { background:var(--c-green); color:#fff; }
-    .badge.bonus { background:#7B2FBE; color:#fff; }
-    .badge.warn  { background:var(--c-orange); color:#fff; }
+    .badge.done   { background: rgba(74,222,128,.2); color: var(--green); border: 1px solid var(--green); }
+    .badge.bonus  { background: rgba(167,139,250,.2); color: var(--purple); border: 1px solid var(--purple); }
+    .badge.num    { background: rgba(56,189,248,.15); color: var(--cyan); border: 1px solid var(--cyan); }
 
-    /* ── Bonus grid ─────────────────────────────────────── */
-    .bonus-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px; }
-    .bonus-card {
-      background:linear-gradient(135deg,#F0F4FF,#E8F0FF);
-      border:2px solid var(--c-accent); border-radius:12px; padding:14px 18px;
-      font-size:.78em;
+    /* ── 스탯 카드 ──────────────────────────────────────── */
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px; text-align: center;
     }
-    .bonus-card h4 { margin:0 0 6px; color:var(--c-primary); font-size:.95em; }
-    .bonus-card p  { margin:2px 0; color:#444; }
+    .stat-num { font-size: 2em; font-weight: 900; color: var(--cyan); line-height: 1; }
+    .stat-label { font-size: .70em; color: var(--muted); margin-top: 4px; }
 
-    /* ── Retro ──────────────────────────────────────────── */
-    .retro-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:10px; }
-    .retro-card { border-radius:10px; padding:12px 15px; font-size:.76em; line-height:1.6; }
-    .retro-card.good { background:#F0FFF4; border:2px solid var(--c-green); }
-    .retro-card.hard { background:#FFF4E6; border:2px solid var(--c-orange); }
-    .retro-card.next { background:#F0F6FF; border:2px solid var(--c-accent); }
-    .retro-card h4 { margin:0 0 7px; font-size:.88em; }
-    .retro-card.good h4 { color:var(--c-green); }
-    .retro-card.hard h4 { color:var(--c-orange); }
-    .retro-card.next h4 { color:var(--c-accent); }
-    .retro-card ul { margin:0; padding-left:14px; }
+    /* ── 회고 카드 ──────────────────────────────────────── */
+    .retro-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px; font-size: .76em; line-height: 1.7;
+    }
+    .retro-card h4 { margin: 0 0 8px; font-size: .9em; }
+    .retro-card ul { margin: 0; padding-left: 14px; }
+    .retro-card.good { border-top: 3px solid var(--green); }
+    .retro-card.good h4 { color: var(--green); }
+    .retro-card.hard { border-top: 3px solid var(--amber); }
+    .retro-card.hard h4 { color: var(--amber); }
+    .retro-card.next { border-top: 3px solid var(--purple); }
+    .retro-card.next h4 { color: var(--purple); }
 
-    /* ── Demo video ─────────────────────────────────────── */
-    .demo-video-wrap { display:flex; justify-content:center; margin-top:14px; }
-    .demo-video-wrap video {
-      width:auto; height:auto; max-width:34%; max-height:480px; border-radius:18px;
-      box-shadow:0 6px 24px rgba(0,0,0,.25); background:#000;
+    /* ── 데모 비디오 ────────────────────────────────────── */
+    .demo-wrap { display: flex; justify-content: center; margin-top: 12px; }
+    .demo-wrap video {
+      max-width: 32%; max-height: 460px; border-radius: 20px;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 40px rgba(56,189,248,.15);
     }
 
-    /* ── Arch code box ──────────────────────────────────── */
-    .arch-box {
-      background:#F8F8F8; border:1.5px solid #DDD; border-radius:8px;
-      padding:12px 16px; font-family:monospace; font-size:.72em;
-      line-height:1.7; white-space:pre; margin:8px 0;
+    /* ── 마무리 커버 ────────────────────────────────────── */
+    .end-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%; text-align: center;
     }
-    .arch-note {
-      font-size:.68em; color:#555; margin-top:6px;
-      background:#FAFAFA; border-radius:6px; padding:6px 13px; border:1px solid #DDD;
+    .end-title {
+      font-size: 2.6em; font-weight: 900; color: var(--text); margin-bottom: .3em;
     }
+    .end-title span { color: var(--cyan); }
+    .end-sub { font-size: .88em; color: var(--muted); margin-bottom: 1.2em; }
+    .end-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75em; color: var(--cyan);
+      background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.3);
+      border-radius: 6px; padding: 8px 20px; margin-bottom: 1.5em;
+    }
+
+    /* ── 에이전트 칩 ────────────────────────────────────── */
+    .chip-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
+    .chip {
+      font-size: .70em; font-family: 'JetBrains Mono', monospace;
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 3px 12px; color: var(--muted);
+    }
+    .chip.cyan   { border-color: var(--cyan);   color: var(--cyan); }
+    .chip.amber  { border-color: var(--amber);  color: var(--amber); }
+    .chip.green  { border-color: var(--green);  color: var(--green); }
+    .chip.purple { border-color: var(--purple); color: var(--purple); }
   </style>
 </head>
 <body>
@@ -159,42 +241,42 @@
 <div class="reveal">
   <div class="slides">
 
-    <!-- ① COVER ─────────────────────────────────────────── -->
-    <section
-      class="cover"
-      data-background-gradient="linear-gradient(135deg,#1F3864 0%,#2E75B6 55%,#4472C4 100%)"
-      style="text-align:center">
-      <h1>🔍 Delay Detective</h1>
-      <p class="cover-sub">AI-Powered Procrastination Analyzer</p>
-      <div class="cover-quote">"당신은 왜 오늘도 그 일을 미뤘나요?"</div>
-      <div class="cover-tags">
-        <span class="cover-tag">Flutter</span>
-        <span class="cover-tag">Claude API</span>
-        <span class="cover-tag">Firebase</span>
-        <span class="cover-tag">Hive 오프라인</span>
-        <span class="cover-tag">Provider</span>
-        <span class="cover-tag">서브에이전트 5종</span>
+    <!-- 1. 커버 ─────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <div class="cover-wrap">
+        <div class="cover-label">앱프로그래밍응용 · 최종 발표</div>
+        <h1 class="cover-title">🔍 <span>Delay</span> Detective</h1>
+        <p class="cover-sub">AI-Powered Procrastination Analyzer</p>
+        <div class="cover-quote">
+          "당신은 왜 오늘도 그 일을 미뤘나요?"
+        </div>
+        <div class="cover-tags">
+          <span class="cover-tag">Flutter</span>
+          <span class="cover-tag">Claude API</span>
+          <span class="cover-tag">Firebase</span>
+          <span class="cover-tag">Hive</span>
+          <span class="cover-tag">Provider</span>
+          <span class="cover-tag">Sub-Agent × 5</span>
+        </div>
+        <p class="cover-meta">신혜지 &nbsp;·&nbsp; Shingu College &nbsp;·&nbsp; 2026.06.16</p>
       </div>
-      <p class="cover-meta">신혜지 &nbsp;·&nbsp; 최종 발표 &nbsp;·&nbsp; 2026-06-16</p>
-      <aside class="notes">
-        안녕하세요. 미루는 태스크를 AI가 분석해주는 앱, Delay Detective를 개발한 신혜지입니다.
-      </aside>
+      <aside class="notes">안녕하세요. 미루는 태스크를 AI가 분석해주는 앱, Delay Detective를 개발한 신혜지입니다.</aside>
     </section>
 
-    <!-- ② 문제 & 비전 ─────────────────────────────────────── -->
-    <section>
-      <h2>문제 정의 & 비전</h2>
-      <div class="compare-grid">
-        <div class="cbox old">
-          <h4>❌ 기존 앱의 한계</h4>
+    <!-- 2. 문제 정의 ─────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>문제 정의</h2>
+      <div class="grid2">
+        <div class="card red-top">
+          <p style="font-weight:700; color:var(--red); margin-bottom:8px;">❌ 기존 앱의 한계</p>
           <ul>
             <li>할일 추가 → 알림 → 또 미룸 🔄</li>
             <li>왜 못 시작하는지 아무도 안 물어봄</li>
             <li>마찰(friction)을 해결해주지 않음</li>
           </ul>
         </div>
-        <div class="cbox new">
-          <h4>✅ Delay Detective</h4>
+        <div class="card green-top">
+          <p style="font-weight:700; color:var(--green); margin-bottom:8px;">✅ Delay Detective</p>
           <ul>
             <li>마감 초과 <strong>자동 감지</strong></li>
             <li>AI 인터뷰로 <strong>원인 파악</strong></li>
@@ -202,85 +284,79 @@
           </ul>
         </div>
       </div>
-      <div class="vision-pill">
+      <div class="callout" style="margin-top:14px;">
         💡 미루기는 의지력 문제가 아니라, 태스크가 너무 크거나 막막하기 때문이다.
       </div>
-      <aside class="notes">
-        할일 앱은 많지만 왜 미루는지 알려주는 앱은 없습니다. 저도 발표 준비를 자꾸 미루다가 이 앱을 만들었습니다.
-      </aside>
+      <aside class="notes">할일 앱은 많지만 왜 미루는지 알려주는 앱은 없습니다.</aside>
     </section>
 
-    <!-- ③ 솔루션 흐름 ─────────────────────────────────────── -->
-    <section>
+    <!-- 3. 솔루션 ─────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>솔루션 — 3단계 AI 흐름</h2>
       <div class="flow-row">
         <div class="flow-step">
           <div class="flow-icon fi1">🔴</div>
-          <div class="flow-label">① 감지<br><span style="font-weight:400">마감 초과<br>자동 탐지</span></div>
+          <div class="flow-label">① 감지<br><span style="color:var(--muted); font-weight:400">마감 초과<br>자동 탐지</span></div>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-step">
           <div class="flow-icon fi2">💬</div>
-          <div class="flow-label">② 인터뷰<br><span style="font-weight:400">Claude 3턴<br>원인 파악</span></div>
+          <div class="flow-label">② 인터뷰<br><span style="color:var(--muted); font-weight:400">Claude 3턴<br>원인 파악</span></div>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-step">
           <div class="flow-icon fi3">✅</div>
-          <div class="flow-label">③ 재구성<br><span style="font-weight:400">소태스크 3개<br>15분 단위</span></div>
+          <div class="flow-label">③ 재구성<br><span style="color:var(--muted); font-weight:400">소태스크 3개<br>15분 단위</span></div>
         </div>
       </div>
-      <div class="hbox">
-        <strong>예시:</strong> "발표 자료 만들기"<br>
-        &nbsp;→ ☐ 목차만 잡기 (15분) &nbsp;
-              ☐ 첫 장 초안 쓰기 (15분) &nbsp;
-              ☐ 참고 자료 1개 찾기 (15분)
-      </div>
-      <aside class="notes">
-        감지 → 인터뷰 → 재구성 3단계입니다. 인터뷰는 Claude API로 3턴 고정이라 비용 예측이 가능합니다.
-      </aside>
+      <div class="code-block">"발표 자료 만들기"  →  AI 인터뷰 후 분해
+
+  <span class="hl-g">☐</span> 목차만 잡기          <span class="hl-a">(15분)</span>
+  <span class="hl-g">☐</span> 첫 장 초안 쓰기       <span class="hl-a">(15분)</span>
+  <span class="hl-g">☐</span> 참고 자료 1개 찾기    <span class="hl-a">(15분)</span></div>
+      <aside class="notes">인터뷰는 Claude API로 3턴 고정이라 비용 예측이 가능합니다.</aside>
     </section>
 
-    <!-- ④ 데모 ───────────────────────────────────────────── -->
-    <section>
+    <!-- 4. 데모 ──────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>데모 시연</h2>
-      <div class="demo-video-wrap">
+      <div class="demo-wrap">
         <video controls preload="metadata">
           <source src="demo.webm" type="video/webm">
           <source src="demo.mp4" type="video/mp4">
-          <a href="demo.webm">데모 영상 다운로드</a>
+          <a href="demo.webm" style="color:var(--cyan)">데모 영상 다운로드</a>
         </video>
       </div>
-      <p style="text-align:center; font-size:.72em; color:#666; margin-top:8px;">
-        앱 실행 → Google 로그인 → 할일 추가 → 마감초과 🔥 감지 → AI 인터뷰 3턴 → 소태스크 생성
+      <p style="text-align:center; font-size:.70em; color:var(--muted); margin-top:10px;">
+        Google 로그인 → 할일 추가 → 마감초과 🔥 감지 → AI 인터뷰 3턴 → 소태스크 생성
       </p>
-      <aside class="notes">
-        Google 로그인 후 바로 할일을 추가할 수 있고, 마감이 지난 태스크는 불꽃 표시로 강조됩니다. AI 인터뷰를 시작하면 Claude가 왜 미루는지 물어보고, 소태스크로 분해해줍니다.
-      </aside>
+      <aside class="notes">Google 로그인 후 마감이 지난 태스크는 불꽃 표시로 강조됩니다. AI 인터뷰를 시작하면 Claude가 왜 미루는지 물어보고 소태스크로 분해해줍니다.</aside>
     </section>
 
-    <!-- ⑤ 진행 현황 ─────────────────────────────────────── -->
-    <section>
+    <!-- 5. 진행 현황 ─────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>프로젝트 진행 현황</h2>
+      <div class="grid4" style="margin-bottom:16px;">
+        <div class="stat-card"><div class="stat-num">6주</div><div class="stat-label">총 개발 기간</div></div>
+        <div class="stat-card"><div class="stat-num">9개</div><div class="stat-label">구현 화면</div></div>
+        <div class="stat-card"><div class="stat-num">11개</div><div class="stat-label">단위 테스트 통과</div></div>
+        <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Must 달성률</div></div>
+      </div>
       <table>
-        <thead><tr><th>단계</th><th>주요 산출물</th><th style="text-align:center">상태</th></tr></thead>
+        <thead><tr><th>단계</th><th>주요 산출물</th><th>상태</th></tr></thead>
         <tbody>
-          <tr><td>1. 기획</td><td>비전, 요구사항, WBS, ADR 3개</td><td style="text-align:center"><span class="badge done">✅ 완료</span></td></tr>
-          <tr><td>2. 설계</td><td>4-레이어 아키텍처, Firestore/Hive 스키마</td><td style="text-align:center"><span class="badge done">✅ 완료</span></td></tr>
-          <tr><td>3. 구현</td><td>화면 9개, Firebase, AI 인터뷰, Google 로그인</td><td style="text-align:center"><span class="badge done">✅ 완료</span></td></tr>
-          <tr><td>4. 테스트</td><td>Flutter 단위 11개, Playwright E2E</td><td style="text-align:center"><span class="badge done">✅ 완료</span></td></tr>
-          <tr><td>5. 배포</td><td>웹 빌드, APK 49.9MB, AAB 43MB</td><td style="text-align:center"><span class="badge done">✅ 완료</span></td></tr>
+          <tr><td>기획</td><td>비전, 요구사항, WBS, ADR 3개</td><td><span class="badge done">완료</span></td></tr>
+          <tr><td>설계</td><td>4-레이어 아키텍처, Firestore/Hive 스키마</td><td><span class="badge done">완료</span></td></tr>
+          <tr><td>구현</td><td>화면 9개, Firebase, AI 인터뷰, Google 로그인</td><td><span class="badge done">완료</span></td></tr>
+          <tr><td>테스트</td><td>Flutter 단위 11개, Playwright E2E</td><td><span class="badge done">완료</span></td></tr>
+          <tr><td>배포</td><td>웹 빌드, APK 49.9MB, AAB 43MB</td><td><span class="badge done">완료</span></td></tr>
         </tbody>
       </table>
-      <div class="vision-pill" style="margin-top:14px;">
-        총 6주 개발 (세션 2~6) · Must 100% 달성 · Should 주요 항목 완료
-      </div>
-      <aside class="notes">
-        6주 동안 기획부터 배포까지 모든 단계를 완료했습니다.
-      </aside>
+      <aside class="notes">6주 동안 기획부터 배포까지 모든 단계를 완료했습니다.</aside>
     </section>
 
-    <!-- ⑥ 기술 스택 ─────────────────────────────────────── -->
-    <section>
+    <!-- 6. 기술 스택 ─────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>기술 스택</h2>
       <table>
         <thead><tr><th>계층</th><th>기술</th><th>선택 이유</th></tr></thead>
@@ -289,156 +365,207 @@
           <tr><td>상태 관리</td><td>Provider</td><td>Flutter 공식 권장, 단순하고 예측 가능</td></tr>
           <tr><td>로컬 DB</td><td>Hive</td><td>오프라인 우선, 빠른 읽기/쓰기</td></tr>
           <tr><td>클라우드</td><td>Firebase Firestore</td><td>실시간 동기화, 서버 없이 운영</td></tr>
-          <tr><td>인증</td><td>Firebase Auth (Google)</td><td>안전한 OAuth2, uid 기반 데이터 분리</td></tr>
+          <tr><td>인증</td><td>Firebase Auth (Google)</td><td>OAuth2, uid 기반 사용자 데이터 격리</td></tr>
           <tr><td>AI</td><td>Anthropic API (Claude)</td><td>자연어 인터뷰 & 원인 분석</td></tr>
           <tr><td>테스트</td><td>Flutter Test + Playwright</td><td>단위·E2E 커버리지</td></tr>
         </tbody>
       </table>
-      <aside class="notes">
-        기술 선택의 핵심은 '서버 없이 오프라인도 동작하는 앱'이었습니다.
-      </aside>
+      <aside class="notes">기술 선택의 핵심은 '서버 없이 오프라인도 동작하는 앱'이었습니다.</aside>
     </section>
 
-    <!-- ⑦ 아키텍처 ──────────────────────────────────────── -->
-    <section>
+    <!-- 7. 아키텍처 ──────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>아키텍처 — 4-레이어 구조</h2>
-      <div class="arch-box">lib/
-├── presentation/   ← UI 화면 9개, 위젯
+      <div class="code-block"><span class="hl">lib/</span>
+├── <span class="hl">presentation/</span>   ← UI 화면 9개, 위젯
 │     screens/: Home, AddTask, Interview, AnalysisResult,
 │               History, Stats, Login, Splash, TaskList
-├── application/    ← Provider (TaskProvider, AuthProvider, SyncProvider)
-├── domain/         ← Task, SubTask, DelayAnalysis 모델, Enum
-└── data/
-      local/    → HiveService (오프라인 CRUD)
-      remote/   → FirestoreService, AuthService, AIService
-      sync/     → SyncService (sync_queue 패턴)</div>
-      <div class="arch-note">
-        의존성 방향: Presentation → Application → Domain ← Data &nbsp;·&nbsp;
-        ADR-0001에 Flutter 선택 이유 기록
+├── <span class="hl">application/</span>    ← Provider (TaskProvider, AuthProvider, SyncProvider)
+├── <span class="hl">domain/</span>         ← Task, SubTask, DelayAnalysis 모델, Enum
+└── <span class="hl">data/</span>
+      local/    → <span class="hl-g">HiveService</span>      (오프라인 CRUD)
+      remote/   → <span class="hl-g">FirestoreService</span>  (클라우드 동기화)
+                  <span class="hl-g">AIService</span>         (Claude API 호출)
+      sync/     → <span class="hl-g">SyncService</span>       (sync_queue 패턴)</div>
+      <div class="callout" style="font-size:.75em;">
+        의존성 방향: Presentation → Application → Domain ← Data &nbsp;·&nbsp; ADR-0001 참고
       </div>
-      <aside class="notes">
-        클린 아키텍처의 4-레이어를 적용했습니다. 각 레이어는 한 방향으로만 의존하고, Domain 레이어는 외부에 의존하지 않습니다.
-      </aside>
+      <aside class="notes">클린 아키텍처의 4-레이어를 적용했습니다. Domain 레이어는 외부에 의존하지 않습니다.</aside>
     </section>
 
-    <!-- ⑧ 동기화 구현 ─────────────────────────────────────── -->
-    <section>
+    <!-- 8. 동기화 구현 ───────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>핵심 구현 — 오프라인-온라인 동기화</h2>
-      <div class="arch-box">[오프라인]  사용자 조작 → Hive 저장 → sync_queue에 taskId 추가
-[네트워크 복구]  SyncService.flushQueue() 실행
-              → Hive.updatedAt vs Firestore.updatedAt 비교
-              → 더 최신 데이터 선택 (Last-Write-Wins)</div>
-      <p style="margin:10px 0 4px; font-weight:700; font-size:.82em;">Google 로그인 플랫폼 분기 처리 (<code>kIsWeb</code> 체크)</p>
-      <div class="arch-box">if (kIsWeb) {
-  // 웹: signInWithPopup  (idToken 이슈 우회)
-} else {
-  // 모바일: google_sign_in 패키지  (네이티브 계정 선택)
+      <div class="code-block"><span class="hl-a">[오프라인]</span>  사용자 조작
+         → <span class="hl-g">Hive</span> 즉시 저장
+         → <span class="hl">sync_queue</span>에 taskId 적재
+
+<span class="hl-a">[네트워크 복구]</span>  SyncService.flushQueue()
+         → Hive.updatedAt <span class="hl">vs</span> Firestore.updatedAt 비교
+         → 더 최신 데이터 선택 <span class="hl-g">(Last-Write-Wins)</span></div>
+      <p style="font-size:.80em; font-weight:700; color:var(--cyan); margin:12px 0 4px;">
+        Google 로그인 플랫폼 분기
+      </p>
+      <div class="code-block"><span class="hl">if</span> (kIsWeb) {
+  signInWithPopup()   <span class="hl-a">// 웹: idToken 이슈 우회</span>
+} <span class="hl">else</span> {
+  google_sign_in      <span class="hl-a">// Android: 네이티브 계정 선택</span>
 }</div>
-      <aside class="notes">
-        오프라인에서 변경한 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해서 더 최신 데이터를 선택합니다.
-      </aside>
+      <aside class="notes">오프라인에서 변경한 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해서 더 최신 데이터를 선택합니다.</aside>
     </section>
 
-    <!-- ⑨ 시행착오 ──────────────────────────────────────── -->
-    <section>
-      <h2>구현 시행착오 (해결한 버그 5가지)</h2>
-      <table class="bug-table">
+    <!-- 9. 시행착오 ──────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>해결한 버그 5가지</h2>
+      <table>
         <thead><tr><th>문제</th><th>원인</th><th>해결</th></tr></thead>
         <tbody>
-          <tr><td>Firestore 중복 데이터</td><td>앱 실행마다 offline UID 재생성</td><td>Hive settings 박스로 UID 영속화</td></tr>
-          <tr><td>400: origin_mismatch</td><td>Google OAuth에 localhost 포트 미등록</td><td><code>--web-port 5000</code> 고정, Console 등록</td></tr>
-          <tr><td>웹 로그인 후 화면 안 바뀜</td><td><code>signIn()</code>이 웹에서 idToken 미반환</td><td><code>signInWithPopup()</code>으로 전환</td></tr>
-          <tr><td>Android 로그인 실패</td><td>Firebase에 SHA-1 지문 미등록</td><td>keytool→openssl로 SHA-1 추출, 등록</td></tr>
-          <tr><td>로그아웃 후 Splash 멈춤</td><td>authStateChanges 스트림 응답 지연</td><td>signOut() 전 즉시 <code>notifyListeners()</code></td></tr>
+          <tr>
+            <td style="color:var(--red)">Firestore 중복 데이터</td>
+            <td>앱 실행마다 offline UID 재생성</td>
+            <td>Hive settings 박스로 UID 영속화</td>
+          </tr>
+          <tr>
+            <td style="color:var(--red)">400 origin_mismatch</td>
+            <td>Google OAuth 포트 미등록</td>
+            <td><code>--web-port 5000</code> 고정, Console 등록</td>
+          </tr>
+          <tr>
+            <td style="color:var(--red)">웹 로그인 후 화면 불변</td>
+            <td><code>signIn()</code>이 웹에서 idToken 미반환</td>
+            <td><code>signInWithPopup()</code>으로 전환</td>
+          </tr>
+          <tr>
+            <td style="color:var(--red)">Android 로그인 실패</td>
+            <td>Firebase에 SHA-1 지문 미등록</td>
+            <td>keytool로 SHA-1 추출 후 Console 등록</td>
+          </tr>
+          <tr>
+            <td style="color:var(--red)">로그아웃 후 Splash 멈춤</td>
+            <td>authStateChanges 스트림 지연</td>
+            <td>signOut() 전 즉시 <code>notifyListeners()</code></td>
+          </tr>
         </tbody>
       </table>
-      <aside class="notes">
-        5가지 버그를 실제로 겪고 해결했습니다. 특히 웹과 모바일의 Google 로그인 방식이 달라서 kIsWeb으로 분기해야 했던 것이 가장 배움이 컸습니다.
-      </aside>
+      <aside class="notes">특히 웹과 모바일의 Google 로그인 방식이 달라서 kIsWeb으로 분기해야 했던 것이 가장 배움이 컸습니다.</aside>
     </section>
 
-    <!-- ⑩ 테스트 & 배포 ─────────────────────────────────── -->
-    <section>
-      <h2>테스트 & 코드 품질 & 배포</h2>
-      <table>
-        <thead><tr><th>항목</th><th>내용</th></tr></thead>
-        <tbody>
-          <tr><td>단위 테스트</td><td><code>flutter test</code> → <strong>11개 전체 통과</strong> (shouldBeDelayed 4케이스, 직렬화 왕복, Conflict Resolution)</td></tr>
-          <tr><td>E2E 테스트</td><td>Playwright — login.spec.ts (로그인 화면), navigation.spec.ts (비인증 리다이렉트)</td></tr>
-          <tr><td>빌드</td><td><code>flutter build apk --release</code> (49.9MB) · <code>flutter build appbundle</code> (43MB) · <code>flutter build web</code></td></tr>
-          <tr><td>배포</td><td><code>firebase deploy --only hosting</code> — 웹 퍼블리시</td></tr>
-          <tr><td>보안</td><td>keystore, .env → .gitignore · Firebase Security Rules uid 격리</td></tr>
-        </tbody>
-      </table>
-      <aside class="notes">
-        단위 테스트 11개를 작성했고 모두 통과했습니다. E2E 테스트는 Playwright로 로그인·네비게이션 흐름을 자동화했습니다.
-      </aside>
-    </section>
+    <!-- 10. 테스트 & 배포 ───────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>테스트 & 배포</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">테스트</p>
+          <div class="card">
+            <p><span class="badge done">단위</span> &nbsp;11개 전체 통과</p>
+            <p style="font-size:.82em; color:var(--muted);">shouldBeDelayed 4케이스 · 직렬화 왕복 · Conflict Resolution</p>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <p><span class="badge done">E2E</span> &nbsp;Playwright 자동화</p>
+            <p style="font-size:.82em; color:var(--muted);">login.spec.ts · navigation.spec.ts</p>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">빌드 & 배포</p>
+          <div class="code-block" style="font-size:.64em;">flutter build apk        <span class="hl-a"># 49.9 MB</span>
+flutter build appbundle  <span class="hl-a"># 43 MB</span>
+flutter build web
 
-    <!-- ⑪ ADR ────────────────────────────────────────────── -->
-    <section>
-      <h2>ADR 요약 — 핵심 기술 결정 3가지</h2>
-      <table>
-        <thead><tr><th>ADR</th><th>결정</th><th>이유</th></tr></thead>
-        <tbody>
-          <tr><td>ADR-0001</td><td>Native 대신 <strong>Flutter</strong></td><td>웹+Android 동시 지원, 단일 코드베이스</td></tr>
-          <tr><td>ADR-0002</td><td>Redux 대신 <strong>Provider</strong></td><td>Flutter 공식 권장, 학습 곡선 낮음</td></tr>
-          <tr><td>ADR-0003</td><td>자체 서버 대신 <strong>Firebase+Hive</strong></td><td>서버 개발 없이 오프라인-온라인 동기화 구현</td></tr>
-        </tbody>
-      </table>
-      <div class="hbox" style="margin-top:14px;">
-        <strong>Q:</strong> "왜 Supabase 대신 Firebase를 선택했나요?"<br>
-        <strong>A:</strong> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 다양함 — ADR-0003에 기록
+firebase deploy --only hosting</div>
+          <p style="font-size:.74em; color:var(--muted); margin-top:8px;">
+            보안: keystore, .env → .gitignore<br>
+            Firebase Rules: uid 기반 사용자 격리
+          </p>
+        </div>
       </div>
-      <aside class="notes">
-        모든 기술 결정은 ADR 문서로 남겼습니다. Q&A에서 질문이 오면 ADR 번호로 답변할 수 있습니다.
-      </aside>
+      <aside class="notes">단위 테스트 11개를 작성했고 모두 통과했습니다.</aside>
     </section>
 
-    <!-- ⑫ AI Agent 활용 ─────────────────────────────────── -->
-    <section>
+    <!-- 11. ADR ──────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>ADR — 핵심 기술 결정 3가지</h2>
+      <div class="grid3">
+        <div class="card cyan-top">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--cyan);">ADR-0001</p>
+          <p style="font-weight:700; margin:4px 0 8px;">Flutter 선택</p>
+          <p style="font-size:.78em; color:var(--muted);">Native 대신 → 웹+Android 단일 코드베이스</p>
+        </div>
+        <div class="card cyan-top">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--cyan);">ADR-0002</p>
+          <p style="font-weight:700; margin:4px 0 8px;">Provider 선택</p>
+          <p style="font-size:.78em; color:var(--muted);">Redux 대신 → Flutter 공식 권장, 학습 곡선 낮음</p>
+        </div>
+        <div class="card cyan-top">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--cyan);">ADR-0003</p>
+          <p style="font-weight:700; margin:4px 0 8px;">Firebase + Hive</p>
+          <p style="font-size:.78em; color:var(--muted);">자체 서버 대신 → 오프라인-온라인 동기화</p>
+        </div>
+      </div>
+      <div class="callout amber" style="margin-top:14px; font-size:.78em;">
+        <strong>Q:</strong> "왜 Supabase 대신 Firebase?" &nbsp;
+        <strong>A:</strong> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 → ADR-0003에 기록
+      </div>
+      <aside class="notes">모든 기술 결정은 ADR 문서로 남겼습니다. Q&A에서 질문이 오면 ADR 번호로 답변할 수 있습니다.</aside>
+    </section>
+
+    <!-- 12. AI Agent 활용 ───────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>AI Agent 활용 워크플로우</h2>
-      <table>
-        <thead><tr><th>도구</th><th>역할</th></tr></thead>
-        <tbody>
-          <tr><td>Claude Code</td><td>메인 오케스트레이터 — 통합 조정, 최종 검증</td></tr>
-          <tr><td>서브에이전트 5종</td><td>PM · 백엔드 · 프론트 · QA · AI통합 역할 분리</td></tr>
-          <tr><td>MCP 3개</td><td>Notion(기획), GitHub(이슈), Playwright(E2E)</td></tr>
-        </tbody>
-      </table>
-      <div class="vision-pill" style="margin-top:12px;">
-        💡 나만의 기법 — AUTHORING.hyeji.md 단일 파일 부트스트랩
+      <div class="grid2">
+        <div>
+          <table>
+            <thead><tr><th>도구</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Code</td><td>메인 오케스트레이터</td></tr>
+              <tr><td>서브에이전트 5종</td><td>PM · 백엔드 · 프론트 · QA · AI통합</td></tr>
+              <tr><td>MCP 3개</td><td>Notion · GitHub · Playwright</td></tr>
+            </tbody>
+          </table>
+          <div class="chip-row" style="margin-top:12px;">
+            <span class="chip cyan">product-manager</span>
+            <span class="chip green">backend-architect</span>
+            <span class="chip amber">frontend-developer</span>
+            <span class="chip purple">qa-engineer</span>
+            <span class="chip">ai-integration</span>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--purple); font-size:.82em; margin-bottom:8px;">💡 나만의 기법</p>
+          <div class="card" style="border-top:3px solid var(--purple);">
+            <p style="font-weight:700; margin-bottom:6px;">AUTHORING.hyeji.md 단일 파일 부트스트랩</p>
+            <p style="font-size:.78em; color:var(--muted);">
+              1개 파일 → 5개 에이전트 컨텍스트 공유<br>
+              세션 재시작 = "이 파일 읽어" 한 줄<br>
+              PRD·ADR·WBS·스키마 한 파일에 집결
+            </p>
+          </div>
+          <div class="callout" style="font-size:.74em; margin-top:8px;">
+            📝 LLM Wiki — <code>notes/</code> 폴더, 세션별 5개 파일 축적
+          </div>
+        </div>
       </div>
-      <div class="hbox" style="margin-top:8px; font-size:.76em;">
-        1개 파일로 5개 에이전트의 컨텍스트 공유<br>
-        → 세션 전환 시 "AUTHORING.hyeji.md 읽어" 한 줄로 재시작<br>
-        → PRD·ADR·WBS·스키마가 한 파일 = 에이전트 간 정보 단절 없음<br>
-        → <strong>LLM Wiki</strong> (<code>notes/</code> 폴더): 세션마다 배운 것 기록, 5개 파일 축적
-      </div>
-      <aside class="notes">
-        서브에이전트를 5개 역할로 나눠 팀처럼 운영했습니다. AUTHORING.hyeji.md 한 파일만 읽으면 바로 이어서 개발할 수 있었습니다.
-      </aside>
+      <aside class="notes">서브에이전트를 5개 역할로 나눠 팀처럼 운영했습니다. AUTHORING.hyeji.md 한 파일만 읽으면 바로 이어서 개발할 수 있었습니다.</aside>
     </section>
 
-    <!-- ⑬ 회고 ──────────────────────────────────────────── -->
-    <section>
+    <!-- 13. 회고 ─────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>회고</h2>
-      <div class="retro-grid">
+      <div class="grid3">
         <div class="retro-card good">
           <h4>✅ 잘된 것</h4>
           <ul>
             <li>6주 안에 기획→배포 전 사이클</li>
             <li>Hive+Firestore 오프라인 동기화</li>
             <li>웹·Android 동시 지원</li>
-            <li>서브에이전트 역할 분리로 복잡한 코드도 맥락 없이 인계</li>
+            <li>에이전트 역할 분리로 복잡한 코드도 맥락 없이 인계</li>
           </ul>
         </div>
         <div class="retro-card hard">
           <h4>😤 어려웠던 것</h4>
           <ul>
-            <li>웹·모바일 Google 로그인 방식 차이 (<code>kIsWeb</code> 분기)</li>
-            <li>OAuth <code>origin_mismatch</code> 포트 고정 삽질</li>
-            <li>Android SHA-1 등록 몰라서 2일 막힘</li>
+            <li>웹·모바일 Google 로그인 방식 차이</li>
+            <li>OAuth origin_mismatch 삽질</li>
+            <li>Android SHA-1 등록으로 2일 막힘</li>
           </ul>
         </div>
         <div class="retro-card next">
@@ -450,119 +577,97 @@
           </ul>
         </div>
       </div>
-      <aside class="notes">
-        가장 힘들었던 건 웹과 Android의 Google 로그인 차이였습니다. 직접 코드를 읽고 kIsWeb 분기를 작성했고, 이 경험이 플랫폼 차이에 대한 이해를 가장 높여줬습니다.
-      </aside>
+      <aside class="notes">가장 힘들었던 건 웹과 Android의 Google 로그인 차이였습니다. 직접 코드를 읽고 kIsWeb 분기를 작성했고, 이 경험이 플랫폼 차이에 대한 이해를 가장 높여줬습니다.</aside>
     </section>
 
-    <!-- ⑭ 가산점 ──────────────────────────────────────────── -->
-    <section>
-      <h2>가산점 신청 요약</h2>
-      <div class="bonus-grid">
-        <div class="bonus-card">
-          <h4><span class="badge bonus">A</span> &nbsp;AI Agent 워크플로우 적극 활용</h4>
-          <p>서브에이전트 5종 + MCP 3개</p>
-          <p>증빙: <code>.claude/agents/</code> 5개 파일</p>
+    <!-- 14. 가산점 ───────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <h2>가산점 신청</h2>
+      <div class="grid3">
+        <div class="card" style="border-top:3px solid var(--purple);">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--purple);">항목 A</p>
+          <p style="font-weight:700; margin:4px 0 8px;">AI Agent 워크플로우</p>
+          <p style="font-size:.78em; color:var(--muted);">서브에이전트 5종 + MCP 3개</p>
+          <p style="font-size:.72em; color:var(--border); margin-top:8px;"><code>.claude/agents/</code> 5개 파일</p>
         </div>
-        <div class="bonus-card">
-          <h4><span class="badge bonus">B</span> &nbsp;나만의 기법</h4>
-          <p>AUTHORING.hyeji.md 단일 파일 부트스트랩</p>
-          <p>증빙: <code>AUTHORING.hyeji.md</code></p>
+        <div class="card" style="border-top:3px solid var(--purple);">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--purple);">항목 B</p>
+          <p style="font-weight:700; margin:4px 0 8px;">나만의 기법</p>
+          <p style="font-size:.78em; color:var(--muted);">AUTHORING.hyeji.md 단일 파일 부트스트랩</p>
+          <p style="font-size:.72em; color:var(--border); margin-top:8px;"><code>AUTHORING.hyeji.md</code></p>
         </div>
-        <div class="bonus-card">
-          <h4><span class="badge bonus">C</span> &nbsp;LLM Wiki 운영</h4>
-          <p>세션별 학습 기록 5개 파일</p>
-          <p>증빙: <code>notes/</code> 폴더</p>
-        </div>
-        <div class="bonus-card">
-          <h4>📦 GitHub 저장소</h4>
-          <p style="word-break:break-all; font-size:.85em;">github.com/hyeji203/delay-detective</p>
-          <p>docs/slides-final.md · AUTHORING.hyeji.md · notes/</p>
+        <div class="card" style="border-top:3px solid var(--purple);">
+          <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--purple);">항목 C</p>
+          <p style="font-weight:700; margin:4px 0 8px;">LLM Wiki 운영</p>
+          <p style="font-size:.78em; color:var(--muted);">세션별 학습 기록 5개 파일</p>
+          <p style="font-size:.72em; color:var(--border); margin-top:8px;"><code>notes/</code> 폴더</p>
         </div>
       </div>
-      <aside class="notes">
-        가산점 세 항목 모두 GitHub 저장소에 실제 파일로 증빙됩니다.
-      </aside>
-    </section>
-
-    <!-- ⑮ 마무리 ─────────────────────────────────────────── -->
-    <section
-      class="cover"
-      data-background-gradient="linear-gradient(135deg,#1F3864 0%,#2E75B6 55%,#4472C4 100%)"
-      style="text-align:center">
-      <h1 style="font-size:2.4em; color:#fff; font-weight:900; text-shadow:0 3px 14px rgba(0,0,0,.35); margin-bottom:.4em;">
-        감사합니다
-      </h1>
-      <p style="font-size:.95em; color:rgba(255,255,255,.85); margin-bottom:.5em;">
-        🔍 Delay Detective — AI가 물어봐주면, 미루기가 시작된다
-      </p>
-      <p style="font-size:.80em; color:rgba(255,255,255,.7); margin-bottom:1.5em;">
+      <div class="callout" style="margin-top:14px; font-size:.78em; font-family:'JetBrains Mono',monospace;">
         github.com/hyeji203/delay-detective
-      </p>
-      <p style="font-size:.78em; color:rgba(255,255,255,.55);">신혜지 &nbsp;·&nbsp; Shingu College AI 앱프로그래밍응용 &nbsp;·&nbsp; 2026</p>
+      </div>
+      <aside class="notes">가산점 세 항목 모두 GitHub 저장소에 실제 파일로 증빙됩니다.</aside>
     </section>
 
-    <!-- ── 백업 슬라이드 ──────────────────────────────────── -->
-    <section>
+    <!-- 15. 마무리 ───────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
+      <div class="end-wrap">
+        <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--muted); letter-spacing:3px; margin-bottom:16px;">Q &amp; A</p>
+        <h1 class="end-title">감사합니다 <span>🔍</span></h1>
+        <p class="end-sub">Delay Detective — AI가 물어봐주면, 미루기가 시작된다</p>
+        <div class="end-url">github.com/hyeji203/delay-detective</div>
+        <p style="font-size:.74em; color:var(--muted);">신혜지 &nbsp;·&nbsp; Shingu College AI 앱프로그래밍응용 &nbsp;·&nbsp; 2026</p>
+      </div>
+    </section>
+
+    <!-- ── 백업 ────────────────────────────────────────── -->
+    <section data-background-color="#0F172A">
       <h2>B1. Firestore 데이터 구조</h2>
-      <div class="arch-box">users/{uid}/tasks/{taskId}
-  - id, title, description
-  - dueDate, isCompleted, isDelayed
-  - delayReason, delayCategory
-  - createdAt, updatedAt   ← 동기화 타임스탬프
-  - subTasks: [{id, title, isCompleted}]
+      <div class="code-block"><span class="hl">users/{uid}/tasks/{taskId}</span>
+  id, title, description
+  dueDate, isCompleted, isDelayed
+  delayReason, delayCategory
+  createdAt, <span class="hl-g">updatedAt</span>   <span class="hl-a">← 동기화 타임스탬프</span>
+  subTasks: [{id, title, isCompleted}]
 
-users/{uid}/sync_queue/{taskId}
-  - taskId, action (upsert/delete), timestamp</div>
+<span class="hl">users/{uid}/sync_queue/{taskId}</span>
+  taskId, action (upsert/delete), timestamp</div>
     </section>
 
-    <section>
+    <section data-background-color="#0F172A">
       <h2>B2. AI 인터뷰 흐름</h2>
-      <div class="arch-box">1단계: "이 태스크를 미룬 이유가 뭔가요?" (개방형)
-2단계: 원인 유형 파악 (복잡함 / 두려움 / 우선순위 / 환경)
-3단계: "15분 안에 할 수 있는 첫 번째 단계는?" (소태스크 추출)
+      <div class="code-block"><span class="hl-a">1단계:</span> "이 태스크를 미룬 이유가 뭔가요?" <span class="hl-a">(개방형)</span>
+<span class="hl-a">2단계:</span> 원인 유형 파악
+        → <span class="hl">복잡함</span> / <span class="hl">두려움</span> / <span class="hl">우선순위</span> / <span class="hl">환경</span>
+<span class="hl-a">3단계:</span> "15분 안에 할 수 있는 첫 번째 단계는?" <span class="hl-g">(소태스크 추출)</span>
 
-→ Claude API stream으로 실시간 답변
-→ 응답 파싱 → SubTask 리스트 자동 생성</div>
+Claude API stream → 실시간 답변
+응답 파싱 → SubTask 리스트 자동 생성</div>
     </section>
 
-    <section>
-      <h2>B3. 보안 처리</h2>
-      <ul>
-        <li><code>google-services.json</code> / <code>GoogleService-Info.plist</code> → <code>.gitignore</code></li>
-        <li><code>keystore.jks</code> + <code>key.properties</code> → <code>.gitignore</code></li>
-        <li>Anthropic API 키 → <code>.env</code> (<code>.gitignore</code>)</li>
-        <li>Firebase Security Rules: <code>uid</code> 기반 사용자 격리</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>B4. 테스트 상세</h2>
-      <div class="arch-box"># 단위 테스트 (11개)
-flutter test test/unit/
-
-# E2E (Playwright)
-npx playwright test e2e/login.spec.ts
-npx playwright test e2e/navigation.spec.ts</div>
-      <p>테스트 항목: Task.shouldBeDelayed 4케이스, 직렬화 왕복,<br>
-      Conflict Resolution (Hive vs Firestore 타임스탬프 비교)</p>
-    </section>
-
-    <section>
-      <h2>B5. 외부 라이브러리 목록</h2>
-      <table>
-        <thead><tr><th>패키지</th><th>용도</th></tr></thead>
-        <tbody>
-          <tr><td>hive / hive_flutter</td><td>로컬 오프라인 DB</td></tr>
-          <tr><td>cloud_firestore</td><td>Firestore 클라우드 동기화</td></tr>
-          <tr><td>firebase_auth</td><td>Google 로그인 인증</td></tr>
-          <tr><td>google_sign_in</td><td>Android/iOS 네이티브 계정 선택</td></tr>
-          <tr><td>provider</td><td>상태 관리</td></tr>
-          <tr><td>http</td><td>Anthropic API HTTP 호출</td></tr>
-          <tr><td>table_calendar</td><td>캘린더 UI 위젯</td></tr>
-          <tr><td>fl_chart</td><td>통계 차트 (완료율 시각화)</td></tr>
-        </tbody>
-      </table>
+    <section data-background-color="#0F172A">
+      <h2>B3. 보안 & 라이브러리</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">보안 처리</p>
+          <ul style="font-size:.78em;">
+            <li><code>google-services.json</code> → .gitignore</li>
+            <li><code>keystore.jks</code> + <code>key.properties</code> → .gitignore</li>
+            <li>Anthropic API 키 → .env (gitignore)</li>
+            <li>Firebase Rules: uid 기반 격리</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:700; color:var(--cyan); font-size:.82em; margin-bottom:8px;">주요 패키지</p>
+          <ul style="font-size:.78em;">
+            <li>hive / hive_flutter</li>
+            <li>cloud_firestore · firebase_auth</li>
+            <li>google_sign_in · provider</li>
+            <li>table_calendar · fl_chart</li>
+            <li>http (Anthropic API)</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
   </div><!-- /.slides -->
@@ -572,7 +677,7 @@ npx playwright test e2e/navigation.spec.ts</div>
 <script>
   Reveal.initialize({
     hash: true,
-    transition: 'slide',
+    transition: 'fade',
     transitionSpeed: 'fast',
     progress: true,
     controls: true,
