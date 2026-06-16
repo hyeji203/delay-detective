@@ -1,8 +1,15 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../application/task_provider.dart';
 import '../../domain/models/delay_analysis.dart';
 import '../../domain/models/task.dart';
+
+// 한자·히라가나·가타카나·키릴 문자 제거 (유니코드 이스케이프 사용)
+String _sanitize(String text) => text.replaceAll(
+      RegExp('[一-鿿㐀-䶿豈-﫿'
+          '぀-ゟ゠-ヿЀ-ӿ]'),
+      '',
+    );
 
 class AnalysisResultScreen extends StatefulWidget {
   const AnalysisResultScreen({super.key});
@@ -66,6 +73,37 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
         title: const Text('분석 결과'),
         automaticallyImplyLeading: false,
         actions: [
+          if (_task != null)
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: Color(0xFFEF5350)),
+              tooltip: '삭제',
+              onPressed: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('태스크 삭제'),
+                    content: const Text('분석 결과도 함께 삭제됩니다. 삭제할까요?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('취소'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text(
+                          '삭제',
+                          style: TextStyle(color: Color(0xFFEF5350)),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirm == true && mounted) {
+                  context.read<TaskProvider>().deleteTask(_task!.id);
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                }
+              },
+            ),
           TextButton(
             onPressed: () =>
                 Navigator.popUntil(context, (route) => route.isFirst),
@@ -101,7 +139,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    analysis.empathyMessage,
+                    _sanitize(analysis.empathyMessage),
                     style: const TextStyle(
                       fontSize: 15,
                       color: Colors.white,
@@ -156,7 +194,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        analysis.causeSummary,
+                        _sanitize(analysis.causeSummary),
                         style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xFF1A1A2E),
@@ -241,7 +279,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            sub.title,
+                            _sanitize(sub.title),
                             style: TextStyle(
                               fontSize: 14,
                               color: isDone

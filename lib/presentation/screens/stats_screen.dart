@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../application/task_provider.dart';
 import '../../domain/enums/task_status.dart';
+import '../widgets/profile_button.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
@@ -16,6 +17,7 @@ class StatsScreen extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: const Text('통계'),
+          actions: const [ProfileButton()],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1),
             child: Container(height: 1, color: const Color(0xFFEEEEF5)),
@@ -60,6 +62,7 @@ class StatsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('통계'),
+        actions: const [ProfileButton()],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(height: 1, color: const Color(0xFFEEEEF5)),

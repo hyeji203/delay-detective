@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../../domain/models/task.dart';
@@ -60,7 +60,9 @@ You must respond ONLY in Korean (한국어). Never use any other language includ
     final messages = [
       {
         'role': 'system',
-        'content': '당신은 JSON만 출력하는 분석가입니다. 코드블록 없이 순수 JSON만 반환하세요.',
+        'content': '당신은 JSON만 출력하는 분석가입니다. 코드블록 없이 순수 JSON만 반환하세요. '
+            '모든 텍스트 값은 반드시 순수한 한국어로만 작성하세요. '
+            '영어, 중국어, 일본어 등 한국어 이외의 문자를 절대 사용하지 마세요.',
       },
       {
         'role': 'user',
@@ -69,10 +71,11 @@ You must respond ONLY in Korean (한국어). Never use any other language includ
 
 $conversation
 
-위 내용을 분석해서 아래 JSON 형식으로만 응답하세요:
+위 내용을 분석해서 아래 JSON 형식으로만 응답하세요.
+모든 값은 반드시 한국어로만 작성하고, 한자·일본어·영어를 절대 섞지 마세요:
 {
-  "empathy": "사용자에게 전달할 공감 메시지 (따뜻한 한 문장)",
-  "cause": "지연 원인 핵심 요약 (한 문장)",
+  "empathy": "사용자에게 전달할 공감 메시지 (따뜻한 한 문장, 순수 한국어)",
+  "cause": "지연 원인 핵심 요약 (한 문장, 순수 한국어)",
   "subtasks": [
     {"title": "지금 당장 15분 안에 할 수 있는 첫 번째 작은 단계"},
     {"title": "두 번째 작은 단계"},
@@ -111,6 +114,20 @@ $conversation
     return message['content'] as String;
   }
 
+  // 한자·일본어·러시아어 등 비한국어 문자 제거
+  String _sanitize(String text) => text.replaceAll(
+        RegExp(
+          r'[一-鿿'   // CJK 한자
+          r'㐀-䶿'    // CJK 확장 A
+          r'豈-﫿'    // CJK 호환
+          r'぀-ゟ'    // 히라가나
+          r'゠-ヿ'    // 가타카나
+          r'Ѐ-ӿ'    // 키릴 (러시아어)
+          r']',
+        ),
+        '',
+      );
+
   DelayAnalysis _parseAnalysisJson(String raw, List<InterviewTurn> turns) {
     try {
       String jsonStr = raw.trim();
@@ -127,13 +144,14 @@ $conversation
           .entries
           .map((e) => SubTask(
                 id: 'sub_${e.key}',
-                title: (e.value as Map<String, dynamic>)['title'] as String,
+                title: _sanitize(
+                    (e.value as Map<String, dynamic>)['title'] as String),
               ))
           .toList();
 
       return DelayAnalysis(
-        empathyMessage: map['empathy'] as String,
-        causeSummary: map['cause'] as String,
+        empathyMessage: _sanitize(map['empathy'] as String),
+        causeSummary: _sanitize(map['cause'] as String),
         analyzedAt: DateTime.now(),
         turns: turns,
         suggestedSubtasks: subtasks,

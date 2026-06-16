@@ -122,6 +122,7 @@ class TaskCard extends StatelessWidget {
           task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
       daysLeft = dueDay.difference(today).inDays;
     }
+    final isDone = task.status == TaskStatus.done;
     final isTodayDue = daysLeft == 0 && !isDelayed;
     final hasAnalysis = task.analysis != null;
 
@@ -132,7 +133,11 @@ class TaskCard extends StatelessWidget {
     Color dotColor;
     Color borderColor;
     Color bgColor;
-    if (hasAnalysis) {
+    if (isDone) {
+      dotColor = Colors.transparent;
+      borderColor = const Color(0xFF43A047);
+      bgColor = const Color(0xFFF6FBF6);
+    } else if (hasAnalysis) {
       dotColor = const Color(0xFF7B61FF);
       borderColor = const Color(0xFF7B61FF);
       bgColor = const Color(0xFFF8F6FF);
@@ -170,7 +175,7 @@ class TaskCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(14),
-          border: (isDelayed || isTodayDue)
+          border: (isDone || isDelayed || isTodayDue)
               ? Border.all(color: borderColor.withOpacity(0.35))
               : null,
           boxShadow: [
@@ -208,10 +213,14 @@ class TaskCard extends StatelessWidget {
                   children: [
                     Text(
                       task.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF1A1A2E),
+                        color: isDone
+                            ? const Color(0xFFAAAAAA)
+                            : const Color(0xFF1A1A2E),
+                        decoration: isDone ? TextDecoration.lineThrough : null,
+                        decorationColor: const Color(0xFFAAAAAA),
                       ),
                     ),
                     // 분석 완료: causeSummary 한 줄 표시
@@ -258,7 +267,24 @@ class TaskCard extends StatelessWidget {
                         ],
                       ),
                     ],
-                    if (task.dueDate != null) ...[
+                    if (isDone) ...[
+                      const SizedBox(height: 4),
+                      const Row(
+                        children: [
+                          Icon(Icons.check_circle_outline,
+                              size: 11, color: Color(0xFF43A047)),
+                          SizedBox(width: 4),
+                          Text(
+                            '완료됨',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF43A047),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ] else if (task.dueDate != null) ...[
                       const SizedBox(height: 4),
                       Row(
                         children: [
@@ -300,45 +326,131 @@ class TaskCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               // 오른쪽 배지
-              if (hasAnalysis)
+              if (isDone)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF7B61FF).withOpacity(0.10),
+                    color: const Color(0xFF43A047).withOpacity(0.10),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.check_circle_outline,
-                          size: 12, color: Color(0xFF7B61FF)),
+                      Icon(Icons.check_circle,
+                          size: 12, color: Color(0xFF43A047)),
                       SizedBox(width: 3),
                       Text(
-                        '분석완료',
+                        '완료',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Color(0xFF7B61FF),
+                          color: Color(0xFF43A047),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
                   ),
                 )
-              else if (isDelayed)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEF5350).withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'AI 분석',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFFEF5350),
-                      fontWeight: FontWeight.w600,
+              else if (hasAnalysis)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF7B61FF).withOpacity(0.10),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.check_circle_outline,
+                              size: 12, color: Color(0xFF7B61FF)),
+                          SizedBox(width: 3),
+                          Text(
+                            '분석완료',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF7B61FF),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () => _markDone(context),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF43A047).withOpacity(0.10),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.check, size: 11, color: Color(0xFF43A047)),
+                            SizedBox(width: 3),
+                            Text(
+                              '완료',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF43A047),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              else if (isDelayed)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEF5350).withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'AI 분석',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFEF5350),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () => _markDone(context),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF43A047).withOpacity(0.10),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.check, size: 11, color: Color(0xFF43A047)),
+                            SizedBox(width: 3),
+                            Text(
+                              '완료',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF43A047),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               else if (isTodayDue)
                 Container(

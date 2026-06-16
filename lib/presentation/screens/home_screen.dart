@@ -4,8 +4,10 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../application/task_provider.dart';
 import '../../application/auth_provider.dart';
 import '../../domain/models/task.dart';
+import '../../domain/enums/task_status.dart';
 import '../widgets/task_card.dart';
 import '../widgets/sync_banner.dart';
+import '../widgets/profile_button.dart';
 
 // 한국 공휴일
 final Set<DateTime> _holidays = {
@@ -313,20 +315,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _taskChip(Task task) {
+    final isDone = task.status == TaskStatus.done;
     final hasAnalysis = task.analysis != null;
     final Color chipColor;
     final Color textColor;
+    final String prefix;
+    final bool strikethrough;
 
-    if (hasAnalysis) {
+    if (isDone) {
+      chipColor = const Color(0xFF43A047).withOpacity(0.10);
+      textColor = const Color(0xFF9E9EAE);
+      prefix = '✓ ';
+      strikethrough = true;
+    } else if (hasAnalysis) {
       chipColor = const Color(0xFF7B61FF).withOpacity(0.12);
       textColor = const Color(0xFF7B61FF);
+      prefix = '';
+      strikethrough = false;
     } else if (task.isDelayed) {
       chipColor = const Color(0xFFEF5350).withOpacity(0.12);
       textColor = const Color(0xFFEF5350);
+      prefix = '';
+      strikethrough = false;
     } else {
       chipColor = const Color(0xFF3F51B5).withOpacity(0.10);
       textColor = const Color(0xFF3F51B5);
+      prefix = '';
+      strikethrough = false;
     }
+
+    final textWidget = Text(
+      '$prefix${task.title}',
+      style: TextStyle(
+        fontSize: 9,
+        color: textColor,
+        fontWeight: FontWeight.w500,
+        decoration: strikethrough ? TextDecoration.lineThrough : null,
+        decorationColor: textColor,
+      ),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+    );
 
     return Container(
       margin: const EdgeInsets.only(top: 2, left: 2, right: 2),
@@ -336,16 +365,15 @@ class _HomeScreenState extends State<HomeScreen> {
         color: chipColor,
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Text(
-        hasAnalysis ? '✓ ${task.title}' : task.title,
-        style: TextStyle(
-          fontSize: 9,
-          color: textColor,
-          fontWeight: FontWeight.w500,
-        ),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-      ),
+      child: hasAnalysis && !isDone
+          ? Row(
+              children: [
+                Icon(Icons.search, size: 9, color: textColor),
+                const SizedBox(width: 2),
+                Expanded(child: textWidget),
+              ],
+            )
+          : textWidget,
     );
   }
 
@@ -395,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Delay Detective'),
         actions: [
-          _ProfileButton(),
+          const ProfileButton(),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
@@ -410,8 +438,9 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, constraints) {
                 const headerHeight = 52.0;
                 const dowHeight = 28.0;
+                // 16px 여유를 빼서 6주짜리 달에서 overflow 방지
                 final rowHeight =
-                    (constraints.maxHeight - headerHeight - dowHeight) / 6;
+                    (constraints.maxHeight - headerHeight - dowHeight - 16) / 6;
                 return Container(
                   color: Colors.white,
                   child: TableCalendar<Task>(
@@ -534,113 +563,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _ProfileButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final auth = context.watch<AuthProvider>();
-    final initial = (auth.displayName?.isNotEmpty == true
-            ? auth.displayName![0]
-            : auth.email?.isNotEmpty == true
-                ? auth.email![0]
-                : '?')
-        .toUpperCase();
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: GestureDetector(
-        onTap: () => _showProfileSheet(context, auth),
-        child: CircleAvatar(
-          radius: 16,
-          backgroundColor: const Color(0xFF3F51B5),
-          child: Text(
-            initial,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showProfileSheet(BuildContext context, AuthProvider auth) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 36,
-              height: 4,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE0E0E0),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: const Color(0xFF3F51B5),
-              child: Text(
-                (auth.displayName?.isNotEmpty == true
-                        ? auth.displayName![0]
-                        : auth.email?[0] ?? '?')
-                    .toUpperCase(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            if (auth.displayName != null)
-              Text(
-                auth.displayName!,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A1A2E),
-                ),
-              ),
-            if (auth.email != null)
-              Text(
-                auth.email!,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFF9E9EAE),
-                ),
-              ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () async {
-                  Navigator.pop(ctx);
-                  await auth.signOut();
-                },
-                icon: const Icon(Icons.logout_rounded, size: 18),
-                label: const Text('로그아웃'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xFFEF5350),
-                  side: const BorderSide(color: Color(0xFFEF5350)),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

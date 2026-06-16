@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../application/task_provider.dart';
 import '../../domain/models/task.dart';
 import '../widgets/task_card.dart';
+import '../widgets/profile_button.dart';
 
 class TaskListScreen extends StatefulWidget {
   const TaskListScreen({super.key});
@@ -36,6 +37,7 @@ class _TaskListScreenState extends State<TaskListScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('할일'),
+        actions: const [ProfileButton()],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(49),
           child: Column(
