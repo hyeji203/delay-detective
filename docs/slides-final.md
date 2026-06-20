@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 header: "Delay Detective — 최종 발표"
-footer: "혜지 | Shingu College AI 앱프로그래밍응용 | 2026"
+footer: "혜지 | 2026"
 ---
 
 # Delay Detective
@@ -290,7 +290,7 @@ hosting→ firebase deploy --only hosting  (웹 퍼블리시)
 > "Delay Detective — AI가 물어봐주면, 미루기가 시작된다"
 
 **GitHub**: https://github.com/hyeji203/delay-detective  
-**발표자**: 혜지 | Shingu College AI 앱프로그래밍응용 | 2026
+**발표자**: 혜지 | 2026
 
 ---
 
