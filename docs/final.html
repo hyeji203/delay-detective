@@ -7,288 +7,257 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── 팔레트 ─────────────────────────────────────────── */
+    /* ── 팔레트 (중간발표 동일) ─────────────────────────── */
     :root {
-      --bg:      #0F172A;
-      --surface: #1E293B;
-      --border:  #334155;
-      --cyan:    #38BDF8;
-      --amber:   #FB923C;
-      --green:   #4ADE80;
-      --red:     #F87171;
-      --purple:  #A78BFA;
-      --text:    #F1F5F9;
-      --muted:   #94A3B8;
+      --c-primary: #1F3864;
+      --c-accent:  #2E75B6;
+      --c-green:   #5BA545;
+      --c-orange:  #ED7D31;
+      --c-red:     #C00000;
+      --c-light:   #F0F6FF;
+      --c-purple:  #7030A0;
+
+      /* final.html 변수명 호환 alias */
+      --bg:      #FFFFFF;
+      --surface: #F0F6FF;
+      --border:  #B8CCE4;
+      --cyan:    #2E75B6;
+      --amber:   #ED7D31;
+      --green:   #5BA545;
+      --red:     #C00000;
+      --purple:  #7030A0;
+      --text:    #1F3864;
+      --muted:   #555555;
     }
 
     /* ── 전역 ───────────────────────────────────────────── */
-    .reveal {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    .reveal .slides section {
-      text-align: left;
-      box-sizing: border-box;
-      padding: 0 10px;
-    }
-    .reveal .progress span { background: var(--cyan); }
-    .reveal .controls button { color: var(--cyan); }
-    .reveal .slide-number { color: var(--muted); font-size: .6em; }
+    .reveal { font-family: 'Noto Sans KR', -apple-system, sans-serif; }
+    .reveal .slides section { text-align: left; box-sizing: border-box; padding: 0 10px; }
 
-    /* ── 헤더 ───────────────────────────────────────────── */
+    /* ── H2 (중간발표 동일: 남색 + 파란 밑줄) ─────────── */
     .reveal h2 {
-      font-size: 1.1em; font-weight: 900;
-      color: var(--cyan); text-transform: none; letter-spacing: 0;
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 14px;
+      font-size: 1.2em; font-weight: 900; color: var(--c-primary);
+      border-bottom: 3px solid var(--c-accent);
+      padding-bottom: 4px; margin-bottom: 8px;
     }
-    .reveal h2::before {
-      content: '';
-      display: inline-block;
-      width: 4px; height: 1.1em;
-      background: var(--cyan);
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
+    .reveal h2::before { display: none; }
 
     .reveal p  { font-size: .80em; margin: .35em 0; color: var(--text); }
     .reveal ul, .reveal ol { font-size: .80em; color: var(--text); }
     .reveal li { margin: 5px 0; }
 
-    /* ── 커버 ───────────────────────────────────────────── */
+    /* ── 커버 (파란 그라디언트 배경용) ─────────────────── */
     .cover-wrap {
       display: flex; flex-direction: column; align-items: center;
-      justify-content: center; height: 100%; text-align: center;
-      padding: 0 40px;
+      justify-content: center; height: 100%; text-align: center; padding: 0 40px;
     }
     .cover-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .72em; color: var(--cyan);
-      letter-spacing: 4px; text-transform: uppercase;
-      margin-bottom: 16px;
+      font-size: .72em; color: rgba(255,255,255,.75);
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;
     }
-    .cover-title {
-      font-size: 3em; font-weight: 900; line-height: 1.1;
-      color: var(--text); margin: 0 0 8px;
-    }
-    .cover-title span { color: var(--cyan); }
-    .cover-sub { font-size: .9em; color: var(--muted); margin: 0 0 28px; }
+    .cover-title { font-size: 2.6em; font-weight: 900; color: #fff; margin: 0 0 8px;
+      text-shadow: 0 3px 14px rgba(0,0,0,.35); }
+    .cover-title span { color: #fff; }
+    .cover-sub { font-size: 1.0em; color: rgba(255,255,255,.9); margin: 0 0 24px; }
     .cover-quote {
-      font-size: .88em; color: var(--text);
-      background: rgba(56,189,248,.08);
-      border: 1px solid rgba(56,189,248,.3);
-      border-radius: 10px; padding: 14px 28px;
-      margin-bottom: 28px; max-width: 620px;
+      font-size: .88em; color: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4);
+      border-radius: 10px; padding: 12px 24px; margin-bottom: 24px; max-width: 620px;
     }
-    .cover-tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+    .cover-tags { display: flex; gap: 9px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
     .cover-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .65em; color: var(--cyan);
-      border: 1px solid var(--cyan); border-radius: 4px;
-      padding: 3px 10px; opacity: .85;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.45);
+      border-radius: 20px; padding: 4px 15px; font-size: .76em; color: #fff;
     }
-    .cover-meta { font-size: .70em; color: var(--muted); }
+    .cover-meta { font-size: .76em; color: rgba(255,255,255,.62); }
 
-    /* ── カード ─────────────────────────────────────────── */
+    /* ── 카드 ───────────────────────────────────────────── */
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px 18px;
-      font-size: .80em; line-height: 1.7;
+      background: var(--c-light); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; font-size: .80em; line-height: 1.7; color: var(--text);
     }
-    .card.cyan-top  { border-top: 3px solid var(--cyan); }
-    .card.amber-top { border-top: 3px solid var(--amber); }
-    .card.green-top { border-top: 3px solid var(--green); }
-    .card.red-top   { border-top: 3px solid var(--red); }
+    .card.cyan-top  { border-top: 3px solid var(--c-accent); }
+    .card.amber-top { border-top: 3px solid var(--c-orange); }
+    .card.green-top { border-top: 3px solid var(--c-green); }
+    .card.red-top   { border-top: 3px solid var(--c-red); }
 
     /* ── 그리드 ─────────────────────────────────────────── */
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0; }
     .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 10px 0; }
     .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
 
-    /* ── 하이라이트 박스 ────────────────────────────────── */
+    /* ── 하이라이트 박스 (중간발표 동일) ───────────────── */
     .callout {
-      background: rgba(56,189,248,.08);
-      border-left: 4px solid var(--cyan);
-      border-radius: 0 8px 8px 0;
-      padding: 10px 16px; font-size: .82em; margin: 10px 0;
-      color: var(--text);
+      background: var(--c-light); border-left: 5px solid var(--c-accent);
+      border-radius: 0 8px 8px 0; padding: 10px 18px;
+      font-size: .82em; margin: 10px 0; color: var(--text);
     }
-    .callout.amber { background: rgba(251,146,60,.08); border-left-color: var(--amber); }
-    .callout.green { background: rgba(74,222,128,.08); border-left-color: var(--green); }
+    .callout.amber { background: #FFF4E6; border-left-color: var(--c-orange); }
+    .callout.green { background: #F0FFF4; border-left-color: var(--c-green); }
 
-    /* ── 테이블 ─────────────────────────────────────────── */
+    /* ── 테이블 (중간발표 동일: 남색 헤더, 흰 배경) ───── */
     .reveal table { font-size: .74em; width: 100%; border-collapse: collapse; margin: 8px 0; }
     .reveal table th {
-      background: var(--surface); color: var(--cyan);
-      padding: 7px 12px; text-align: left;
-      border-bottom: 2px solid var(--cyan);
-      font-weight: 700;
+      background: var(--c-primary); color: #fff;
+      padding: 6px 10px; text-align: left; font-weight: 700;
     }
     .reveal table td {
-      padding: 6px 12px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top; line-height: 1.5; color: var(--text);
+      padding: 5px 10px; border: 1px solid #DDD;
+      vertical-align: middle; line-height: 1.5; color: var(--text);
     }
-    .reveal table td:first-child { color: var(--cyan); font-weight: 700; white-space: nowrap; }
-    .reveal table tr:last-child td { border-bottom: none; }
+    .reveal table td:first-child { color: var(--c-primary); font-weight: 700; white-space: nowrap; }
+    .reveal table tr:nth-child(even) td { background: #F7F9FF; }
 
-    /* ── 플로우 ─────────────────────────────────────────── */
+    /* ── 플로우 (중간발표 동일) ────────────────────────── */
     .flow-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 18px 0; }
     .flow-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .flow-icon {
-      width: 64px; height: 64px; border-radius: 16px;
+      width: 60px; height: 60px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.5em;
+      font-size: 1.5em; color: #fff; font-weight: 900;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
     }
-    .fi1 { background: rgba(248,113,113,.15); border: 2px solid var(--red); }
-    .fi2 { background: rgba(251,146,60,.15); border: 2px solid var(--amber); }
-    .fi3 { background: rgba(74,222,128,.15); border: 2px solid var(--green); }
-    .flow-label { font-size: .68em; font-weight: 700; text-align: center; color: var(--text); line-height: 1.4; }
-    .flow-arrow { font-size: 1.4em; color: var(--border); flex-shrink: 0; margin-bottom: 20px; }
+    .fi1 { background: var(--c-red); }
+    .fi2 { background: var(--c-orange); }
+    .fi3 { background: var(--c-green); }
+    .flow-label { font-size: .70em; font-weight: 700; text-align: center; color: var(--c-primary); line-height: 1.4; }
+    .flow-arrow { font-size: 1.8em; color: #bbb; flex-shrink: 0; margin: 0 4px 18px; }
 
-    /* ── 코드 박스 ──────────────────────────────────────── */
+    /* ── 코드 박스 (라이트 스타일) ─────────────────────── */
     .code-block {
-      font-family: 'JetBrains Mono', monospace;
-      background: #020817; border: 1px solid var(--border);
+      font-family: 'Courier New', monospace;
+      background: #F7F9FF; border: 1.5px solid var(--border);
       border-radius: 8px; padding: 14px 18px;
-      font-size: .68em; line-height: 1.8; color: #CBD5E1;
+      font-size: .68em; line-height: 1.8; color: var(--c-primary);
       white-space: pre; overflow: hidden; margin: 8px 0;
     }
-    .code-block .hl { color: var(--cyan); }
-    .code-block .hl-g { color: var(--green); }
-    .code-block .hl-a { color: var(--amber); }
-    .reveal pre  { background: #020817; border: 1px solid var(--border); border-radius: 8px; font-size: .68em; }
-    .reveal code { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-size: .88em; }
+    .code-block .hl   { color: var(--c-accent); font-weight: 700; }
+    .code-block .hl-g { color: var(--c-green); font-weight: 700; }
+    .code-block .hl-a { color: var(--c-orange); }
+    .reveal pre  { background: #F7F9FF; border: 1px solid var(--border); border-radius: 8px; font-size: .68em; }
+    .reveal code { font-family: 'Courier New', monospace; color: var(--c-accent); font-size: .88em; background: #EEF3FF; padding: 1px 4px; border-radius: 3px; }
 
     /* ── 배지 ───────────────────────────────────────────── */
     .badge {
-      display: inline-block; border-radius: 4px; padding: 2px 8px;
+      display: inline-block; border-radius: 6px; padding: 2px 8px;
       font-size: .72em; font-weight: 700; vertical-align: middle;
-      font-family: 'JetBrains Mono', monospace;
     }
-    .badge.done   { background: rgba(74,222,128,.2); color: var(--green); border: 1px solid var(--green); }
-    .badge.bonus  { background: rgba(167,139,250,.2); color: var(--purple); border: 1px solid var(--purple); }
-    .badge.num    { background: rgba(56,189,248,.15); color: var(--cyan); border: 1px solid var(--cyan); }
+    .badge.done  { background: var(--c-green); color: #fff; }
+    .badge.bonus { background: var(--c-purple); color: #fff; }
+    .badge.num   { background: var(--c-accent); color: #fff; }
 
     /* ── 스탯 카드 ──────────────────────────────────────── */
     .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--c-light); border: 1.5px solid var(--border);
       border-radius: 10px; padding: 16px; text-align: center;
     }
-    .stat-num { font-size: 2em; font-weight: 900; color: var(--cyan); line-height: 1; }
+    .stat-num { font-size: 2em; font-weight: 900; color: var(--c-accent); line-height: 1; }
     .stat-label { font-size: .70em; color: var(--muted); margin-top: 4px; }
 
     /* ── 회고 카드 ──────────────────────────────────────── */
     .retro-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px 16px; font-size: .76em; line-height: 1.7;
+      background: var(--c-light); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 16px; font-size: .76em; line-height: 1.7; color: var(--text);
     }
     .retro-card h4 { margin: 0 0 8px; font-size: .9em; }
     .retro-card ul { margin: 0; padding-left: 14px; }
-    .retro-card.good { border-top: 3px solid var(--green); }
-    .retro-card.good h4 { color: var(--green); }
-    .retro-card.hard { border-top: 3px solid var(--amber); }
-    .retro-card.hard h4 { color: var(--amber); }
-    .retro-card.next { border-top: 3px solid var(--purple); }
-    .retro-card.next h4 { color: var(--purple); }
+    .retro-card.good { border-top: 3px solid var(--c-green); }
+    .retro-card.good h4 { color: var(--c-green); }
+    .retro-card.hard { border-top: 3px solid var(--c-orange); }
+    .retro-card.hard h4 { color: var(--c-orange); }
+    .retro-card.next { border-top: 3px solid var(--c-purple); }
+    .retro-card.next h4 { color: var(--c-purple); }
 
     /* ── 데모 비디오 ────────────────────────────────────── */
     .demo-wrap { display: flex; justify-content: center; margin-top: 12px; }
     .demo-wrap video {
-      max-width: 32%; max-height: 460px; border-radius: 20px;
-      border: 2px solid var(--border);
-      box-shadow: 0 0 40px rgba(56,189,248,.15);
+      max-width: 32%; max-height: 460px; border-radius: 18px;
+      border: 2px solid var(--border); box-shadow: 0 6px 24px rgba(0,0,0,.15);
     }
 
-    /* ── 마무리 커버 ────────────────────────────────────── */
+    /* ── 마무리 커버 (그라디언트 배경용) ───────────────── */
     .end-wrap {
       display: flex; flex-direction: column; align-items: center;
       justify-content: center; height: 100%; text-align: center;
     }
-    .end-title {
-      font-size: 2.6em; font-weight: 900; color: var(--text); margin-bottom: .3em;
-    }
-    .end-title span { color: var(--cyan); }
-    .end-sub { font-size: .88em; color: var(--muted); margin-bottom: 1.2em; }
+    .end-title { font-size: 2.8em; font-weight: 900; color: #fff; margin-bottom: .5em;
+      text-shadow: 0 3px 14px rgba(0,0,0,.35); }
+    .end-title span { color: #fff; }
+    .end-sub { font-size: 1.0em; color: rgba(255,255,255,.85); margin-bottom: 2em; }
     .end-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .75em; color: var(--cyan);
-      background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.3);
+      font-size: .75em; color: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.45);
       border-radius: 6px; padding: 8px 20px; margin-bottom: 1.5em;
     }
 
-    /* ── WBS 테이블 ─────────────────────────────────────── */
-    .wbs-table { width:100%; border-collapse:collapse; font-size:.40em; table-layout:fixed; line-height:1.15; }
+    /* ── WBS 테이블 (중간발표 완전 동일) ───────────────── */
+    .wbs-table { width:100%; border-collapse:collapse; font-size:.40em; margin-top:2px; table-layout:fixed; line-height:1.1; }
     .wbs-table th {
-      background:var(--surface); color:var(--cyan);
-      padding:2px 3px; text-align:center; border:1px solid var(--border);
-      font-family:'JetBrains Mono',monospace; font-weight:700;
+      background: var(--c-primary); color: #fff;
+      padding: 1px 2px; text-align: center; line-height: 1.1;
     }
-    .wbs-table th.th-task { text-align:left; padding-left:6px; }
+    .wbs-table th.th-task { text-align: left; padding-left: 5px; }
     .wbs-table td {
-      padding:1px 3px; border:1px solid var(--border);
-      text-align:center; vertical-align:middle;
-      white-space:nowrap; overflow:hidden; color:var(--text);
+      padding: 0 2px; border: 1px solid #DDD; text-align: center;
+      vertical-align: middle; white-space: nowrap; overflow: hidden; color: var(--text);
     }
-    .wbs-table td.task-name { text-align:left; font-weight:700; padding-left:6px; color:var(--cyan); }
-    .wbs-table td.sub-name  { text-align:left; padding-left:16px; color:var(--muted); }
-    .wbs-table tr.phase     { background:rgba(56,189,248,.05); }
-    .wbs-table tr.milestone { background:rgba(251,146,60,.06); }
-    .wbs-badge { border-radius:4px; padding:0 5px; font-size:.88em; font-weight:700;
-                 white-space:nowrap; font-family:'JetBrains Mono',monospace; }
-    .wbs-badge.done { background:rgba(74,222,128,.15);  color:var(--green);  border:1px solid var(--green); }
-    .wbs-badge.ms   { background:rgba(251,146,60,.15);  color:var(--amber);  border:1px solid var(--amber); }
-    .wc-done { background:rgba(74,222,128,.12); color:var(--green); font-weight:700; }
-    .wc-ms   { color:var(--amber); font-weight:900; font-family:'JetBrains Mono',monospace; }
+    .wbs-table td.task-name {
+      text-align: left; font-weight: 700; padding-left: 5px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--c-primary);
+    }
+    .wbs-table td.sub-name {
+      text-align: left; padding-left: 13px; color: #333;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .wbs-table tr.phase    { background: #EDF2FF; }
+    .wbs-table tr.sub-ph   { background: #FAFAFA; }
+    .wbs-table tr.milestone { background: #FFF4E6; }
+    .wbs-badge { border-radius: 6px; padding: 0 4px; font-size: .9em; font-weight: 700; white-space: nowrap; }
+    .wbs-badge.done { background: var(--c-green); color: #fff; }
+    .wbs-badge.ms   { background: var(--c-red); color: #fff; }
+    .wc-done { background: #E2EFDA; color: #375623; font-weight: 700; }
+    .wc-ms   { color: var(--c-red); font-weight: 900; }
 
     /* ── 사용자 시나리오 ────────────────────────────────── */
-    .scenario-timeline { display:flex; flex-direction:column; gap:8px; }
+    .scenario-timeline { display: flex; flex-direction: column; gap: 8px; }
     .scenario-step {
-      display:flex; align-items:flex-start; gap:14px;
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:8px; padding:10px 14px; font-size:.78em;
+      display: flex; align-items: flex-start; gap: 14px;
+      background: var(--c-light); border: 1.5px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; font-size: .78em; color: var(--text);
     }
-    .scenario-icon { font-size:1.4em; flex-shrink:0; width:30px; text-align:center; }
-    .scenario-text p { margin:2px 0 0; color:var(--muted); font-size:.9em; }
+    .scenario-icon { font-size: 1.4em; flex-shrink: 0; width: 30px; text-align: center; }
+    .scenario-text p { margin: 2px 0 0; color: var(--muted); font-size: .9em; }
 
-    /* ── 아키텍처 레이어 다이어그램 ─────────────────────── */
-    .layer-diagram { display:flex; flex-direction:column; gap:5px; margin:10px 0; }
-    .arch-layer-box {
-      display:flex; align-items:center; gap:14px;
-      border-radius:8px; padding:10px 16px;
-    }
-    .arch-layer-box.pres { background:rgba(56,189,248,.10); border:1px solid rgba(56,189,248,.4); }
-    .arch-layer-box.app  { background:rgba(74,222,128,.08); border:1px solid rgba(74,222,128,.35); }
-    .arch-layer-box.dom  { background:rgba(251,146,60,.08); border:1px solid rgba(251,146,60,.35); }
-    .arch-layer-box.dat  { background:rgba(167,139,250,.10); border:1px solid rgba(167,139,250,.35); }
-    .arch-layer-name { font-weight:900; font-size:.82em; white-space:nowrap; min-width:145px; }
-    .pres .arch-layer-name { color:var(--cyan); }
-    .app  .arch-layer-name { color:var(--green); }
-    .dom  .arch-layer-name { color:var(--amber); }
-    .dat  .arch-layer-name { color:var(--purple); }
-    .arch-layer-detail { font-size:.72em; color:var(--muted); line-height:1.5; }
-    .arch-arrow-row {
-      text-align:center; color:var(--border); font-size:.75em;
-      font-family:'JetBrains Mono',monospace; line-height:1; padding:0 16px;
-    }
+    /* ── 아키텍처 레이어 (중간발표 동일 색상) ──────────── */
+    .layer-diagram { display: flex; flex-direction: column; gap: 5px; margin: 10px 0; }
+    .arch-layer-box { display: flex; align-items: center; gap: 14px; border-radius: 8px; padding: 10px 16px; }
+    .arch-layer-box.pres { background: #DDEEFF; border: 1px solid #4472C4; }
+    .arch-layer-box.app  { background: #E2EFDA; border: 1px solid #70AD47; }
+    .arch-layer-box.dom  { background: #FFF2CC; border: 1px solid #ED7D31; }
+    .arch-layer-box.dat  { background: #FCE4D6; border: 1px solid #C55A11; }
+    .arch-layer-name { font-weight: 900; font-size: .82em; white-space: nowrap; min-width: 145px; }
+    .pres .arch-layer-name { color: #1F3864; }
+    .app  .arch-layer-name { color: #375623; }
+    .dom  .arch-layer-name { color: #7F4C00; }
+    .dat  .arch-layer-name { color: #7F2000; }
+    .arch-layer-detail { font-size: .72em; color: #555; line-height: 1.5; }
+    .arch-arrow-row { text-align: center; color: #999; font-size: .75em; line-height: 1; padding: 0 16px; }
 
     /* ── 에이전트 칩 ────────────────────────────────────── */
     .chip-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
     .chip {
-      font-size: .70em; font-family: 'JetBrains Mono', monospace;
-      border: 1px solid var(--border); border-radius: 20px;
-      padding: 3px 12px; color: var(--muted);
+      font-size: .70em; border: 1px solid var(--border);
+      border-radius: 20px; padding: 3px 12px; color: var(--muted); background: var(--c-light);
     }
-    .chip.cyan   { border-color: var(--cyan);   color: var(--cyan); }
-    .chip.amber  { border-color: var(--amber);  color: var(--amber); }
-    .chip.green  { border-color: var(--green);  color: var(--green); }
-    .chip.purple { border-color: var(--purple); color: var(--purple); }
+    .chip.cyan   { border-color: var(--c-accent); color: var(--c-accent); background: #EEF3FF; }
+    .chip.amber  { border-color: var(--c-orange); color: var(--c-orange); background: #FFF4E6; }
+    .chip.green  { border-color: var(--c-green);  color: var(--c-green);  background: #F0FFF4; }
+    .chip.purple { border-color: var(--c-purple); color: var(--c-purple); background: #F5F0FF; }
   </style>
 </head>
 <body>
@@ -297,7 +266,7 @@
   <div class="slides">
 
     <!-- 1. 커버 ─────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section data-background-gradient="linear-gradient(135deg,#1F3864 0%,#2E75B6 55%,#4472C4 100%)" style="text-align:center">
       <div class="cover-wrap">
         <div class="cover-label">최종 발표</div>
         <h1 class="cover-title">🔍 <span>Delay</span> Detective</h1>
@@ -319,10 +288,10 @@
     </section>
 
     <!-- 비전 제시 ────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>비전 제시</h2>
       <div class="callout" style="font-size:1.05em; margin-bottom:18px;">
-        <strong style="color:var(--cyan);">"미루는 사람을 탓하지 말자 — AI가 먼저 물어봐주면 된다"</strong>
+        <strong style="color:var(--c-primary);">"미루는 사람을 탓하지 말자 — AI가 먼저 물어봐주면 된다"</strong>
       </div>
       <div class="grid3" style="margin-bottom:16px;">
         <div class="stat-card"><div class="stat-num">92%</div><div class="stat-label">사람들이 미루기를 경험한다</div></div>
@@ -351,7 +320,7 @@
     </section>
 
     <!-- 2. 문제 정의 ─────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>문제 정의</h2>
       <div class="grid2">
         <div class="card red-top">
@@ -378,7 +347,7 @@
     </section>
 
     <!-- 3. 솔루션 ─────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>솔루션 — 3단계 AI 흐름</h2>
       <div class="flow-row">
         <div class="flow-step">
@@ -405,7 +374,7 @@
     </section>
 
     <!-- 사용자 시나리오 ─────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>사용자 시나리오 기반 시연</h2>
       <div style="display:flex; gap:16px; align-items:flex-start;">
         <div class="card" style="min-width:150px; text-align:center; padding:16px 12px; flex-shrink:0;">
@@ -448,7 +417,7 @@
     </section>
 
     <!-- 4. 데모 ──────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>데모 시연</h2>
       <div class="demo-wrap">
         <video controls preload="metadata">
@@ -464,7 +433,7 @@
     </section>
 
     <!-- 5. 진행 현황 ─────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>프로젝트 진행 현황</h2>
       <div class="grid4" style="margin-bottom:16px;">
         <div class="stat-card"><div class="stat-num">6주</div><div class="stat-label">총 개발 기간</div></div>
@@ -486,39 +455,39 @@
     </section>
 
     <!-- 6. WBS ──────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>WBS & 진행 현황</h2>
       <table class="wbs-table">
         <thead>
           <tr>
-            <th style="width:28px">No</th>
-            <th class="th-task" style="width:240px">태스크</th>
-            <th style="width:68px">상태</th>
-            <th style="width:68px">W10<br>05/11</th>
-            <th style="width:68px">W11<br>05/18</th>
-            <th style="width:68px">W12<br>06/01</th>
-            <th style="width:68px">W13<br>06/08</th>
-            <th style="width:68px">W14<br>06/22</th>
+            <th style="width:30px">WBS</th>
+            <th class="th-task" style="width:250px">태스크</th>
+            <th style="width:70px">상태</th>
+            <th style="width:80px">W10<br>05/11</th>
+            <th style="width:80px">W11<br>05/18</th>
+            <th style="width:80px">W12<br>06/01</th>
+            <th style="width:80px">W13<br>06/08</th>
+            <th style="width:80px">W14<br>06/22</th>
           </tr>
         </thead>
         <tbody>
           <!-- Phase 1 -->
           <tr class="phase">
-            <td>1</td><td class="task-name">기획 & 설계</td>
+            <td>1</td><td class="task-name">기획 &amp; 설계</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>1.1</td><td class="sub-name">기획 문서 (비전·요구사항·WBS)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>1.2</td><td class="sub-name">설계 문서 (Firestore·Hive·AI 플로우)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>1.3</td><td class="sub-name">개발 환경 (Flutter·Firebase·API 키)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td class="wc-done">완료</td><td></td><td></td><td></td><td></td>
@@ -529,22 +498,22 @@
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>2.1</td><td class="sub-name">데이터 모델 (Task · SubTask · DelayAnalysis)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>2.2</td><td class="sub-name">로컬 저장소 — HiveService (CRUD)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>2.3</td><td class="sub-name">클라우드 — FirestoreService + Conflict 해결</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>2.4</td><td class="sub-name">동기화 — SyncService (Hive ↔ Firestore)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
@@ -555,17 +524,17 @@
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>3.1</td><td class="sub-name">Anthropic API 연동 + 프롬프트 템플릿</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td class="wc-done">완료</td><td></td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>3.2</td><td class="sub-name">인터뷰 플로우 (3턴 + 종료 조건)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>3.3</td><td class="sub-name">분석 결과 생성 (공감·원인·소태스크 3개)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
@@ -576,17 +545,17 @@
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>4.1</td><td class="sub-name">공통 컴포넌트 (테마·버튼·태스크 카드)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td class="wc-done">완료</td><td></td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>4.2</td><td class="sub-name">화면 9개 (Home·Add·Interview·Result·History 외)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>4.3</td><td class="sub-name">Google 로그인 (웹·Android 분기 처리)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td class="wc-done">완료</td><td></td>
@@ -599,32 +568,32 @@
           </tr>
           <!-- Phase 5 -->
           <tr class="phase">
-            <td>5</td><td class="task-name">테스트 & QA</td>
+            <td>5</td><td class="task-name">테스트 &amp; QA</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td class="wc-done">완료</td><td class="wc-done">완료</td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>5.1</td><td class="sub-name">Flutter 단위 테스트 11개 (전체 통과)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td class="wc-done">완료</td><td></td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>5.2</td><td class="sub-name">Playwright E2E (login · navigation)</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
           </tr>
           <!-- Phase 6 -->
           <tr class="phase">
-            <td>6</td><td class="task-name">배포 & 마무리</td>
+            <td>6</td><td class="task-name">배포 &amp; 마무리</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>6.1</td><td class="sub-name">APK (49.9MB) · AAB (43MB) · 웹 빌드</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
           </tr>
-          <tr>
+          <tr class="sub-ph">
             <td>6.2</td><td class="sub-name">Firebase Hosting 배포 · 발표 자료</td>
             <td><span class="wbs-badge done">완료</span></td>
             <td></td><td></td><td></td><td></td><td class="wc-done">완료</td>
@@ -641,7 +610,7 @@
     </section>
 
     <!-- 7. 기술 스택 ─────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>기술 스택</h2>
       <table>
         <thead><tr><th>계층</th><th>기술</th><th>선택 이유</th></tr></thead>
@@ -659,7 +628,7 @@
     </section>
 
     <!-- 7. 아키텍처 ──────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>아키텍처 — 4-레이어 구조</h2>
       <div class="layer-diagram">
         <div class="arch-layer-box pres">
@@ -689,7 +658,7 @@
     </section>
 
     <!-- 8. 동기화 구현 ───────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>핵심 구현 — 오프라인-온라인 동기화</h2>
       <div class="code-block"><span class="hl-a">[오프라인]</span>  사용자 조작
          → <span class="hl-g">Hive</span> 즉시 저장
@@ -710,7 +679,7 @@
     </section>
 
     <!-- 개발 환경 설정 & 설치 가이드 ─────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>개발 환경 설정 & GitHub 설치 가이드</h2>
       <div class="grid2">
         <div>
@@ -749,7 +718,7 @@ flutter run -d &lt;device-id&gt;</div>
     </section>
 
     <!-- 9. 시행착오 ──────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>해결한 버그 5가지</h2>
       <table>
         <thead><tr><th>문제</th><th>원인</th><th>해결</th></tr></thead>
@@ -785,7 +754,7 @@ flutter run -d &lt;device-id&gt;</div>
     </section>
 
     <!-- 성능 최적화 & 코드 품질 ─────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>성능 최적화 & 코드 품질</h2>
       <div class="grid2">
         <div>
@@ -815,7 +784,7 @@ flutter run -d &lt;device-id&gt;</div>
     </section>
 
     <!-- 10. 테스트 & 배포 ───────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>테스트 & 배포</h2>
       <div class="grid2">
         <div>
@@ -846,7 +815,7 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 11. ADR ──────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>ADR — 핵심 기술 결정 3가지</h2>
       <div class="grid3">
         <div class="card cyan-top">
@@ -873,7 +842,7 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 12. AI Agent 활용 ───────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>AI Agent 활용 워크플로우</h2>
       <div class="grid2">
         <div>
@@ -912,7 +881,7 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 13. 회고 ─────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>회고</h2>
       <div class="grid3">
         <div class="retro-card good">
@@ -945,7 +914,7 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 활용 방안 & 향후 발전 방향 ─────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>활용 방안 & 향후 발전 방향</h2>
       <div class="grid2">
         <div>
@@ -978,7 +947,7 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 14. 가산점 ───────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>가산점 신청</h2>
       <div class="grid3">
         <div class="card" style="border-top:3px solid var(--purple);">
@@ -1007,18 +976,18 @@ firebase deploy --only hosting</div>
     </section>
 
     <!-- 15. 마무리 ───────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section data-background-gradient="linear-gradient(135deg,#1F3864 0%,#2E75B6 55%,#4472C4 100%)" style="text-align:center">
       <div class="end-wrap">
         <p style="font-family:'JetBrains Mono',monospace; font-size:.72em; color:var(--muted); letter-spacing:3px; margin-bottom:16px;">Q &amp; A</p>
         <h1 class="end-title">감사합니다 <span>🔍</span></h1>
         <p class="end-sub">Delay Detective — AI가 물어봐주면, 미루기가 시작된다</p>
         <div class="end-url">github.com/hyeji203/delay-detective</div>
-        <p style="font-size:.74em; color:var(--muted);">신혜지 &nbsp;·&nbsp; 2026</p>
+        <p style="font-size:.76em; color:rgba(255,255,255,.55);">신혜지 &nbsp;·&nbsp; 2026</p>
       </div>
     </section>
 
     <!-- ── 백업 ────────────────────────────────────────── -->
-    <section data-background-color="#0F172A">
+    <section>
       <h2>B1. Firestore 데이터 구조</h2>
       <div class="code-block"><span class="hl">users/{uid}/tasks/{taskId}</span>
   id, title, description
@@ -1031,7 +1000,7 @@ firebase deploy --only hosting</div>
   taskId, action (upsert/delete), timestamp</div>
     </section>
 
-    <section data-background-color="#0F172A">
+    <section>
       <h2>B2. AI 인터뷰 흐름</h2>
       <div class="code-block"><span class="hl-a">1단계:</span> "이 태스크를 미룬 이유가 뭔가요?" <span class="hl-a">(개방형)</span>
 <span class="hl-a">2단계:</span> 원인 유형 파악
@@ -1042,7 +1011,7 @@ Claude API stream → 실시간 답변
 응답 파싱 → SubTask 리스트 자동 생성</div>
     </section>
 
-    <section data-background-color="#0F172A">
+    <section>
       <h2>B3. 보안 & 라이브러리</h2>
       <div class="grid2">
         <div>
