@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 header: "Delay Detective — 최종 발표"
-footer: "혜지 | 2026.06"
+footer: "신혜지 | 2026.06.22"
 style: |
   /* ── 기본 (다크 테마) ── */
   section {
@@ -222,11 +222,11 @@ style: |
   <span class="chip-sm">최종 발표</span>
 </div>
 
-혜지 · 최종 발표 · 2026-06-21
+신혜지 · 최종 발표 · 2026-06-22
 
 <!--
 [대사 — 20초]
-안녕하세요. 저는 AI 기반 할 일 미루기 분석 앱 'Delay Detective'를 개발한 혜지입니다.
+안녕하세요. 저는 AI 기반 할 일 미루기 분석 앱 'Delay Detective'를 개발한 신혜지입니다.
 오늘 발표는 비전 제시부터 시연 데모, 기술 구조, 테스트까지 5분 안에 말씀드리겠습니다.
 -->
 
