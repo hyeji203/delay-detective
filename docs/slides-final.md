@@ -329,13 +329,14 @@ Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
 ## 📅 프로젝트 계획 — WBS & 진행 현황
 
 <style scoped>
-table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top: 8px; background: #0d1b3e; }
-th { background: #1F3864; color: #c8dfff; text-align: center; padding: 3px 5px; font-size: 11px; }
-td { padding: 2px 5px; border: 1px solid #1a2f5e; font-size: 11px; color: #c8dfff; }
-tr.sec td { background: #132a5e; font-weight: 700; color: #93c5fd; }
-tr.ms  td { background: #2a1f00; font-weight: 700; color: #fcd34d; }
-.done { background: #16a34a; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
-.mstag { background: #dc2626; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
+table { font-size: 11.5px; border-collapse: collapse; width: 100%; margin-top: 8px; }
+th { background: #1F3864; color: #e8f2ff; text-align: center; padding: 4px 6px; font-size: 11.5px; border: 1px solid #2E75B6; }
+td { padding: 3px 6px; border: 1px solid #2a4070; font-size: 11.5px; color: #ddeeff; background: #112244; }
+tr:nth-child(even) td { background: #162b55; }
+tr.sec td { background: #1e3f7a; font-weight: 700; color: #ffffff; border-color: #3b6bb5; }
+tr.ms  td { background: #3a2800; font-weight: 700; color: #fde68a; border-color: #a06c00; }
+.done  { background: #16a34a; color: white; border-radius: 8px; padding: 1px 7px; font-size: 10.5px; white-space: nowrap; }
+.mstag { background: #dc2626; color: white; border-radius: 8px; padding: 1px 7px; font-size: 10.5px; white-space: nowrap; }
 </style>
 
 | WBS | 태스크 | 상태 | W10 05/11 | W11 05/18 | W12 06/01 | W13 06/08 | W14 06/15~21 |
