@@ -94,10 +94,10 @@ style: |
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0,0,0,0.35);
   }
-  th { background: #1F3864; color: #c8dfff; padding: 8px 12px; font-weight: 600; }
-  td { padding: 6px 12px; border-bottom: 1px solid #1a2f5e; color: #c8dfff; }
+  th { background: #1F3864; color: #ffffff; padding: 8px 12px; font-weight: 600; }
+  td { padding: 6px 12px; border-bottom: 1px solid #1a2f5e; color: #e8f2ff; background: #1a3060; }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #0e1e40; }
+  tr:nth-child(even) td { background: #0f1f3d; color: #e8f2ff; }
 
   /* ── 코드 ── */
   code { background: #1a2f5e; color: #93c5fd; padding: 1px 7px; border-radius: 4px; font-size: 17px; }
