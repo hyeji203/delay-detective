@@ -12,7 +12,7 @@ import { chromium } from '@playwright/test';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const TAB_Y = 810;
+const TAB_Y = 820;
 const TAB_HOME = { x: 49, y: TAB_Y };
 const TAB_TASKS = { x: 146, y: TAB_Y };
 const TAB_AI = { x: 244, y: TAB_Y };
@@ -38,16 +38,16 @@ test('30초 데모 영상 녹화', async () => {
 
   const page = await context.newPage();
 
-  // ── 1. 로그인 화면 (0~4초) ─────────────────────────────
+  // ── 1. 로그인 화면 잠깐 보여주기 (0~3초) ──────────────
   console.log('1. 로그인 화면...');
   await page.goto('http://localhost:5000');
-  await page.waitForTimeout(3500);
+  await page.waitForTimeout(2500);
 
-  // ── 2. 데모 버튼 클릭 → 홈 화면 (4~8초) ──────────────
-  // "데모로 보기" 버튼 — 스크린샷 기준 y≈780, x=195
+  // ── 2. 데모로 보기 클릭 → 홈 화면 (3~8초) ─────────────
+  // 좌표 스캔으로 확인된 버튼 위치: viewport (195, 585)
   console.log('2. 데모로 보기 클릭...');
-  await click(page, 195, 780, '데모로 보기');
-  await page.waitForTimeout(3500); // 홈 화면 + 데이터 로드
+  await click(page, 195, 585, '데모로 보기');
+  await page.waitForTimeout(4000); // 홈 화면 + 데이터 로드 대기
 
   // ── 3. 할일 탭 — 지연 태스크 목록 (8~14초) ────────────
   console.log('3. 할일 탭...');

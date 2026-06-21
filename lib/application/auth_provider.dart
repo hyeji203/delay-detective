@@ -12,7 +12,13 @@ class AuthProvider extends ChangeNotifier {
   StreamSubscription<User?>? _sub;
 
   AuthProvider({required AuthService authService}) : _authService = authService {
+    // URL ?demo=1 파라미터로 자동 데모 모드 진입 (로그인 우회)
+    if (kIsWeb && Uri.base.queryParameters.containsKey('demo')) {
+      _demoMode = true;
+      _isLoading = false;
+    }
     _sub = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (_demoMode) return; // 데모 모드일 때는 Firebase 상태 무시
       _user = user;
       _isLoading = false;
       notifyListeners();
