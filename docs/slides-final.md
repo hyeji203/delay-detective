@@ -3,8 +3,28 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
+backgroundColor: "#ffffff"
 header: "Delay Detective — 최종 발표"
 footer: "혜지 | 2026"
+style: |
+  section {
+    font-family: 'Apple SD Gothic Neo', '맑은 고딕', sans-serif;
+    font-size: 26px;
+    padding: 48px;
+  }
+  section.cover {
+    background: linear-gradient(135deg, #1F3864, #2E75B6);
+    color: white;
+    text-align: center;
+    justify-content: center;
+  }
+  section.cover h1 { font-size: 56px; margin-bottom: 12px; }
+  section.cover p  { font-size: 20px; opacity: 0.85; }
+  h2 { color: #1F3864; border-bottom: 3px solid #2E75B6; padding-bottom: 8px; margin-bottom: 24px; }
+  table { font-size: 22px; width: 100%; }
+  th { background: #1F3864; color: white; }
+  code { background: #F2F2F2; padding: 2px 8px; border-radius: 4px; font-size: 22px; }
+  blockquote { border-left: 4px solid #2E75B6; background: #F0F6FF; padding: 12px 20px; margin: 16px 0; }
 ---
 
 # Delay Detective
