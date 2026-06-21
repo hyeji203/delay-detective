@@ -330,7 +330,7 @@ Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
 
 <style scoped>
 section { padding-left: 20px; padding-right: 20px; }
-table { font-size: 11.5px; border-collapse: collapse; width: 100%; margin-top: 8px; table-layout: fixed; }
+table { font-size: 11.5px; border-collapse: collapse; width: 100% !important; display: table !important; margin-top: 8px; table-layout: fixed; }
 th:nth-child(1) { width: 5%; }
 th:nth-child(2) { width: 30%; }
 th:nth-child(3) { width: 9%; }
