@@ -20,7 +20,7 @@ style: |
 
   /* ═══ 커버 ═══ */
   section.cover {
-    background: linear-gradient(135deg, #1F3864, #2E75B6) !important;
+    background: linear-gradient(135deg, #070e1f, #0d1b3e) !important;
     color: white !important;
     text-align: center;
     justify-content: center;
