@@ -18,7 +18,7 @@ style: |
   footer { color: #3d5a8a; font-size: 14px; bottom: 18px; }
   section::after { font-size: 14px; color: #3d5a8a; }
 
-  /* ═══ 커버 — 중간발표와 동일한 그라데이션 ═══ */
+  /* ═══ 커버 ═══ */
   section.cover {
     background: linear-gradient(135deg, #1F3864, #2E75B6) !important;
     color: white !important;
@@ -48,7 +48,6 @@ style: |
     font-size: 16px;
     margin: 4px 0;
   }
-  /* 커버 칩 */
   .chips {
     display: flex;
     gap: 8px;
@@ -275,57 +274,6 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 
 ---
 
-<!-- _class: demo -->
-
-## 🎬 시연 데모 — 사용자 시나리오 (30초)
-
-<div class="cols">
-<div>
-
-**[데모 영상 — 30초]**
-
-<div class="step"><b>1</b>  Google 로그인 → 메인 홈 캘린더</div>
-<div class="step"><b>2</b>  할일 추가 (발표 준비, 마감 오늘)</div>
-<div class="step"><b>3</b>  마감 초과 태스크 🔥 강조 확인</div>
-<div class="step"><b>4</b>  AI 분석 시작 → Claude 인터뷰 3턴</div>
-<div class="step"><b>5</b>  소태스크 3개 자동 생성 결과 확인</div>
-<div class="step"><b>6</b>  📊 통계 탭 → 완료율 시각화</div>
-
-</div>
-<div>
-
-**바텀 네비게이션 4탭**
-
-<div class="card-dark">
-
-```
-🏠  홈 캘린더
-    날짜별 할일 칩 · 바텀시트
-
-📋  할일 목록
-    진행중 / 완료 탭 분리
-
-🤖  AI 분석
-    인터뷰 채팅 → 소태스크 결과
-
-📊  통계
-    완료율 · 지연 현황 차트
-```
-
-</div>
-
-</div>
-</div>
-
-<!--
-[대사 — 데모 30초 중]
-Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
-마감이 지난 태스크는 불꽃 아이콘으로 강조되고, AI 분석을 시작하면 Claude가 왜 미루는지 질문합니다.
-2~3턴 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인합니다.
--->
-
----
-
 ## 📅 프로젝트 계획 — WBS & 진행 현황
 
 <style scoped>
@@ -421,55 +369,45 @@ Must 기능 100%, Should 기능도 주요 항목은 구현했습니다.
 
 ---
 
-## 🏗️ 앱 구조 — 4-레이어 아키텍처
+## 📈 프로젝트 진행 과정
 
 <div class="cols">
 <div>
 
-```
-lib/
-├── presentation/        ← 화면 9개 + 위젯
-│   ├── HomeScreen       캘린더 + 날짜 바텀시트
-│   ├── TaskListScreen   진행중 / 완료 탭
-│   ├── InterviewScreen  AI 채팅 UI
-│   ├── AnalysisResult   소태스크 결과
-│   ├── HistoryScreen    분석 이력
-│   ├── StatsScreen      완료율 통계
-│   └── LoginScreen      Google 로그인
-│
-├── application/         ← Provider 상태 관리
-│   TaskProvider / AuthProvider / SyncProvider
-│
-├── domain/              ← 순수 모델 (외부 의존 없음)
-│   Task, SubTask, DelayAnalysis, TaskStatus
-│
-└── data/
-    ├── local/   HiveService
-    ├── remote/  FirestoreService · AIService
-    └── sync/    SyncService (sync_queue)
-```
+**6주 단계별 진행**
+
+| 주차 | 기간 | 단계 | 핵심 산출물 |
+|---|---|---|---|
+| W10 | 05/11 | 기획·설계 | PRD, WBS, ADR 3종 |
+| W11 | 05/18 | 백엔드 | Hive CRUD, Firestore, 동기화 |
+| W12 | 06/01 | AI 시스템 | 인터뷰 플로우, 소태스크 생성 |
+| W13 | 06/08 | UI·통합 | 4탭 네비, 캘린더, Google 로그인 |
+| W14 | 06/15 | 배포·마무리 | APK·Web 빌드, 테스트, 문서 |
 
 </div>
 <div>
 
-**의존성 방향 (단방향)**
+**AI 에이전트 협업 개발 방식**
 
-<div class="card" style="text-align:center; font-size:20px; padding:24px 20px;">
+<div class="card">
 
-🖥️ **Presentation**
-↓
-⚙️ **Application** (Provider)
-↓
-📦 **Domain** ← 🗄️ **Data**
+각 단계 시작 전 전담 서브에이전트 투입
+
+```
+W10: product-manager-prd → PRD 작성
+W11: backend-architect  → DB·동기화 설계
+W12: ai-integration-specialist → 프롬프트
+W13: frontend-developer → UI 구현
+W14: qa-engineer        → 테스트 자동화
+```
 
 </div>
 
-<div class="card" style="margin-top:14px;">
+<div class="card-green" style="margin-top:12px;">
 
-- Domain은 외부 의존 없음
-- 오프라인 우선 (Hive → Firestore)
-- `ChangeNotifierProxyProvider` uid 자동 재생성
-- ADR-0001에 Flutter 선택 이유 기록
+✅ Must 기능 **100%** 완료  
+✅ Should 기능 주요 항목 완료  
+✅ 마일스톤 4개 모두 달성
 
 </div>
 
@@ -477,10 +415,9 @@ lib/
 </div>
 
 <!--
-[대사 — 25초]
-클린 아키텍처의 4-레이어를 적용했습니다.
-Domain 레이어는 외부 라이브러리에 전혀 의존하지 않고,
-Presentation은 Provider를 통해 상태를 받습니다.
+[대사 — 20초]
+6주 개발을 5단계로 나눠 각 단계마다 전담 AI 에이전트를 투입했습니다.
+단계별 마일스톤을 모두 달성했고, Must 기능은 100% 구현했습니다.
 -->
 
 ---
@@ -550,52 +487,51 @@ if (local.updatedAt > remote.updatedAt) {
 
 ---
 
-## ⚙️ 개발 환경 & 빌드/배포 & GitHub 설치 가이드
+## 🚀 활용 방안 & 기대 효과
 
 <div class="cols">
 <div>
 
-**개발 환경**
+**현재 활용 가능**
 
-| 항목 | 내용 |
-|---|---|
-| Flutter | 3.x (Dart 3.x) |
-| IDE | VS Code + Claude Code |
-| Firebase | CLI + flutterfire_cli |
-| 테스트 기기 | Galaxy S25 (Android 16) |
+<div class="card-green">
 
-**GitHub 설치 가이드**
+✅ 개인 할일 관리 + AI 미루기 분석  
+✅ 오프라인에서도 완전 동작  
+✅ 웹(Chrome) + Android 멀티플랫폼  
+✅ Google 계정 로그인 · 멀티 디바이스 동기화
 
-```bash
-git clone https://github.com/hyeji203/delay-detective
-flutter pub get
-flutterfire configure
-flutter run -d chrome --web-port 5000
-```
+</div>
+
+<div class="card" style="margin-top:12px;">
+
+**기술 자산화**
+
+AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩  
+→ 다음 프로젝트 템플릿 재사용
+
+LLM Wiki `notes/` 5개 파일 축적
+
+</div>
 
 </div>
 <div>
 
-**빌드 & 배포**
+**가산점 요약**
 
-```bash
-# 개발
-flutter run --debug
+| 항목 | 점수 |
+|---|---|
+| AI Agent 워크플로우 (서브에이전트 5종) | +1 |
+| 나만의 기법 (AUTHORING.hyeji.md) | +2 |
+| LLM Wiki (`notes/` 5개 파일) | +1 |
 
-# 릴리즈 빌드
-flutter build apk --release        # 49.9 MB
-flutter build appbundle --release  # 43 MB
-flutter build web --release
+**기대 효과**
 
-# 웹 배포
-firebase deploy --only hosting
-```
+<div class="card" style="margin-top:10px; font-size:17px;">
 
-<div class="card-green" style="margin-top:12px;">
-
-✅ APK + AAB 빌드 완료 (릴리즈 서명 키)
-✅ Firebase Hosting 배포 완료
-✅ `keystore`, `.env` → `.gitignore`
+- 미루기 원인을 스스로 파악하는 습관 형성
+- 15분 단위 소태스크로 즉시 실행 가능성 ↑
+- AI 협업 개발 방법론의 실증 사례
 
 </div>
 
@@ -604,125 +540,8 @@ firebase deploy --only hosting
 
 <!--
 [대사 — 20초]
-릴리즈 빌드는 서명 키 설정 후 appbundle로 Play Console에 업로드합니다.
-설치 방법은 setup.md에 명령어 그대로 정리했습니다.
--->
-
----
-
-## 🐛 구현 시행착오 & 성능 최적화
-
-<div class="cols">
-<div>
-
-**시행착오 5가지**
-
-| 문제 | 해결 |
-|---|---|
-| Firestore 중복 데이터 | Hive settings 박스로 UID 영속화 |
-| `400: origin_mismatch` | `--web-port 5000` 고정 + OAuth 등록 |
-| 웹 로그인 후 화면 미전환 | `signInWithPopup()` 전환 |
-| Android 로그인 실패 | SHA-1 지문 Firebase 등록 |
-| 로그아웃 후 Splash 멈춤 | signOut() 전 즉시 `notifyListeners()` |
-
-</div>
-<div>
-
-**성능 최적화**
-
-<div class="card-green">
-
-**캘린더 렌더링**
-- `LayoutBuilder` rowHeight 동적 계산
-- `IndexedStack` 탭 전환 시 상태 유지
-- `DateTime(y,m,d)` 비교로 날짜 오차 제거
-
-</div>
-
-<div class="card" style="margin-top:10px;">
-
-**AI 응답 최적화**
-- Anthropic API `stream: true` → 실시간 타이핑
-- 인터뷰 2~3턴 최소화 (UX 최적화)
-- JSON 파싱 실패 시 fallback 소태스크 제공
-
-</div>
-
-</div>
-</div>
-
-<!--
-[대사 — 25초]
-5가지 버그를 직접 겪고 해결했습니다.
-가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였습니다.
-AI 응답은 스트리밍으로 받아 실시간 타이핑 효과를 구현했습니다.
--->
-
----
-
-## ✅ 코드 품질 & 테스트 결과
-
-<div class="cols">
-<div>
-
-**단위 테스트 — `flutter test` → 11개 전체 통과**
-
-```
-test/unit/task_model_test.dart
-  ✅ shouldBeDelayed: 마감 초과 → true
-  ✅ shouldBeDelayed: 완료 시 → false
-  ✅ shouldBeDelayed: 미래 마감 → false
-  ✅ shouldBeDelayed: 당일 마감 → true
-  ✅ Task.toMap / fromMap 직렬화 왕복
-  ✅ Conflict Resolution — local newer
-  ✅ Conflict Resolution — remote newer
-  ✅ ... (11개 전체 PASS)
-```
-
-**E2E — Playwright MCP**
-
-```
-e2e/login.spec.ts       로그인 화면·버튼
-e2e/navigation.spec.ts  비인증 리다이렉트
-e2e/task.spec.ts        할일 CRUD 플로우
-```
-
-</div>
-<div>
-
-<div class="card-green">
-
-**4-레이어 아키텍처**로 관심사 분리
-→ 각 레이어 독립 테스트 가능
-
-</div>
-
-<div class="card" style="margin-top:10px;">
-
-**보안 체크리스트**
-- `google-services.json` → `.gitignore` ✅
-- `keystore.jks` + `key.properties` → `.gitignore` ✅
-- Anthropic API 키 → `.env` (미커밋) ✅
-- Firestore Security Rules: uid 격리 ✅
-
-</div>
-
-<div class="card" style="margin-top:10px;">
-
-**ADR 문서화**
-- ADR-0001: Flutter 선택 (vs Native)
-- ADR-0002: Provider (vs Redux)
-- ADR-0003: Firebase+Hive (vs 자체 서버)
-
-</div>
-
-</div>
-</div>
-
-<!--
-[대사 — 20초]
-단위 테스트 11개 모두 통과했습니다.
-E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했습니다.
+이 앱은 지금 바로 웹과 Android에서 사용할 수 있습니다.
+AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됩니다.
 -->
 
 ---
@@ -753,30 +572,749 @@ E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했
 
 ---
 
-## 🚀 활용 방안 & 향후 발전 방향
+## 🏗️ 앱 구조 설명 — 4-레이어 폴더 구조
 
 <div class="cols">
 <div>
 
-**현재 활용 가능**
+```
+lib/
+├── presentation/        ← 화면 9개 + 위젯
+│   ├── HomeScreen       캘린더 + 날짜 바텀시트
+│   ├── TaskListScreen   진행중 / 완료 탭
+│   ├── InterviewScreen  AI 채팅 UI
+│   ├── AnalysisResult   소태스크 결과
+│   ├── HistoryScreen    분석 이력
+│   ├── StatsScreen      완료율 통계
+│   └── LoginScreen      Google 로그인
+│
+├── application/         ← Provider 상태 관리
+│   TaskProvider / AuthProvider / SyncProvider
+│
+├── domain/              ← 순수 모델 (외부 의존 없음)
+│   Task, SubTask, DelayAnalysis, TaskStatus
+│
+└── data/
+    ├── local/   HiveService
+    ├── remote/  FirestoreService · AIService
+    └── sync/    SyncService (sync_queue)
+```
 
-<div class="card-green">
+</div>
+<div>
 
-✅ 개인 할일 관리 + AI 미루기 분석
-✅ 오프라인에서도 완전 동작
-✅ 웹(Chrome) + Android 멀티플랫폼
-✅ Google 계정 로그인 · 멀티 디바이스 동기화
+**레이어별 역할**
+
+<div class="card">
+
+| 레이어 | 역할 | 기술 |
+|---|---|---|
+| Presentation | UI 렌더링 | Flutter Widget |
+| Application | 상태 관리 | Provider |
+| Domain | 비즈니스 규칙 | 순수 Dart |
+| Data | 저장·통신 | Hive + Firestore |
 
 </div>
 
 <div class="card" style="margin-top:12px;">
 
-**기술 자산화**
+- Domain은 외부 의존 없음 → 독립 테스트 가능
+- 오프라인 우선 (Hive → Firestore)
+- `ChangeNotifierProxyProvider` uid 자동 재생성
 
-AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩
-→ 다음 프로젝트 템플릿 재사용
+</div>
 
-LLM Wiki `notes/` 5개 파일 축적
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+클린 아키텍처의 4-레이어를 적용했습니다.
+각 레이어는 단방향으로 의존하며, Domain 레이어는 외부 라이브러리에 전혀 의존하지 않습니다.
+-->
+
+---
+
+## ⚙️ 개발 환경 설정
+
+<div class="cols">
+<div>
+
+**개발 환경**
+
+| 항목 | 내용 |
+|---|---|
+| Flutter | 3.x (Dart 3.x) |
+| IDE | VS Code + Claude Code |
+| Firebase | CLI + flutterfire_cli |
+| 테스트 기기 | Galaxy S25 (Android 16) |
+| AI 개발 도구 | Claude Code + MCP 3개 |
+
+**Firebase 초기 설정**
+
+```bash
+firebase login
+flutterfire configure
+# → google-services.json 자동 생성
+```
+
+</div>
+<div>
+
+**필수 패키지 (pubspec.yaml)**
+
+<div class="card-dark">
+
+```yaml
+dependencies:
+  flutter:
+  provider: ^6.x
+  hive_flutter: ^1.x
+  cloud_firestore: ^5.x
+  firebase_auth: ^5.x
+  google_sign_in: ^6.x
+  anthropic_sdk_dart: ^0.x
+  connectivity_plus: ^6.x
+```
+
+</div>
+
+<div class="card-green" style="margin-top:12px;">
+
+✅ `flutter pub get` 한 번으로 전체 설치  
+✅ `flutterfire configure` 로 Firebase 자동 연결
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 15초]
+개발 환경은 Flutter 3.x와 VS Code를 기반으로 Firebase CLI와 Claude Code를 함께 사용했습니다.
+-->
+
+---
+
+## 📦 빌드와 배포 과정
+
+<div class="cols">
+<div>
+
+**빌드 명령어**
+
+```bash
+# 디버그 실행
+flutter run --debug
+flutter run -d chrome --web-port 5000
+
+# 릴리즈 빌드
+flutter build apk --release        # 49.9 MB
+flutter build appbundle --release  # 43 MB
+flutter build web --release
+```
+
+**릴리즈 서명 설정**
+
+```
+android/key.properties
+  storePassword / keyPassword / keyAlias / storeFile
+→ build.gradle signingConfigs 연결
+```
+
+</div>
+<div>
+
+**배포 현황**
+
+```bash
+# Firebase Hosting 웹 배포
+firebase deploy --only hosting
+```
+
+<div class="card-green" style="margin-top:12px;">
+
+✅ APK + AAB 빌드 완료 (릴리즈 서명 키)  
+✅ Firebase Hosting 배포 완료  
+✅ `keystore`, `.env` → `.gitignore`  
+✅ Play Console 업로드 준비 완료
+
+</div>
+
+<div class="card" style="margin-top:10px;">
+
+**빌드 산출물**
+
+| 타겟 | 파일 | 크기 |
+|---|---|---|
+| Android | app-release.apk | 49.9 MB |
+| Android | app-release.aab | 43 MB |
+| Web | build/web/ | — |
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+릴리즈 빌드는 서명 키 설정 후 appbundle로 Play Console에 업로드합니다.
+Firebase Hosting으로 웹 배포도 완료했습니다.
+-->
+
+---
+
+## 🔷 아키텍처 다이어그램 — 의존성 & 데이터 흐름
+
+<div class="cols">
+<div>
+
+**4-레이어 의존성 방향 (단방향)**
+
+<div class="card" style="text-align:center; font-size:20px; padding:28px 20px;">
+
+🖥️ **Presentation**  
+↓ (읽기 전용)  
+⚙️ **Application** (Provider)  
+↓ (호출)  
+📦 **Domain** ← 🗄️ **Data**
+
+</div>
+
+<div class="card" style="margin-top:14px; font-size:17px;">
+
+- Presentation → Application : `context.watch<TaskProvider>()`
+- Application → Data : Service 호출
+- Domain ← Data : 모델 변환 (`fromMap` / `toMap`)
+
+</div>
+
+</div>
+<div>
+
+**오프라인 우선 데이터 흐름**
+
+<div class="card-dark" style="font-size:17px;">
+
+```
+사용자 액션
+    ↓
+TaskProvider (Application)
+    ↓          ↓
+HiveService  FirestoreService
+(Local)      (Remote / 온라인 시)
+    ↓
+SyncService
+  - sync_queue 처리
+  - updatedAt 비교
+  - Last-Write-Wins 적용
+```
+
+</div>
+
+> 오프라인 → Hive 선저장  
+> 온라인 복구 → Firestore 동기화
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+의존성은 단방향으로만 흐르고, 데이터는 오프라인 우선으로 Hive에 먼저 저장 후 Firestore와 동기화합니다.
+-->
+
+---
+
+## 🐛 구현 시행착오 사례
+
+**직접 겪고 해결한 버그 5가지**
+
+| # | 문제 | 원인 | 해결 |
+|---|---|---|---|
+| 1 | Firestore 중복 데이터 | 로그아웃 후 UID 재생성 | Hive settings 박스로 UID 영속화 |
+| 2 | `400: origin_mismatch` | OAuth 허용 도메인 미등록 | `--web-port 5000` 고정 + Firebase 등록 |
+| 3 | 웹 로그인 후 화면 미전환 | `signInWithRedirect` 제한 | `signInWithPopup()` 전환 |
+| 4 | Android 로그인 실패 | SHA-1 지문 미등록 | Firebase Console에 SHA-1 등록 |
+| 5 | 로그아웃 후 Splash 멈춤 | `signOut()` 후 상태 미갱신 | signOut() 전 즉시 `notifyListeners()` |
+
+<div class="card-orange" style="margin-top:16px; font-size:18px;">
+
+**가장 어려웠던 문제**: 웹과 Android의 Google 로그인 방식 차이  
+→ 웹은 `signInWithPopup`, Android는 `google_sign_in` 패키지로 완전히 다른 접근 필요
+
+</div>
+
+<!--
+[대사 — 25초]
+5가지 버그를 직접 겪고 해결했습니다.
+가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였습니다.
+-->
+
+---
+
+## ⚡ 성능 최적화 노력
+
+<div class="cols">
+<div>
+
+**캘린더 렌더링 최적화**
+
+<div class="card-green">
+
+- `LayoutBuilder` rowHeight 동적 계산  
+  → 다양한 화면 크기 대응
+- `IndexedStack` 탭 전환 시 상태 유지  
+  → 탭 이동 시 리렌더링 방지
+- `DateTime(y,m,d)` 비교로 날짜 오차 제거  
+  → 시분초 차이로 인한 버그 방지
+
+</div>
+
+**상태 관리 최적화**
+
+<div class="card" style="margin-top:10px;">
+
+- `Consumer` / `Selector` 최소 범위 rebuild
+- `ChangeNotifierProxyProvider`로 uid 변경 시 자동 재생성
+
+</div>
+
+</div>
+<div>
+
+**AI 응답 최적화**
+
+<div class="card">
+
+**Anthropic API `stream: true`**  
+→ 실시간 타이핑 효과 구현
+
+```dart
+final stream = client.messages.stream(
+  model: 'claude-sonnet-4-6',
+  stream: true,
+  ...
+);
+stream.listen((chunk) => setState(...));
+```
+
+</div>
+
+<div class="card" style="margin-top:10px;">
+
+- 인터뷰 **2~3턴 최소화** (UX 최적화)
+- JSON 파싱 실패 시 **fallback 소태스크** 자동 제공
+- 응답 캐싱으로 동일 태스크 재분석 방지
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+캘린더 렌더링은 LayoutBuilder로 동적 계산하고, AI 응답은 스트리밍으로 받아 실시간 타이핑 효과를 구현했습니다.
+-->
+
+---
+
+## 🔐 코드 품질 관리
+
+<div class="cols">
+<div>
+
+**보안 체크리스트**
+
+<div class="card">
+
+- `google-services.json` → `.gitignore` ✅
+- `keystore.jks` + `key.properties` → `.gitignore` ✅
+- Anthropic API 키 → `.env` (미커밋) ✅
+- Firestore Security Rules: uid 격리 ✅
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    match /users/{uid}/{doc=**} {
+      allow read, write: if request.auth.uid == uid;
+    }
+  }
+}
+```
+
+</div>
+
+</div>
+<div>
+
+**4-레이어 아키텍처로 관심사 분리**
+
+<div class="card-green">
+
+- Domain 레이어: 외부 의존 없음  
+  → 순수 Dart로 독립 테스트 가능
+- 각 Service 단독 교체 가능  
+  → HiveService ↔ SQLite 교체 시 Domain 무변경
+- Provider 범위 최소화  
+  → `Consumer<TaskProvider>` 필요 위젯만 rebuild
+
+</div>
+
+**ADR 문서화**
+
+<div class="card" style="margin-top:10px; font-size:17px;">
+
+- ADR-0001: Flutter 선택 (vs Native)
+- ADR-0002: Provider (vs Redux)
+- ADR-0003: Firebase+Hive (vs 자체 서버)
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+보안 민감 파일은 모두 .gitignore로 처리하고, 4-레이어 아키텍처로 각 레이어를 독립적으로 테스트할 수 있게 구성했습니다.
+-->
+
+---
+
+## ✅ 테스트 결과 — 단위 / 통합
+
+<div class="cols">
+<div>
+
+**단위 테스트 — `flutter test` → 11개 전체 통과**
+
+```
+test/unit/task_model_test.dart
+  ✅ shouldBeDelayed: 마감 초과 → true
+  ✅ shouldBeDelayed: 완료 시 → false
+  ✅ shouldBeDelayed: 미래 마감 → false
+  ✅ shouldBeDelayed: 당일 마감 → true
+  ✅ Task.toMap / fromMap 직렬화 왕복
+  ✅ Conflict Resolution — local newer
+  ✅ Conflict Resolution — remote newer
+  ✅ ... (11개 전체 PASS)
+```
+
+</div>
+<div>
+
+**E2E — Playwright MCP 자동화**
+
+```
+e2e/login.spec.ts       로그인 화면·버튼
+e2e/navigation.spec.ts  비인증 리다이렉트
+e2e/task.spec.ts        할일 CRUD 플로우
+```
+
+<div class="card-green" style="margin-top:12px;">
+
+✅ 단위 테스트 11개 전체 PASS  
+✅ E2E 3개 시나리오 자동화 완료  
+✅ Playwright MCP로 브라우저 직접 제어
+
+</div>
+
+<div class="card" style="margin-top:10px; font-size:17px;">
+
+**테스트 실행**
+```bash
+flutter test test/unit/
+npx playwright test e2e/
+```
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+단위 테스트 11개 모두 통과했습니다.
+E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했습니다.
+-->
+
+---
+
+## 📥 GitHub 설치 가이드
+
+<div class="cols">
+<div>
+
+**설치 & 실행 (3단계)**
+
+```bash
+# 1. 클론
+git clone https://github.com/hyeji203/delay-detective
+cd delay-detective
+
+# 2. 패키지 설치
+flutter pub get
+
+# 3. Firebase 연결
+flutterfire configure
+```
+
+**실행**
+
+```bash
+# 웹 (Chrome)
+flutter run -d chrome --web-port 5000
+
+# Android
+flutter run -d <device-id>
+
+# 디버그 빌드
+flutter run --debug
+```
+
+</div>
+<div>
+
+**사전 조건**
+
+<div class="card">
+
+| 항목 | 버전 |
+|---|---|
+| Flutter SDK | 3.x 이상 |
+| Dart SDK | 3.x 이상 |
+| Firebase CLI | 최신 |
+| Node.js | 18+ (Playwright용) |
+
+</div>
+
+**환경 변수 설정**
+
+<div class="card-dark" style="margin-top:12px;">
+
+```bash
+# .env 파일 생성 (미커밋)
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Firebase 자동 설정
+flutterfire configure
+# → google-services.json 자동 생성
+```
+
+</div>
+
+> 자세한 내용: `docs/setup.md` 참고
+
+</div>
+</div>
+
+<!--
+[대사 — 15초]
+설치는 git clone → flutter pub get → flutterfire configure 3단계로 완료됩니다.
+자세한 설치 방법은 docs/setup.md에 정리했습니다.
+-->
+
+---
+
+<!-- _class: demo -->
+
+## 🎬 시연 데모 — 앱 형태 & 기능
+
+**바텀 네비게이션 4탭 구성**
+
+<div class="cols">
+<div>
+
+<div class="card-dark">
+
+```
+🏠  홈 캘린더
+    날짜별 할일 칩 · 바텀시트
+    마감 초과 🔥 강조 표시
+
+📋  할일 목록
+    진행중 / 완료 탭 분리
+    스와이프로 완료 처리
+
+🤖  AI 분석
+    인터뷰 채팅 → 소태스크 결과
+    스트리밍 타이핑 효과
+
+📊  통계
+    완료율 · 지연 현황 차트
+    주간 미루기 패턴 시각화
+```
+
+</div>
+
+</div>
+<div>
+
+**주요 기능 요약**
+
+<div class="step"><b>Google 로그인</b>  웹·Android 모두 지원</div>
+<div class="step"><b>오프라인 동작</b>  Hive 로컬 저장 → 복구 시 동기화</div>
+<div class="step"><b>마감 감지</b>  🔥 마감 초과 태스크 자동 강조</div>
+<div class="step"><b>AI 인터뷰</b>  Claude 2~3턴 대화로 원인 분석</div>
+<div class="step"><b>소태스크 생성</b>  15분 단위 3개 자동 생성</div>
+<div class="step"><b>통계 시각화</b>  완료율 · 지연 현황 차트</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 20초]
+앱은 4개 탭으로 구성되어 있습니다.
+홈 캘린더, 할일 목록, AI 분석, 통계 탭이며 오프라인에서도 모든 기능이 동작합니다.
+-->
+
+---
+
+<!-- _class: demo -->
+
+## 🎬 사용자 시나리오 기반 시연
+
+<div class="cols">
+<div>
+
+**[데모 시나리오 — 30초]**
+
+<div class="step"><b>1</b>  Google 로그인 → 메인 홈 캘린더</div>
+<div class="step"><b>2</b>  할일 추가 (발표 준비, 마감 오늘)</div>
+<div class="step"><b>3</b>  마감 초과 태스크 🔥 강조 확인</div>
+<div class="step"><b>4</b>  AI 분석 시작 → Claude 인터뷰 3턴</div>
+<div class="step"><b>5</b>  소태스크 3개 자동 생성 결과 확인</div>
+<div class="step"><b>6</b>  📊 통계 탭 → 완료율 시각화</div>
+
+</div>
+<div>
+
+**시나리오 흐름도**
+
+<div class="card-dark" style="font-size:17px;">
+
+```
+로그인
+  ↓
+홈 화면 (캘린더)
+  ↓
+마감 초과 태스크 🔥 발견
+  ↓
+AI 분석 탭 진입
+  ↓
+Claude 인터뷰
+  "왜 미루고 있나요?"
+  ↓
+소태스크 3개 생성
+  ① 핵심 메시지 작성 (15분)
+  ② 목차 구성 (15분)
+  ③ 첫 슬라이드 작성 (15분)
+  ↓
+통계 탭 → 완료율 확인
+```
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 30초]
+Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
+마감이 지난 태스크는 불꽃 아이콘으로 강조되고, AI 분석을 시작하면 Claude가 왜 미루는지 질문합니다.
+2~3턴 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인합니다.
+-->
+
+---
+
+<!-- _class: demo -->
+
+## ✨ 임팩트 있는 데모 장면 — AI 인터뷰 → 소태스크
+
+<div class="cols">
+<div>
+
+**Before: 막막한 하나의 태스크**
+
+<div class="card-orange">
+
+📌 **"발표 자료 만들기"**  
+마감: 오늘 🔥  
+상태: 3일째 미루는 중…
+
+</div>
+
+**AI 인터뷰 (2턴)**
+
+<div class="card-dark" style="margin-top:10px; font-size:17px;">
+
+🤖 Claude: *"이 태스크를 미룬 이유가 뭔가요?"*
+
+👤 사용자: *"어디서 시작해야 할지 모르겠어요"*
+
+🤖 Claude: *"발표의 핵심 메시지 1문장을 먼저 써볼까요? 15분이면 충분합니다."*
+
+</div>
+
+</div>
+<div>
+
+**After: 15분 단위 소태스크 3개** ✅
+
+<div class="card-green" style="font-size:18px;">
+
+| # | 소태스크 | 예상 시간 |
+|---|---|---|
+| 1 | 핵심 메시지 1문장 작성 | 15분 |
+| 2 | 슬라이드 목차 5개 나열 | 15분 |
+| 3 | 첫 슬라이드 초안 작성 | 15분 |
+
+</div>
+
+<div class="card" style="margin-top:14px; font-size:18px;">
+
+> **"막막한 하나"가**  
+> **"시작 가능한 셋"으로**
+
+AI가 물어봐주면, 미루기가 끝난다 🎯
+
+</div>
+
+</div>
+</div>
+
+<!--
+[대사 — 25초]
+이것이 Delay Detective의 핵심 장면입니다.
+3일째 미루던 태스크가 AI 인터뷰 2턴 만에 15분짜리 소태스크 3개로 쪼개집니다.
+막막했던 하나가 시작 가능한 셋으로 바뀌는 순간입니다.
+-->
+
+---
+
+## 🌟 마무리 & 향후 발전 방향
+
+<div class="cols">
+<div>
+
+**6주 개발 성과 요약**
+
+<div class="card-green">
+
+✅ Must 기능 100% 구현  
+✅ 5개 서브에이전트 팀 협업 완료  
+✅ 웹 + Android 동시 배포  
+✅ 단위 11개 · E2E 3개 테스트 통과  
+✅ ADR 3종 · LLM Wiki 5개 문서화
+
+</div>
+
+<div class="card" style="margin-top:12px;">
+
+**재사용 가능한 기술 자산**
+
+- AUTHORING.hyeji.md → 에이전트 부트스트랩 템플릿
+- notes/ LLM Wiki → 오프라인 동기화, 충돌 해결 노하우
 
 </div>
 
@@ -793,21 +1331,15 @@ LLM Wiki `notes/` 5개 파일 축적
 | 🟡 중간 | Notion·GitHub 소태스크 자동 연동 |
 | 🟢 낮음 | AI 인사이트 대시보드 |
 
-**가산점 요약**
-
-| 항목 | 점수 |
-|---|---|
-| AI Agent 워크플로우 (서브에이전트 5종) | +1 |
-| 나만의 기법 (AUTHORING.hyeji.md) | +2 |
-| LLM Wiki (`notes/` 5개 파일) | +1 |
+> AI와 함께라면 더 큰 앱도 가능하다는 것을 증명했습니다
 
 </div>
 </div>
 
 <!--
 [대사 — 20초]
-이 앱은 지금 바로 웹과 Android에서 사용할 수 있습니다.
-AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됩니다.
+6주 동안 Must 기능 100%, 웹과 Android 동시 배포, 테스트까지 완료했습니다.
+향후에는 FCM 푸시 알림과 iOS 배포를 최우선으로 추진할 계획입니다.
 -->
 
 ---
