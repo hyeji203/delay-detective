@@ -27,6 +27,8 @@ style: |
   blockquote { border-left: 4px solid #2E75B6; background: #F0F6FF; padding: 12px 20px; margin: 16px 0; }
 ---
 
+<!-- _class: cover -->
+
 # Delay Detective
 ### AI-Powered Procrastination Analyzer
 
