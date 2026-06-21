@@ -329,7 +329,12 @@ Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
 ## 📅 프로젝트 계획 — WBS & 진행 현황
 
 <style scoped>
-table { font-size: 11.5px; border-collapse: collapse; width: 100%; margin-top: 8px; }
+section { padding-left: 20px; padding-right: 20px; }
+table { font-size: 11.5px; border-collapse: collapse; width: 100%; margin-top: 8px; table-layout: fixed; }
+th:nth-child(1) { width: 5%; }
+th:nth-child(2) { width: 30%; }
+th:nth-child(3) { width: 9%; }
+th:nth-child(n+4) { width: 11.2%; }
 th { background: #1F3864; color: #e8f2ff; text-align: center; padding: 4px 6px; font-size: 11.5px; border: 1px solid #2E75B6; }
 td { padding: 3px 6px; border: 1px solid #2a4070; font-size: 11.5px; color: #ddeeff; background: #112244; }
 tr:nth-child(even) td { background: #162b55; }
