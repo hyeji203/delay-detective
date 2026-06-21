@@ -8,6 +8,7 @@ class AuthProvider extends ChangeNotifier {
 
   User? _user;
   bool _isLoading = true;
+  bool _demoMode = false;
   StreamSubscription<User?>? _sub;
 
   AuthProvider({required AuthService authService}) : _authService = authService {
@@ -19,11 +20,18 @@ class AuthProvider extends ChangeNotifier {
   }
 
   User? get user => _user;
-  String? get uid => _user?.uid;
+  String? get uid => _user?.uid ?? (_demoMode ? 'demo' : null);
   String? get email => _user?.email;
-  String? get displayName => _user?.displayName;
-  bool get isLoggedIn => _user != null;
+  String? get displayName => _user?.displayName ?? (_demoMode ? '데모 사용자' : null);
+  bool get isLoggedIn => _user != null || _demoMode;
   bool get isLoading => _isLoading;
+  bool get isDemoMode => _demoMode;
+
+  void loginAsDemo() {
+    _demoMode = true;
+    _isLoading = false;
+    notifyListeners();
+  }
 
   Future<bool> signInWithGoogle() async {
     try {

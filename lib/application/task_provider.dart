@@ -43,9 +43,54 @@ class TaskProvider extends ChangeNotifier {
 
   // 앱 시작 시 Hive에서 태스크 불러오기
   Future<void> loadTasks() async {
+    if (_uid == 'demo') await _seedDemoTasks();
     _tasks = await _hive.getAllTasks();
     await checkDelayStatus();
     notifyListeners();
+  }
+
+  // 데모 모드용 샘플 태스크 (Hive가 비어있을 때만 삽입)
+  Future<void> _seedDemoTasks() async {
+    final existing = await _hive.getAllTasks();
+    if (existing.isNotEmpty) return;
+    final now = DateTime.now();
+    final demos = [
+      Task(
+        id: 'demo-1',
+        uid: 'demo',
+        title: '앱 기획서 작성',
+        description: '최종 발표용 Delay Detective 기획서 마무리',
+        dueDate: now.subtract(const Duration(days: 3)),
+        status: TaskStatus.delayed,
+        isDelayed: true,
+        createdAt: now.subtract(const Duration(days: 7)),
+        updatedAt: now,
+      ),
+      Task(
+        id: 'demo-2',
+        uid: 'demo',
+        title: '발표 슬라이드 디자인',
+        description: 'Marp 기반 최종 발표 슬라이드 30장 완성',
+        dueDate: now.subtract(const Duration(days: 1)),
+        status: TaskStatus.delayed,
+        isDelayed: true,
+        createdAt: now.subtract(const Duration(days: 5)),
+        updatedAt: now,
+      ),
+      Task(
+        id: 'demo-3',
+        uid: 'demo',
+        title: '코드 리뷰 요청',
+        dueDate: now.add(const Duration(days: 2)),
+        status: TaskStatus.todo,
+        isDelayed: false,
+        createdAt: now.subtract(const Duration(days: 1)),
+        updatedAt: now,
+      ),
+    ];
+    for (final t in demos) {
+      await _hive.saveTask(t);
+    }
   }
 
   // 지연 감지: dueDate가 어제 이전(날짜 단위) AND 미완료 → isDelayed = true, Hive 저장

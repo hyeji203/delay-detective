@@ -120,6 +120,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ],
+            const SizedBox(height: 24),
+            TextButton(
+              onPressed: () => context.read<AuthProvider>().loginAsDemo(),
+              child: Text(
+                '데모로 보기',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.6),
+                  fontSize: 13,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white.withOpacity(0.4),
+                ),
+              ),
+            ),
           ],
         ),
       ),
