@@ -6,7 +6,7 @@ size: 16:9
 header: "Delay Detective — 최종 발표"
 footer: "혜지 | 2026.06"
 style: |
-  /* ── 기본 ── */
+  /* ── 기본 (다크 테마) ── */
   section {
     font-family: 'Apple SD Gothic Neo', '맑은 고딕', 'Noto Sans KR', sans-serif;
     font-size: 23px;
@@ -14,129 +14,109 @@ style: |
     color: #dce8ff;
     background: #0d1b3e !important;
   }
-  header {
-    color: #4a6fa5;
-    font-size: 14px;
-    top: 18px;
-  }
-  footer {
-    color: #4a6fa5;
-    font-size: 14px;
-    bottom: 18px;
-  }
-  section::after {
-    font-size: 14px;
-    color: #4a6fa5;
-  }
+  header { color: #3d5a8a; font-size: 14px; top: 18px; }
+  footer { color: #3d5a8a; font-size: 14px; bottom: 18px; }
+  section::after { font-size: 14px; color: #3d5a8a; }
 
-  /* ── 커버 ── */
+  /* ═══ 커버 — 중간발표와 동일한 그라데이션 ═══ */
   section.cover {
-    background: linear-gradient(140deg, #0b1d3e 0%, #1a3a6b 50%, #2563b0 100%) !important;
-    color: #fff !important;
+    background: linear-gradient(135deg, #1F3864, #2E75B6) !important;
+    color: white !important;
     text-align: center;
     justify-content: center;
-    padding: 0;
+    padding: 48px 64px;
   }
   section.cover header,
   section.cover footer,
   section.cover::after { display: none; }
   section.cover h1 {
-    font-size: 64px;
+    font-size: 66px;
     font-weight: 800;
     color: #fff !important;
-    margin: 12px 0 6px;
-    letter-spacing: -1px;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    margin: 10px 0 4px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.35);
   }
   section.cover h3 {
-    color: rgba(255,255,255,0.75) !important;
+    color: rgba(255,255,255,0.85) !important;
     font-size: 22px;
     font-weight: 300;
-    margin: 0 0 28px;
+    margin: 0 0 24px;
   }
   section.cover p {
-    color: rgba(255,255,255,0.7) !important;
+    color: rgba(255,255,255,0.65) !important;
     font-size: 16px;
-    margin: 6px 0;
+    margin: 4px 0;
   }
-  section.cover blockquote {
-    background: rgba(255,255,255,0.12);
-    border-left: none;
-    border-radius: 30px;
-    padding: 10px 32px;
-    font-size: 19px;
-    color: rgba(255,255,255,0.9) !important;
-    display: inline-block;
-    margin: 0 auto 24px;
+  /* 커버 칩 */
+  .chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+  .chip {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 5px 18px;
+    border-radius: 20px;
+    font-size: 17px;
+    border: 1px solid rgba(255,255,255,0.28);
+    backdrop-filter: blur(4px);
+  }
+  .chip-sm {
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.85);
+    padding: 3px 14px;
+    border-radius: 16px;
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,0.20);
   }
 
   /* ── 헤딩 ── */
   h2 {
     color: #7eb8ff;
     font-size: 28px;
-    border-bottom: 2px solid #2563b0;
+    border-bottom: 2px solid #2E75B6;
     padding-bottom: 8px;
     margin-bottom: 18px;
   }
-  h3 {
-    color: #93c5fd;
-    font-size: 18px;
-    margin: 10px 0 6px;
-  }
+  h3 { color: #93c5fd; font-size: 18px; margin: 10px 0 6px; }
 
   /* ── 테이블 ── */
   table {
     font-size: 18px;
     width: 100%;
     border-collapse: collapse;
-    background: #132040;
+    background: #111f40;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
   }
-  th {
-    background: #1e3f7a;
-    color: #c8dfff;
-    padding: 8px 12px;
-    font-weight: 600;
-  }
-  td {
-    padding: 6px 12px;
-    border-bottom: 1px solid #1e3060;
-    color: #c8dfff;
-  }
+  th { background: #1F3864; color: #c8dfff; padding: 8px 12px; font-weight: 600; }
+  td { padding: 6px 12px; border-bottom: 1px solid #1a2f5e; color: #c8dfff; }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #0f2450; }
+  tr:nth-child(even) td { background: #0e1e40; }
 
   /* ── 코드 ── */
-  code {
-    background: #1e3060;
-    color: #93c5fd;
-    padding: 1px 7px;
-    border-radius: 4px;
-    font-size: 18px;
-  }
+  code { background: #1a2f5e; color: #93c5fd; padding: 1px 7px; border-radius: 4px; font-size: 17px; }
   pre {
-    background: #060f24;
+    background: #07102a;
     color: #c8d8ff;
     padding: 14px 18px;
     border-radius: 10px;
-    font-size: 15.5px;
+    font-size: 15px;
     line-height: 1.65;
-    border-left: 4px solid #3b82f6;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    border-left: 4px solid #2E75B6;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.5);
   }
-  pre code {
-    background: transparent;
-    color: inherit;
-    padding: 0;
-    font-size: inherit;
-  }
+  pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
 
   /* ── 인용 ── */
   blockquote {
-    border-left: 4px solid #3b82f6;
-    background: #132040;
+    border-left: 4px solid #2E75B6;
+    background: #111f40;
     padding: 10px 18px;
     margin: 12px 0;
     border-radius: 0 8px 8px 0;
@@ -146,7 +126,7 @@ style: |
 
   /* ── 카드 박스 ── */
   .card {
-    background: #132040;
+    background: #111f40;
     border-radius: 12px;
     padding: 16px 20px;
     border: 1px solid #1e3f7a;
@@ -155,65 +135,38 @@ style: |
   }
   .card h3 { color: #93c5fd !important; }
   .card-green {
-    background: #0a2a18;
+    background: #0a2518;
     border-radius: 12px;
     padding: 14px 18px;
     border: 1.5px solid #22c55e;
     color: #86efac;
   }
   .card-orange {
-    background: #2a1500;
+    background: #271300;
     border-radius: 12px;
     padding: 14px 18px;
     border: 1.5px solid #f97316;
     color: #fdba74;
   }
   .card-dark {
-    background: #060f24;
+    background: #07102a;
     color: #c8d8ff;
     border-radius: 12px;
     padding: 14px 18px;
-    border: 1.5px solid #2563b0;
+    border: 1.5px solid #2E75B6;
   }
   .card-dark h3 { color: #7eb8ff !important; }
 
-  /* ── 2열 레이아웃 ── */
-  .cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-    margin-top: 6px;
-  }
-  .cols3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-  }
-
-  /* ── 칩 ── */
-  .tag {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .tag-done  { background: #22c55e; color: white; }
-  .tag-ms    { background: #ef4444; color: white; }
-  .tag-warn  { background: #f97316; color: white; }
+  /* ── 레이아웃 ── */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 6px; }
 
   /* ── 데모 슬라이드 ── */
   section.demo {
-    background: linear-gradient(140deg, #0b1d3e, #1a3a6b) !important;
+    background: linear-gradient(135deg, #142040, #1F3864) !important;
     color: #e8f0ff !important;
   }
-  section.demo h2 { color: #7eb8ff !important; border-color: #3b82f6; }
+  section.demo h2 { color: #7eb8ff !important; border-color: #2E75B6; }
   section.demo h3 { color: #a5c8ff !important; }
-  section.demo blockquote {
-    background: rgba(255,255,255,0.08);
-    border-left-color: #3b82f6;
-    color: #c8d8ff;
-  }
   .step {
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.15);
@@ -227,7 +180,7 @@ style: |
 
   /* ── 마지막 슬라이드 ── */
   section.ending {
-    background: linear-gradient(140deg, #0b1d3e 0%, #1a3a6b 50%, #2563b0 100%) !important;
+    background: linear-gradient(135deg, #1F3864, #2E75B6) !important;
     color: #fff !important;
     text-align: center;
     justify-content: center;
@@ -235,39 +188,46 @@ style: |
   section.ending header,
   section.ending footer,
   section.ending::after { display: none; }
-  section.ending h2 {
-    color: #fff !important;
-    border: none;
-    font-size: 44px;
-    margin-bottom: 20px;
-  }
-  section.ending p { color: rgba(255,255,255,0.85) !important; font-size: 20px; }
-  section.ending a { color: #93c5fd; }
+  section.ending h2 { color: #fff !important; border: none; font-size: 42px; margin-bottom: 16px; }
+  section.ending p { color: rgba(255,255,255,0.85) !important; font-size: 19px; }
+  section.ending a { color: #bfdbfe; }
   section.ending blockquote {
-    background: rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.12);
     border: none;
     border-radius: 16px;
     color: rgba(255,255,255,0.9) !important;
-    font-size: 22px;
-    padding: 14px 36px;
+    font-size: 21px;
+    padding: 12px 36px;
     display: inline-block;
   }
 ---
 
 <!-- _class: cover -->
 
-# 🕵️ Delay Detective
+# 🔍 DELAY DETECTIVE
 
-### AI-Powered Procrastination Analyzer
+### AI 기반 미루기 분석 & 태스크 재구성 앱
 
-> 📋 미루는 태스크 감지 → AI 인터뷰 → 소태스크 재구성
+<div class="chips">
+  <span class="chip">Flutter</span>
+  <span class="chip">Claude API</span>
+  <span class="chip">Firebase Firestore</span>
+  <span class="chip">Hive (오프라인)</span>
+  <span class="chip">Provider</span>
+</div>
 
-혜지 | 2026.06 | Flutter · Firebase · Anthropic API
+<div class="chips">
+  <span class="chip-sm">서브에이전트 5종</span>
+  <span class="chip-sm">MCP 3개</span>
+  <span class="chip-sm">최종 발표</span>
+</div>
+
+혜지 · 최종 발표 · 2026-06-21
 
 <!--
 [대사 — 20초]
 안녕하세요. 저는 AI 기반 할 일 미루기 분석 앱 'Delay Detective'를 개발한 혜지입니다.
-오늘 발표는 비전 제시부터 시연 데모, 기술 구조, 테스트까지 5분 안에 압축해서 말씀드리겠습니다.
+오늘 발표는 비전 제시부터 시연 데모, 기술 구조, 테스트까지 5분 안에 말씀드리겠습니다.
 -->
 
 ---
@@ -324,12 +284,12 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 
 **[데모 영상 — 30초]**
 
-<div class="step"><b>1</b> Google 로그인 → 메인 홈 캘린더</div>
-<div class="step"><b>2</b> 할일 추가 (발표 준비, 마감 오늘)</div>
-<div class="step"><b>3</b> 마감 초과 태스크 🔥 강조 확인</div>
-<div class="step"><b>4</b> AI 분석 시작 → Claude 인터뷰 3턴</div>
-<div class="step"><b>5</b> 소태스크 3개 자동 생성 결과 확인</div>
-<div class="step"><b>6</b> 📊 통계 탭 → 완료율 시각화</div>
+<div class="step"><b>1</b>  Google 로그인 → 메인 홈 캘린더</div>
+<div class="step"><b>2</b>  할일 추가 (발표 준비, 마감 오늘)</div>
+<div class="step"><b>3</b>  마감 초과 태스크 🔥 강조 확인</div>
+<div class="step"><b>4</b>  AI 분석 시작 → Claude 인터뷰 3턴</div>
+<div class="step"><b>5</b>  소태스크 3개 자동 생성 결과 확인</div>
+<div class="step"><b>6</b>  📊 통계 탭 → 완료율 시각화</div>
 
 </div>
 <div>
@@ -358,10 +318,10 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 </div>
 
 <!--
-[대사 — 데모 중]
-보시는 것처럼 Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
+[대사 — 데모 30초 중]
+Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
 마감이 지난 태스크는 불꽃 아이콘으로 강조되고, AI 분석을 시작하면 Claude가 왜 미루는지 질문합니다.
-2~3턴 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인할 수 있습니다.
+2~3턴 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인합니다.
 -->
 
 ---
@@ -370,8 +330,8 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 
 <style scoped>
 table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top: 8px; background: #0d1b3e; }
-th { background: #1e3f7a; color: #c8dfff; text-align: center; padding: 3px 5px; font-size: 11px; }
-td { padding: 2px 5px; border: 1px solid #1e3060; font-size: 11px; color: #c8dfff; }
+th { background: #1F3864; color: #c8dfff; text-align: center; padding: 3px 5px; font-size: 11px; }
+td { padding: 2px 5px; border: 1px solid #1a2f5e; font-size: 11px; color: #c8dfff; }
 tr.sec td { background: #132a5e; font-weight: 700; color: #93c5fd; }
 tr.ms  td { background: #2a1f00; font-weight: 700; color: #fcd34d; }
 .done { background: #16a34a; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
@@ -442,15 +402,14 @@ Must 기능 100%, Should 기능도 주요 항목은 구현했습니다.
 
 </div>
 
-> **MCP 3개**: Notion (분석 저장) · GitHub (이슈) · Playwright (E2E)
+> **MCP 3개**: Notion · GitHub · Playwright
 
 </div>
 </div>
 
 <!--
 [대사 — 20초]
-기술 선택의 핵심은 '서버 없이 오프라인도 동작하는 앱'이었습니다.
-Hive가 로컬, Firestore가 클라우드를 담당해 네트워크 없이도 완전히 동작합니다.
+기술 선택의 핵심은 서버 없이 오프라인도 동작하는 앱이었습니다.
 개발은 5개 서브에이전트 팀으로 나눠 각 전문 역할을 분담했습니다.
 -->
 
@@ -479,9 +438,9 @@ lib/
 │   Task, SubTask, DelayAnalysis, TaskStatus
 │
 └── data/
-    ├── local/   HiveService   (오프라인 CRUD)
+    ├── local/   HiveService
     ├── remote/  FirestoreService · AIService
-    └── sync/    SyncService   (sync_queue)
+    └── sync/    SyncService (sync_queue)
 ```
 
 </div>
@@ -489,7 +448,7 @@ lib/
 
 **의존성 방향 (단방향)**
 
-<div class="card" style="text-align:center; font-size:20px; padding:20px;">
+<div class="card" style="text-align:center; font-size:20px; padding:24px 20px;">
 
 🖥️ **Presentation**
 ↓
@@ -501,10 +460,9 @@ lib/
 
 <div class="card" style="margin-top:14px;">
 
-**핵심 원칙**
-- Domain은 외부 라이브러리에 의존 없음
+- Domain은 외부 의존 없음
 - 오프라인 우선 (Hive → Firestore)
-- `ChangeNotifierProxyProvider`로 uid 변경 시 자동 재생성
+- `ChangeNotifierProxyProvider` uid 자동 재생성
 - ADR-0001에 Flutter 선택 이유 기록
 
 </div>
@@ -517,7 +475,6 @@ lib/
 클린 아키텍처의 4-레이어를 적용했습니다.
 Domain 레이어는 외부 라이브러리에 전혀 의존하지 않고,
 Presentation은 Provider를 통해 상태를 받습니다.
-이 결정은 ADR-0001에 기록됐습니다.
 -->
 
 ---
@@ -582,8 +539,7 @@ if (local.updatedAt > remote.updatedAt) {
 <!--
 [대사 — 25초]
 가장 복잡했던 부분이 오프라인-온라인 동기화입니다.
-오프라인 변경 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해 더 최신 데이터를 선택합니다.
-웹과 모바일의 Google 로그인 방식 차이로 kIsWeb 분기를 직접 작성해야 했습니다.
+오프라인 변경은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해 더 최신 데이터를 선택합니다.
 -->
 
 ---
@@ -602,31 +558,30 @@ if (local.updatedAt > remote.updatedAt) {
 | Firebase | CLI + flutterfire_cli |
 | 테스트 기기 | Galaxy S25 (Android 16) |
 
-**GitHub 설치 가이드** (`docs/setup.md`)
+**GitHub 설치 가이드**
 
 ```bash
 git clone https://github.com/hyeji203/delay-detective
 flutter pub get
-flutterfire configure     # Firebase 연결
-# 웹 실행 (OAuth 포트 고정)
+flutterfire configure
 flutter run -d chrome --web-port 5000
 ```
 
 </div>
 <div>
 
-**빌드 & 배포 3단계**
+**빌드 & 배포**
 
 ```bash
-# 1. 개발
+# 개발
 flutter run --debug
 
-# 2. 릴리즈 빌드
+# 릴리즈 빌드
 flutter build apk --release        # 49.9 MB
-flutter build appbundle --release  # 43 MB (Play Store)
-flutter build web --release        # Firebase Hosting
+flutter build appbundle --release  # 43 MB
+flutter build web --release
 
-# 3. 웹 배포
+# 웹 배포
 firebase deploy --only hosting
 ```
 
@@ -643,7 +598,6 @@ firebase deploy --only hosting
 
 <!--
 [대사 — 20초]
-빌드는 debug, release, profile 세 종류입니다.
 릴리즈 빌드는 서명 키 설정 후 appbundle로 Play Console에 업로드합니다.
 설치 방법은 setup.md에 명령어 그대로 정리했습니다.
 -->
@@ -673,8 +627,8 @@ firebase deploy --only hosting
 <div class="card-green">
 
 **캘린더 렌더링**
-- `LayoutBuilder`로 rowHeight 동적 계산
-- `IndexedStack`으로 탭 전환 시 상태 유지
+- `LayoutBuilder` rowHeight 동적 계산
+- `IndexedStack` 탭 전환 시 상태 유지
 - `DateTime(y,m,d)` 비교로 날짜 오차 제거
 
 </div>
@@ -682,9 +636,9 @@ firebase deploy --only hosting
 <div class="card" style="margin-top:10px;">
 
 **AI 응답 최적화**
-- Anthropic API `stream: true` → 실시간 타이핑 효과
+- Anthropic API `stream: true` → 실시간 타이핑
 - 인터뷰 2~3턴 최소화 (UX 최적화)
-- JSON 파싱 실패 시 fallback 소태스크 자동 제공
+- JSON 파싱 실패 시 fallback 소태스크 제공
 
 </div>
 
@@ -694,8 +648,7 @@ firebase deploy --only hosting
 <!--
 [대사 — 25초]
 5가지 버그를 직접 겪고 해결했습니다.
-가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였고,
-성능 면에서는 캘린더에 LayoutBuilder를 써서 화면 크기에 맞게 동적 계산했습니다.
+가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였습니다.
 AI 응답은 스트리밍으로 받아 실시간 타이핑 효과를 구현했습니다.
 -->
 
@@ -723,15 +676,13 @@ test/unit/task_model_test.dart
 **E2E — Playwright MCP**
 
 ```
-e2e/login.spec.ts       로그인 화면·버튼 렌더링
+e2e/login.spec.ts       로그인 화면·버튼
 e2e/navigation.spec.ts  비인증 리다이렉트
 e2e/task.spec.ts        할일 CRUD 플로우
 ```
 
 </div>
 <div>
-
-**코드 품질 관리**
 
 <div class="card-green">
 
@@ -746,13 +697,13 @@ e2e/task.spec.ts        할일 CRUD 플로우
 - `google-services.json` → `.gitignore` ✅
 - `keystore.jks` + `key.properties` → `.gitignore` ✅
 - Anthropic API 키 → `.env` (미커밋) ✅
-- Firestore Security Rules: uid 기반 격리 ✅
+- Firestore Security Rules: uid 격리 ✅
 
 </div>
 
 <div class="card" style="margin-top:10px;">
 
-**ADR 문서화** (결정 이유 기록)
+**ADR 문서화**
 - ADR-0001: Flutter 선택 (vs Native)
 - ADR-0002: Provider (vs Redux)
 - ADR-0003: Firebase+Hive (vs 자체 서버)
@@ -765,7 +716,6 @@ e2e/task.spec.ts        할일 CRUD 플로우
 <!--
 [대사 — 20초]
 단위 테스트 11개 모두 통과했습니다.
-Conflict Resolution, 직렬화 왕복, 마감 계산 4케이스를 커버했고,
 E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했습니다.
 -->
 
@@ -776,24 +726,23 @@ E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했
 | ADR | 결정 | 핵심 이유 |
 |---|---|---|
 | **ADR-0001** | Flutter 선택 | 웹+Android 동시 지원, 단일 코드베이스 |
-| **ADR-0002** | Provider 선택 | Flutter 공식 권장, 이 앱 규모엔 Redux 과도 |
+| **ADR-0002** | Provider 선택 | Flutter 공식 권장, 이 규모엔 Redux 과도 |
 | **ADR-0003** | Firebase+Hive | 서버 없이 오프라인-온라인 동기화 구현 |
 
 **예상 Q&A**
 
 > **Q. 왜 Supabase 대신 Firebase?**  
-> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 다양 — ADR-0003
+> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 — ADR-0003
 
 > **Q. Redux 대신 Provider를 쓴 이유?**  
-> 이 앱 규모에서 Redux는 보일러플레이트 과다. Provider가 공식 권장 — ADR-0002
+> 이 앱 규모에서 Redux는 보일러플레이트 과다 — ADR-0002
 
 > **Q. 오프라인·온라인 충돌이 나면?**  
-> `updatedAt` 타임스탬프 비교 → Last-Write-Wins. 동일 시각이면 서버 우선 — ADR-0003
+> `updatedAt` 비교 → Last-Write-Wins, 동일 시각이면 서버 우선 — ADR-0003
 
 <!--
 [대사 — 15초]
-기술 결정은 모두 ADR 문서로 남겼습니다.
-Q&A 질문이 오면 ADR 번호로 바로 답변할 수 있습니다.
+기술 결정은 모두 ADR 문서로 남겼습니다. Q&A 질문이 오면 ADR 번호로 바로 답변합니다.
 -->
 
 ---
@@ -814,18 +763,16 @@ Q&A 질문이 오면 ADR 번호로 바로 답변할 수 있습니다.
 
 </div>
 
-**GitHub**
-
-```
-github.com/hyeji203/delay-detective
-잔디 확인 → https://num.slogs.dev
-```
+<div class="card" style="margin-top:12px;">
 
 **기술 자산화**
 
-> AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩  
-> → 다음 프로젝트 템플릿으로 재사용  
-> LLM Wiki `notes/` 5개 파일 축적
+AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩
+→ 다음 프로젝트 템플릿 재사용
+
+LLM Wiki `notes/` 5개 파일 축적
+
+</div>
 
 </div>
 <div>
@@ -840,17 +787,13 @@ github.com/hyeji203/delay-detective
 | 🟡 중간 | Notion·GitHub 소태스크 자동 연동 |
 | 🟢 낮음 | AI 인사이트 대시보드 |
 
-<div class="card" style="margin-top:14px;">
-
 **가산점 요약**
 
-| 항목 | 증빙 | 점수 |
-|---|---|---|
-| AI Agent 워크플로우 | `.claude/agents/` 5종 | +1 |
-| 나만의 기법 | `AUTHORING.hyeji.md` | +2 |
-| LLM Wiki | `notes/` 5개 파일 | +1 |
-
-</div>
+| 항목 | 점수 |
+|---|---|
+| AI Agent 워크플로우 (서브에이전트 5종) | +1 |
+| 나만의 기법 (AUTHORING.hyeji.md) | +2 |
+| LLM Wiki (`notes/` 5개 파일) | +1 |
 
 </div>
 </div>
@@ -858,8 +801,7 @@ github.com/hyeji203/delay-detective
 <!--
 [대사 — 20초]
 이 앱은 지금 바로 웹과 Android에서 사용할 수 있습니다.
-향후에는 FCM 푸시 알림과 iOS 지원을 먼저 추가하고 싶습니다.
-AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됐습니다.
+AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됩니다.
 -->
 
 ---
@@ -870,9 +812,9 @@ AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됐
 
 > "AI가 물어봐주면, 미루기가 시작된다"
 
-📦 **GitHub**: github.com/hyeji203/delay-detective
+📦 **github.com/hyeji203/delay-detective**
 
-🌿 **잔디**: https://num.slogs.dev
+🌿 **잔디: https://num.slogs.dev**
 
 **Q & A**
 
@@ -892,9 +834,9 @@ AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됐
 ```
 users/{uid}/tasks/{taskId}
   - id, title, description
-  - dueDate (ISO 8601), isCompleted, isDelayed
-  - delayReason, delayCategory (복잡함/두려움/우선순위/환경)
-  - createdAt, updatedAt   ← 동기화 타임스탬프 (Last-Write-Wins 기준)
+  - dueDate, isCompleted, isDelayed
+  - delayReason, delayCategory
+  - createdAt, updatedAt   ← Last-Write-Wins 기준
   - subTasks: [{id, title, isCompleted}]
 
 users/{uid}/sync_queue/{taskId}
@@ -906,26 +848,25 @@ users/{uid}/sync_queue/{taskId}
 ## B2. AI 인터뷰 흐름
 
 ```
-System Prompt:
-  "공감적인 미루기 코치. 2~3턴 내에 원인 파악 후 소태스크 3개를 JSON으로."
+System: "공감적 미루기 코치. 2~3턴 내 원인 파악 후 소태스크 3개 JSON 제시."
 
-1턴: "이 태스크를 미룬 이유가 뭔가요?" (개방형)
+1턴: "이 태스크를 미룬 이유가 뭔가요?"
 2턴: 원인 유형 확인 (복잡함/두려움/우선순위/환경)
 3턴: "15분 안에 할 수 있는 첫 번째 단계는?" → SubTask 추출
 
-→ stream: true 로 실시간 타이핑 효과
+→ stream: true 로 실시간 타이핑
 → JSON 파싱 실패 시 fallback 소태스크 자동 제공
 ```
 
 ---
 
-## B3. 테스트 & 보안 체크
+## B3. 테스트 & 보안
 
 ```bash
-flutter test test/unit/            # 단위 테스트 11개
-npx playwright test e2e/           # E2E 전체
+flutter test test/unit/          # 단위 11개
+npx playwright test e2e/         # E2E 전체
 
-# .gitignore 필수 항목
+# .gitignore 필수
 google-services.json  GoogleService-Info.plist
 keystore.jks  key.properties  .env
 ```
