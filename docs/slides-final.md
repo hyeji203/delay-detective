@@ -20,7 +20,7 @@ style: |
 
   /* ═══ 커버 ═══ */
   section.cover {
-    background: linear-gradient(135deg, #070e1f, #0d1b3e) !important;
+    background: linear-gradient(135deg, #0d1b3e, #1a3464) !important;
     color: white !important;
     text-align: center;
     justify-content: center;
@@ -179,7 +179,7 @@ style: |
 
   /* ── 마지막 슬라이드 ── */
   section.ending {
-    background: linear-gradient(135deg, #1F3864, #2E75B6) !important;
+    background: linear-gradient(135deg, #0d1b3e, #1a3464) !important;
     color: #fff !important;
     text-align: center;
     justify-content: center;
