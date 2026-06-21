@@ -3670,19 +3670,6 @@ section.ending blockquote {
 </tr>
 </tbody>
 </table>
-<p><strong>예상 Q&amp;A</strong></p>
-<blockquote>
-<p><strong>Q. 왜 Supabase 대신 Firebase?</strong><br />
-Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 — ADR-0003</p>
-</blockquote>
-<blockquote>
-<p><strong>Q. Redux 대신 Provider를 쓴 이유?</strong><br />
-이 앱 규모에서 Redux는 보일러플레이트 과다 — ADR-0002</p>
-</blockquote>
-<blockquote>
-<p><strong>Q. 오프라인·온라인 충돌이 나면?</strong><br />
-<code>updatedAt</code> 비교 → Last-Write-Wins, 동일 시각이면 서버 우선 — ADR-0003</p>
-</blockquote>
 <footer>신혜지 | 2026.06.22</footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-header="Delay Detective — 최종 발표" data-footer="신혜지 | 2026.06.22" data-theme="default" data-style="/* ── 기본 (다크 테마) ── */
@@ -5437,13 +5424,34 @@ section.ending blockquote {
 <div class="cols">
 <div>
 <p><strong>4-레이어 의존성 방향 (단방향)</strong></p>
-<div class="card" style="text-align:center; font-size:20px; padding:28px 20px;">
-<p><img class="emoji" draggable="false" alt="🖥️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f5a5.svg" data-marp-twemoji=""/> <strong>Presentation</strong><br />
-↓ (읽기 전용)<br />
-<img class="emoji" draggable="false" alt="⚙️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/2699.svg" data-marp-twemoji=""/> <strong>Application</strong> (Provider)<br />
-↓ (호출)<br />
-<img class="emoji" draggable="false" alt="📦" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f4e6.svg" data-marp-twemoji=""/> <strong>Domain</strong> ← <img class="emoji" draggable="false" alt="🗄️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f5c4.svg" data-marp-twemoji=""/> <strong>Data</strong></p>
-</div>
+<svg viewBox="0 0 360 248" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin-top:6px;">
+  <defs>
+    <marker id="ld-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#7eb8ff"/>
+    </marker>
+  </defs>
+  <rect x="80" y="4" width="200" height="50" rx="9" fill="#162c58" stroke="#7eb8ff" stroke-width="1.5"/>
+  <text x="180" y="25" text-anchor="middle" fill="#dce8ff" font-size="14" font-weight="700" font-family="sans-serif">Presentation</text>
+  <text x="180" y="44" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Screen · Widget</text>
+  <line x1="180" y1="54" x2="180" y2="82" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#ld-arr)"/>
+  <text x="188" y="74" fill="#8aaccc" font-size="10" font-family="sans-serif">읽기 전용</text>
+  <rect x="80" y="84" width="200" height="50" rx="9" fill="#162c58" stroke="#7eb8ff" stroke-width="1.5"/>
+  <text x="180" y="105" text-anchor="middle" fill="#dce8ff" font-size="14" font-weight="700" font-family="sans-serif">Application</text>
+  <text x="180" y="124" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Provider · TaskProvider</text>
+  <line x1="180" y1="134" x2="180" y2="162" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#ld-arr)"/>
+  <text x="188" y="154" fill="#8aaccc" font-size="10" font-family="sans-serif">Service 호출</text>
+  <rect x="4" y="164" width="162" height="60" rx="9" fill="#0d2040" stroke="#4daaff" stroke-width="2"/>
+  <text x="85" y="186" text-anchor="middle" fill="#dce8ff" font-size="14" font-weight="700" font-family="sans-serif">Domain</text>
+  <text x="85" y="204" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Task · Model</text>
+  <text x="85" y="218" text-anchor="middle" fill="#5d88b0" font-size="10" font-family="sans-serif">외부 의존 없음 (순수 Dart)</text>
+  <line x1="194" y1="194" x2="172" y2="194" stroke="#7eb8ff" stroke-width="1.5"/>
+  <polygon points="172,190 172,198 163,194" fill="#7eb8ff"/>
+  <text x="183" y="188" text-anchor="middle" fill="#8aaccc" font-size="9" font-family="sans-serif">fromMap/toMap</text>
+  <rect x="194" y="164" width="162" height="60" rx="9" fill="#162c58" stroke="#7eb8ff" stroke-width="1.5"/>
+  <text x="275" y="186" text-anchor="middle" fill="#dce8ff" font-size="14" font-weight="700" font-family="sans-serif">Data</text>
+  <text x="275" y="204" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Hive · Firestore</text>
+  <text x="275" y="218" text-anchor="middle" fill="#5d88b0" font-size="10" font-family="sans-serif">Service 구현체</text>
+</svg>
 <div class="card" style="margin-top:14px; font-size:17px;">
 <ul>
 <li>Presentation → Application : <code>context.watch&lt;TaskProvider&gt;()</code></li>
@@ -5454,20 +5462,35 @@ section.ending blockquote {
 </div>
 <div>
 <p><strong>오프라인 우선 데이터 흐름</strong></p>
-<div class="card-dark" style="font-size:17px;">
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>사용자 액션
-    ↓
-TaskProvider (Application)
-    ↓          ↓
-HiveService  FirestoreService
-(Local)      (Remote / 온라인 시)
-    ↓
-SyncService
-  - sync_queue 처리
-  - updatedAt 비교
-  - Last-Write-Wins 적용
-</code></pre>
-</div>
+<svg viewBox="0 0 360 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin-top:6px;">
+  <defs>
+    <marker id="df-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#7eb8ff"/>
+    </marker>
+  </defs>
+  <rect x="110" y="4" width="140" height="36" rx="8" fill="#2a1854" stroke="#b0a0ff" stroke-width="1.5"/>
+  <text x="180" y="27" text-anchor="middle" fill="#dce8ff" font-size="13" font-weight="700" font-family="sans-serif">사용자 액션</text>
+  <line x1="180" y1="40" x2="180" y2="64" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#df-arr)"/>
+  <rect x="55" y="66" width="250" height="46" rx="9" fill="#162c58" stroke="#7eb8ff" stroke-width="1.5"/>
+  <text x="180" y="87" text-anchor="middle" fill="#dce8ff" font-size="13" font-weight="700" font-family="sans-serif">TaskProvider</text>
+  <text x="180" y="104" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Application Layer</text>
+  <line x1="118" y1="112" x2="74" y2="146" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#df-arr)"/>
+  <line x1="242" y1="112" x2="286" y2="146" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#df-arr)"/>
+  <rect x="6" y="148" width="154" height="52" rx="9" fill="#162c58" stroke="#7eb8ff" stroke-width="1.5"/>
+  <text x="83" y="170" text-anchor="middle" fill="#dce8ff" font-size="13" font-weight="700" font-family="sans-serif">HiveService</text>
+  <text x="83" y="189" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Local · 항상 저장</text>
+  <rect x="200" y="148" width="154" height="52" rx="9" fill="#162c58" stroke="#ff8a65" stroke-width="1.5"/>
+  <text x="277" y="170" text-anchor="middle" fill="#dce8ff" font-size="13" font-weight="700" font-family="sans-serif">FirestoreService</text>
+  <text x="277" y="189" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">Remote · 온라인 시</text>
+  <line x1="83" y1="200" x2="83" y2="224" stroke="#7eb8ff" stroke-width="1.5"/>
+  <line x1="277" y1="200" x2="277" y2="224" stroke="#7eb8ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="83" y1="224" x2="118" y2="232" stroke="#7eb8ff" stroke-width="1.5" marker-end="url(#df-arr)"/>
+  <line x1="277" y1="224" x2="242" y2="232" stroke="#7eb8ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#df-arr)"/>
+  <rect x="100" y="234" width="220" height="52" rx="9" fill="#0d2040" stroke="#4daaff" stroke-width="2"/>
+  <text x="210" y="254" text-anchor="middle" fill="#dce8ff" font-size="13" font-weight="700" font-family="sans-serif">SyncService</text>
+  <text x="210" y="271" text-anchor="middle" fill="#8aaccc" font-size="11" font-family="sans-serif">sync_queue · updatedAt 비교</text>
+  <text x="210" y="283" text-anchor="middle" fill="#5d88b0" font-size="10" font-family="sans-serif">Last-Write-Wins 적용</text>
+</svg>
 <blockquote>
 <p>오프라인 → Hive 선저장<br />
 온라인 복구 → Firestore 동기화</p>
@@ -8480,39 +8503,17 @@ section.ending blockquote {
 <header>Delay Detective — 최종 발표</header>
 
 <h2 id="%F0%9F%8E%AC-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%EA%B8%B0%EB%B0%98-%EC%8B%9C%EC%97%B0"><img class="emoji" draggable="false" alt="🎬" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f3ac.svg" data-marp-twemoji=""/> 사용자 시나리오 기반 시연</h2>
-<div class="cols">
-<div>
-<p><strong>[데모 시나리오 — 30초]</strong></p>
-<div class="step"><b>1</b>  Google 로그인 → 메인 홈 캘린더</div>
-<div class="step"><b>2</b>  할일 추가 (발표 준비, 마감 오늘)</div>
-<div class="step"><b>3</b>  마감 초과 태스크 🔥 강조 확인</div>
-<div class="step"><b>4</b>  AI 분석 시작 → Claude 인터뷰 3턴</div>
-<div class="step"><b>5</b>  소태스크 3개 자동 생성 결과 확인</div>
-<div class="step"><b>6</b>  📊 통계 탭 → 완료율 시각화</div>
-</div>
-<div>
-<p><strong>시나리오 흐름도</strong></p>
-<div class="card-dark" style="font-size:17px;">
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>로그인
-  ↓
-홈 화면 (캘린더)
-  ↓
-마감 초과 태스크 <img class="emoji" draggable="false" alt="🔥" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f525.svg" data-marp-twemoji=""/> 발견
-  ↓
-AI 분석 탭 진입
-  ↓
-Claude 인터뷰
-  &quot;왜 미루고 있나요?&quot;
-  ↓
-소태스크 3개 생성
-  ① 핵심 메시지 작성 (15분)
-  ② 목차 구성 (15분)
-  ③ 첫 슬라이드 작성 (15분)
-  ↓
-통계 탭 → 완료율 확인
-</code></pre>
-</div>
-</div>
+<div style="display:flex; align-items:flex-start; gap:40px; margin-top:8px;">
+  <video src="demo_raw.webm" controls style="height:520px; border-radius:12px; box-shadow:0 6px 28px rgba(0,0,0,0.65); border:2px solid #2E75B6; flex-shrink:0; background:#000;"></video>
+  <div style="padding-top:4px;">
+    <p style="color:#a5c8ff; font-weight:700; font-size:18px; margin:0 0 16px;">[데모 — 30초]</p>
+    <div class="step"><b>1</b>&nbsp; 로그인 → 홈 캘린더</div>
+    <div class="step"><b>2</b>&nbsp; 6/25 탭 → 할일 추가 → 저장</div>
+    <div class="step"><b>3</b>&nbsp; "미루고있어요" 선택</div>
+    <div class="step"><b>4</b>&nbsp; AI 인터뷰 3턴 답변</div>
+    <div class="step"><b>5</b>&nbsp; 분석결과 · 소태스크 확인</div>
+    <div class="step"><b>6</b>&nbsp; 📊 통계 · AI분석 탭</div>
+  </div>
 </div>
 <footer>신혜지 | 2026.06.22</footer>
 </section>

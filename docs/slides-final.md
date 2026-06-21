@@ -547,16 +547,6 @@ LLM Wiki `notes/` 5개 파일 축적
 | **ADR-0002** | Provider 선택 | Flutter 공식 권장, 이 규모엔 Redux 과도 |
 | **ADR-0003** | Firebase+Hive | 서버 없이 오프라인-온라인 동기화 구현 |
 
-**예상 Q&A**
-
-> **Q. 왜 Supabase 대신 Firebase?**  
-> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 — ADR-0003
-
-> **Q. Redux 대신 Provider를 쓴 이유?**  
-> 이 앱 규모에서 Redux는 보일러플레이트 과다 — ADR-0002
-
-> **Q. 오프라인·온라인 충돌이 나면?**  
-> `updatedAt` 비교 → Last-Write-Wins, 동일 시각이면 서버 우선 — ADR-0003
 
 <!--
 [대사 — 8초]

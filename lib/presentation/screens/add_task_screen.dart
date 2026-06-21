@@ -95,6 +95,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_editingTask != null ? '할 일 수정' : '할 일 추가'),
+        actions: [
+          if (!_saving)
+            IconButton(
+              icon: const Icon(Icons.check_rounded),
+              onPressed: _save,
+              tooltip: '저장',
+            ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(height: 1, color: const Color(0xFFEEEEF5)),

@@ -191,6 +191,7 @@ class _InterviewScreenState extends State<InterviewScreen> {
                       ),
                       maxLines: 3,
                       minLines: 1,
+                      textInputAction: TextInputAction.send,
                       onSubmitted: (_) => _submit(),
                     ),
                   ),
