@@ -52,17 +52,45 @@ Delay Detective:
 
 ---
 
-## 프로젝트 계획 — WBS & 진행 현황
+## WBS & 진행 현황
 
-| 단계 | 주요 산출물 | 상태 |
-|---|---|---|
-| 1. 기획 | 비전, 요구사항, WBS, ADR 3개 | ✅ 완료 |
-| 2. 설계 | 4-레이어 아키텍처, Firestore/Hive 스키마 | ✅ 완료 |
-| 3. 구현 | 화면 9개, Firebase, AI 인터뷰, Google 로그인 | ✅ 완료 |
-| 4. 테스트 | Flutter 단위 11개, Playwright E2E | ✅ 완료 |
-| 5. 배포 | 웹 빌드, APK 49.9MB, AAB 43MB | ✅ 완료 |
+<style scoped>
+table { font-size: 11.5px; width: 100%; border-collapse: collapse; margin-top: 12px; }
+th { background: #1F3864; color: white; text-align: center; padding: 4px 6px; }
+td { padding: 2px 5px; border: 1px solid #ccc; vertical-align: middle; }
+tr.sec td { background: #EBF3FF; font-weight: bold; }
+tr.ms  td { background: #FFF2CC; font-weight: bold; }
+.done { background: #70AD47; color: white; border-radius: 10px; padding: 1px 7px; font-size: 10px; }
+.mstag { background: #C00000; color: white; border-radius: 10px; padding: 1px 7px; font-size: 10px; }
+</style>
 
-**총 6주 개발 (세션 2~6)**
+| WBS | 태스크 | 상태 | W10<br>05/11 | W11<br>05/18 | W12<br>06/01 | W13<br>06/08 | W14<br>06/15~21 |
+|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1** | **기획 & 설계** | <span class="done">완료</span> | ██ | · | · | · | · |
+| 1.1 | 기획 문서 (전진·요구사항·WBS) | <span class="done">완료</span> | █ | · | · | · | · |
+| 1.2 | 설계: AI·Firestore·Hive 흐름 정의 | <span class="done">완료</span> | █ | · | · | · | · |
+| 1.3 | 개발 환경 (Flutter+Firebase+API키) | <span class="done">완료</span> | █ | · | · | · | · |
+| **M1** | **★ 기획·설계 완료** | <span class="mstag">마일스톤</span> | ◆ | · | · | · | · |
+| **2** | **백엔드 레이어** | <span class="done">완료</span> | · | ███ | · | · | · |
+| 2.1 | 데이터 모델 (Task·SubTask·DelayAnalysis) | <span class="done">완료</span> | · | █ | · | · | · |
+| 2.2 | 로컬 저장소 — HiveService (CRUD) | <span class="done">완료</span> | · | █ | · | · | · |
+| 2.3 | 클라우드 — FirestoreService + Conflict 해결 | <span class="done">완료</span> | · | █ | · | · | · |
+| 2.4 | 동기화 — SyncService (Hive→Firestore) | <span class="done">완료</span> | · | █ | · | · | · |
+| **3** | **AI 인터뷰 시스템** | <span class="done">완료</span> | · | █ | ██ | · | · |
+| 3.1 | Anthropic API 연동 + 프롬프트 템플릿 | <span class="done">완료</span> | · | █ | · | · | · |
+| 3.2 | 인터뷰 플로우 (2~3턴 → 종료 로직) | <span class="done">완료</span> | · | · | █ | · | · |
+| 3.3 | 분석 결과 생성 (감정·원인·소태스크 3개) | <span class="done">완료</span> | · | · | █ | · | · |
+| **M3** | **★ AI 인터뷰 완료** | <span class="mstag">마일스톤</span> | · | · | ◆ | · | · |
+| **4** | **중심 UI** | <span class="done">완료</span> | · | · | ██ | ██ | · |
+| 4.1 | 공통 컴포넌트 (헤더·버튼·태스크 카드) | <span class="done">완료</span> | · | · | █ | · | · |
+| 4.2 | 주요 화면 (Home·Add·Interview·Result·History) | <span class="done">완료</span> | · | · | █ | █ | · |
+| 4.3 | 상태 관리 Provider (Task·Sync·Auth) | <span class="done">완료</span> | · | · | · | █ | · |
+| **M4** | **★ 중심 UI 완료** | <span class="mstag">마일스톤</span> | · | · | · | ◆ | · |
+| **5** | **배포 & 마무리** | <span class="done">완료</span> | · | · | · | · | ███ |
+| 5.1 | 발표 & 자료 갱신 (APK·AAB·웹 빌드) | <span class="done">완료</span> | · | · | · | · | █ |
+| 5.2 | 테스트 & QA (단위·통합·Playwright MCP) | <span class="done">완료</span> | · | · | · | · | █ |
+| 5.3 | 문서 완성 (README·docs·LLM Wiki) | <span class="done">완료</span> | · | · | · | · | █ |
+| **M6** | **★ 최종 발표** | <span class="mstag">마일스톤</span> | · | · | · | · | ◆ |
 
 <!-- 대사: "6주 동안 기획부터 배포까지 모든 단계를 완료했습니다. 계획한 Must 기능은 100%, Should 기능도 주요 항목은 구현했습니다." -->
 
