@@ -3,193 +3,263 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
-backgroundColor: "#ffffff"
 header: "Delay Detective — 최종 발표"
 footer: "혜지 | 2026.06"
 style: |
-  /* ───── Base ───── */
+  /* ── 기본 ── */
   section {
     font-family: 'Apple SD Gothic Neo', '맑은 고딕', 'Noto Sans KR', sans-serif;
-    font-size: 24px;
-    padding: 44px 52px;
+    font-size: 23px;
+    padding: 40px 52px;
     color: #1a1a2e;
+    background: #f4f7fe;
+  }
+  header {
+    color: #7a8fb5;
+    font-size: 14px;
+    top: 18px;
+  }
+  footer {
+    color: #7a8fb5;
+    font-size: 14px;
+    bottom: 18px;
+  }
+  section::after {
+    font-size: 14px;
+    color: #7a8fb5;
   }
 
-  /* ───── Cover ───── */
+  /* ── 커버 ── */
   section.cover {
-    background: linear-gradient(135deg, #0f2044 0%, #1F3864 45%, #2E75B6 100%);
-    color: white;
+    background: linear-gradient(140deg, #0b1d3e 0%, #1a3a6b 50%, #2563b0 100%) !important;
+    color: #fff !important;
     text-align: center;
     justify-content: center;
-    padding: 48px;
+    padding: 0;
   }
-  section.cover .app-icon {
-    font-size: 72px;
-    margin-bottom: 8px;
-    display: block;
-  }
+  section.cover header,
+  section.cover footer,
+  section.cover::after { display: none; }
   section.cover h1 {
-    font-size: 58px;
+    font-size: 64px;
     font-weight: 800;
-    margin: 0 0 8px 0;
+    color: #fff !important;
+    margin: 12px 0 6px;
     letter-spacing: -1px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
-  section.cover .subtitle {
+  section.cover h3 {
+    color: rgba(255,255,255,0.75) !important;
     font-size: 22px;
-    opacity: 0.9;
-    margin-bottom: 28px;
     font-weight: 300;
+    margin: 0 0 28px;
   }
-  section.cover .tagline {
-    font-size: 18px;
-    opacity: 0.75;
+  section.cover p {
+    color: rgba(255,255,255,0.7) !important;
+    font-size: 16px;
+    margin: 6px 0;
+  }
+  section.cover blockquote {
     background: rgba(255,255,255,0.12);
-    padding: 10px 28px;
+    border-left: none;
     border-radius: 30px;
-    display: inline-block;
-  }
-  section.cover .meta {
-    position: absolute;
-    bottom: 32px;
-    left: 0; right: 0;
-    font-size: 15px;
-    opacity: 0.6;
-  }
-
-  /* ───── Headings ───── */
-  h2 {
-    color: #1F3864;
-    border-bottom: 3px solid #2E75B6;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-    font-size: 30px;
-  }
-  h3 { color: #2E75B6; font-size: 20px; margin: 12px 0 8px 0; }
-
-  /* ───── Tables ───── */
-  table { font-size: 19px; width: 100%; border-collapse: collapse; }
-  th { background: #1F3864; color: white; padding: 7px 10px; }
-  td { padding: 5px 10px; border: 1px solid #dde4f0; }
-  tr:nth-child(even) td { background: #f5f8ff; }
-
-  /* ───── Code ───── */
-  code {
-    background: #f0f4ff;
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 10px 32px;
     font-size: 19px;
-    color: #1F3864;
+    color: rgba(255,255,255,0.9) !important;
+    display: inline-block;
+    margin: 0 auto 24px;
+  }
+
+  /* ── 헤딩 ── */
+  h2 {
+    color: #1a3a6b;
+    font-size: 28px;
+    border-bottom: 3px solid #2563b0;
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  h3 {
+    color: #2563b0;
+    font-size: 18px;
+    margin: 10px 0 6px;
+  }
+
+  /* ── 테이블 ── */
+  table {
+    font-size: 18px;
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+  th {
+    background: #1a3a6b;
+    color: white;
+    padding: 8px 12px;
+    font-weight: 600;
+  }
+  td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #e4eaf8;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8faff; }
+
+  /* ── 코드 ── */
+  code {
+    background: #dde8ff;
+    color: #1a3a6b;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 18px;
   }
   pre {
-    background: #1a1a2e;
-    color: #e0e8ff;
-    padding: 16px 20px;
+    background: #0d1b3e;
+    color: #c8d8ff;
+    padding: 14px 18px;
     border-radius: 10px;
-    font-size: 17px;
-    line-height: 1.6;
-    border-left: 4px solid #2E75B6;
+    font-size: 15.5px;
+    line-height: 1.65;
+    border-left: 4px solid #3b82f6;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
   }
-  pre code { background: transparent; color: inherit; font-size: inherit; padding: 0; }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
 
-  /* ───── Blockquote ───── */
+  /* ── 인용 ── */
   blockquote {
-    border-left: 4px solid #2E75B6;
-    background: #eef4ff;
+    border-left: 4px solid #3b82f6;
+    background: #e8f0ff;
     padding: 10px 18px;
-    margin: 14px 0;
+    margin: 12px 0;
     border-radius: 0 8px 8px 0;
-    font-size: 20px;
-    color: #1F3864;
+    font-size: 19px;
+    color: #1a3a6b;
   }
 
-  /* ───── Utility ───── */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .box {
-    background: #f5f8ff;
-    border: 2px solid #c5d8f5;
-    border-radius: 10px;
-    padding: 14px 18px;
+  /* ── 카드 박스 ── */
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 10px rgba(37,99,176,0.10);
+    border: 1px solid #dde8ff;
   }
-  .box-green {
-    background: #f0faf0;
-    border: 2px solid #86c77a;
-    border-radius: 10px;
+  .card-green {
+    background: #f0faf4;
+    border-radius: 12px;
     padding: 14px 18px;
+    border: 1.5px solid #4ade80;
+    box-shadow: 0 2px 8px rgba(74,222,128,0.10);
   }
-  .box-orange {
+  .card-orange {
     background: #fff8f0;
-    border: 2px solid #ffaa55;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 14px 18px;
+    border: 1.5px solid #fb923c;
+    box-shadow: 0 2px 8px rgba(251,146,60,0.10);
   }
-  .chip {
+  .card-dark {
+    background: #0d1b3e;
+    color: #c8d8ff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    border: 1.5px solid #2563b0;
+  }
+  .card-dark h3 { color: #7eb8ff !important; }
+
+  /* ── 2열 레이아웃 ── */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 6px;
+  }
+  .cols3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── 칩 ── */
+  .tag {
     display: inline-block;
     padding: 2px 10px;
     border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
   }
-  .done  { background: #70AD47; color: white; }
-  .ms    { background: #C00000; color: white; }
-  .warn  { background: #FF6B35; color: white; }
+  .tag-done  { background: #22c55e; color: white; }
+  .tag-ms    { background: #ef4444; color: white; }
+  .tag-warn  { background: #f97316; color: white; }
 
-  /* ───── WBS table overrides ───── */
-  .wbs-table { font-size: 11px !important; }
-  .wbs-table th { padding: 3px 5px; font-size: 11px; }
-  .wbs-table td { padding: 2px 4px; border: 1px solid #ccc; font-size: 11px; }
-  .wbs-table tr.sec td { background: #dce8ff; font-weight: 700; }
-  .wbs-table tr.ms  td { background: #fff3cc; font-weight: 700; }
-
-  /* ───── Demo slide ───── */
+  /* ── 데모 슬라이드 ── */
   section.demo {
-    background: linear-gradient(135deg, #0f2044, #1F3864);
-    color: white;
+    background: linear-gradient(140deg, #0b1d3e, #1a3a6b) !important;
+    color: #e8f0ff !important;
   }
-  section.demo h2 { color: white; border-color: #5599dd; }
-  section.demo .step {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 10px;
-    padding: 8px 16px;
-    margin: 6px 0;
-    font-size: 20px;
+  section.demo h2 { color: #7eb8ff !important; border-color: #3b82f6; }
+  section.demo h3 { color: #a5c8ff !important; }
+  section.demo blockquote {
+    background: rgba(255,255,255,0.08);
+    border-left-color: #3b82f6;
+    color: #c8d8ff;
   }
-  section.demo .step .num {
-    background: #2E75B6;
-    color: white;
-    border-radius: 50%;
-    width: 26px; height: 26px;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    font-weight: 700; font-size: 14px;
-    margin-right: 10px;
+  .step {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 7px 16px;
+    margin: 5px 0;
+    font-size: 19px;
+    color: #e8f0ff;
   }
+  .step b { color: #7eb8ff; }
 
-  /* ───── Thank-you slide ───── */
-  section.thankyou {
-    background: linear-gradient(135deg, #1F3864, #2E75B6);
-    color: white;
+  /* ── 마지막 슬라이드 ── */
+  section.ending {
+    background: linear-gradient(140deg, #0b1d3e 0%, #1a3a6b 50%, #2563b0 100%) !important;
+    color: #fff !important;
     text-align: center;
     justify-content: center;
   }
-  section.thankyou h2 { color: white; border: none; font-size: 42px; }
-  section.thankyou .gh { font-size: 20px; opacity: 0.9; }
-
-  /* ───── Script comments hidden ───── */
-  /* script blocks are HTML comments — rendered as speaker notes */
+  section.ending header,
+  section.ending footer,
+  section.ending::after { display: none; }
+  section.ending h2 {
+    color: #fff !important;
+    border: none;
+    font-size: 44px;
+    margin-bottom: 20px;
+  }
+  section.ending p { color: rgba(255,255,255,0.85) !important; font-size: 20px; }
+  section.ending a { color: #93c5fd; }
+  section.ending blockquote {
+    background: rgba(255,255,255,0.10);
+    border: none;
+    border-radius: 16px;
+    color: rgba(255,255,255,0.9) !important;
+    font-size: 22px;
+    padding: 14px 36px;
+    display: inline-block;
+  }
 ---
 
 <!-- _class: cover -->
 
-<span class="app-icon">🕵️</span>
+# 🕵️ Delay Detective
 
-# Delay Detective
+### AI-Powered Procrastination Analyzer
 
-<p class="subtitle">AI-Powered Procrastination Analyzer</p>
+> 📋 미루는 태스크 감지 → AI 인터뷰 → 소태스크 재구성
 
-<span class="tagline">📋 미루는 태스크를 감지 → AI 인터뷰 → 소태스크 재구성</span>
-
-<p class="meta">혜지 | 2026.06 | Flutter + Firebase + Anthropic API</p>
+혜지 | 2026.06 | Flutter · Firebase · Anthropic API
 
 <!--
 [대사 — 20초]
@@ -201,24 +271,24 @@ style: |
 
 ## 🎯 비전 & 문제 정의
 
-<div class="two-col">
+<div class="cols">
 
-<div class="box-orange">
+<div class="card-orange">
 
 ### 🔴 기존 할 일 앱의 한계
 
-- 할 일 **추가** → 마감 알림 → **또 미룸** 🔄
-- "왜 미루는지" 물어주는 앱 없음
-- 태스크가 너무 크면 막막해서 회피
+- 할일 추가 → 마감 알림 → **또 미룸** 🔄
+- **"왜 미루는지"** 물어주는 앱이 없다
+- 태스크가 크면 막막해서 회피
 
 </div>
 
-<div class="box-green">
+<div class="card-green">
 
 ### 🟢 Delay Detective 해결책
 
 - 마감 초과 자동 감지 🔥
-- **AI 인터뷰** (Claude) → 원인 파악
+- **Claude AI 인터뷰** → 원인 파악
 - 15분 단위 **소태스크 자동 재구성**
 - 오프라인에서도 완전 동작
 
@@ -229,14 +299,15 @@ style: |
 > **비전**: 미루는 사람이 스스로 원인을 파악하고, 다시 시작할 수 있도록 돕는다
 
 **핵심 사용자 시나리오**
-> "발표 준비를 계속 미루는데, AI가 '왜 미루고 있어요?'라고 물어본 뒤 '슬라이드 1장만 쓰기' 같은 소태스크로 나눠줬더니 시작할 수 있었다"
+
+> 발표 준비를 계속 미루던 사용자 → AI가 "왜 미루고 있어요?" 물음  
+> → "슬라이드 1장만 쓰기" 소태스크 제시 → **시작할 수 있었다**
 
 <!--
 [대사 — 20초]
 할 일을 미루는 건 의지력 문제가 아니라, 태스크가 너무 크거나 막막해서입니다.
 기존 앱은 마감 알림만 줄 뿐, 왜 미루는지 알려주지 않습니다.
 Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크기로 잘라줍니다.
-저도 이 발표 준비를 계속 미루다가 이 앱을 만들게 됐습니다.
 -->
 
 ---
@@ -245,45 +316,49 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 
 ## 🎬 시연 데모 — 사용자 시나리오 (30초)
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:10px;">
+<div class="cols">
 <div>
 
-**[데모 영상 재생 — 30초]**
+**[데모 영상 — 30초]**
 
-<div class="step"><span class="num">1</span> Google 로그인 → 메인 화면 진입</div>
-<div class="step"><span class="num">2</span> 할일 추가 (발표 준비, 마감 오늘)</div>
-<div class="step"><span class="num">3</span> 마감 초과 태스크 🔥 강조 확인</div>
-<div class="step"><span class="num">4</span> AI 분석 시작 → Claude 인터뷰 3턴</div>
-<div class="step"><span class="num">5</span> 소태스크 3개 자동 생성 결과</div>
-<div class="step"><span class="num">6</span> 통계 탭 → 완료율 시각화</div>
+<div class="step"><b>1</b> Google 로그인 → 메인 홈 캘린더</div>
+<div class="step"><b>2</b> 할일 추가 (발표 준비, 마감 오늘)</div>
+<div class="step"><b>3</b> 마감 초과 태스크 🔥 강조 확인</div>
+<div class="step"><b>4</b> AI 분석 시작 → Claude 인터뷰 3턴</div>
+<div class="step"><b>5</b> 소태스크 3개 자동 생성 결과 확인</div>
+<div class="step"><b>6</b> 📊 통계 탭 → 완료율 시각화</div>
 
 </div>
-<div style="text-align:center; padding:20px;">
+<div>
 
-📱 **바텀 네비게이션 4탭**
+**바텀 네비게이션 4탭**
+
+<div class="card-dark">
 
 ```
-🏠 홈 캘린더
-   날짜별 할일 칩 표시
-   
-📋 할일 목록
-   진행중 / 완료 탭
-   
-🤖 AI 분석
-   인터뷰 → 결과
-   
-📊 통계
-   완료율 · 지연 현황
+🏠  홈 캘린더
+    날짜별 할일 칩 · 바텀시트
+
+📋  할일 목록
+    진행중 / 완료 탭 분리
+
+🤖  AI 분석
+    인터뷰 채팅 → 소태스크 결과
+
+📊  통계
+    완료율 · 지연 현황 차트
 ```
+
+</div>
 
 </div>
 </div>
 
 <!--
-[대사 — 데모 중 해설]
-보시는 것처럼 Google 로그인 후 할일을 추가하면 캘린더에 바로 표시됩니다.
+[대사 — 데모 중]
+보시는 것처럼 Google 로그인 후 캘린더에 할일이 바로 표시됩니다.
 마감이 지난 태스크는 불꽃 아이콘으로 강조되고, AI 분석을 시작하면 Claude가 왜 미루는지 질문합니다.
-2~3턴의 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인할 수 있습니다.
+2~3턴 대화 후 소태스크 3개가 자동 생성되고, 통계 탭에서 진행률을 확인할 수 있습니다.
 -->
 
 ---
@@ -291,13 +366,13 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 ## 📅 프로젝트 계획 — WBS & 진행 현황
 
 <style scoped>
-table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top:8px; }
-th { background:#1F3864; color:white; text-align:center; padding:3px 5px; }
-td { padding:2px 5px; border:1px solid #ccc; }
-tr.sec td { background:#dce8ff; font-weight:700; }
-tr.ms  td { background:#fff3cc; font-weight:700; }
-.done { background:#70AD47; color:white; border-radius:8px; padding:1px 6px; font-size:10px; }
-.mstag { background:#C00000; color:white; border-radius:8px; padding:1px 6px; font-size:10px; }
+table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top: 8px; }
+th { background: #1a3a6b; color: white; text-align: center; padding: 3px 5px; font-size: 11px; }
+td { padding: 2px 5px; border: 1px solid #c8d8f5; font-size: 11px; }
+tr.sec td { background: #dce8ff; font-weight: 700; }
+tr.ms  td { background: #fff3cc; font-weight: 700; }
+.done { background: #22c55e; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
+.mstag { background: #ef4444; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
 </style>
 
 | WBS | 태스크 | 상태 | W10 05/11 | W11 05/18 | W12 06/01 | W13 06/08 | W14 06/15~21 |
@@ -315,8 +390,8 @@ tr.ms  td { background:#fff3cc; font-weight:700; }
 | 3.2 | 인터뷰 3턴 플로우 → 소태스크 생성 | <span class="done">완료</span> | · | · | █ | · | · |
 | **M3** | **★ AI 인터뷰 완료** | <span class="mstag">마일스톤</span> | · | · | ◆ | · | · |
 | **4** | **UI + 통합** | <span class="done">완료</span> | · | · | · | ██ | · |
-| 4.1 | 4탭 바텀 네비 · 캘린더 · 통계 화면 | <span class="done">완료</span> | · | · | · | █ | · |
-| 4.2 | Google 로그인 · 로그아웃 · Auth 분기 | <span class="done">완료</span> | · | · | · | █ | · |
+| 4.1 | 4탭 바텀 네비 · 캘린더 · 통계 | <span class="done">완료</span> | · | · | · | █ | · |
+| 4.2 | Google 로그인 · Auth 분기 · 로그아웃 | <span class="done">완료</span> | · | · | · | █ | · |
 | **M4** | **★ UI 완료** | <span class="mstag">마일스톤</span> | · | · | · | ◆ | · |
 | **5** | **배포 & 마무리** | <span class="done">완료</span> | · | · | · | · | ███ |
 | 5.1 | APK·AAB·Web 빌드 + 릴리즈 서명 | <span class="done">완료</span> | · | · | · | · | █ |
@@ -332,40 +407,41 @@ Must 기능 100%, Should 기능도 주요 항목은 구현했습니다.
 
 ---
 
-## 🛠️ 기술 스택
+## 🛠️ 기술 스택 & AI 에이전트 팀
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 | 계층 | 기술 | 선택 이유 |
 |---|---|---|
-| UI | **Flutter** (Dart) | 웹·Android 동시, 단일 코드 |
+| UI | **Flutter** | 웹+Android, 단일 코드 |
 | 상태 관리 | **Provider** | 공식 권장, 낮은 학습곡선 |
 | 로컬 DB | **Hive** | 오프라인 우선, 고속 I/O |
 | 클라우드 | **Firestore** | 실시간 동기화, 서버리스 |
 | 인증 | **Firebase Auth** | Google OAuth2, uid 격리 |
-| AI | **Anthropic API** | 자연어 인터뷰·분석 |
-| 테스트 | **Flutter Test + Playwright** | 단위·E2E |
+| AI | **Anthropic API** | 자연어 인터뷰 & 분석 |
+| 테스트 | **Flutter + Playwright** | 단위·E2E |
 
 </div>
-
 <div>
 
-**AI 에이전트 팀 구성**
+<div class="card">
+
+**AI 에이전트 팀 (서브에이전트 5종)**
 
 | 에이전트 | 역할 |
 |---|---|
-| product-manager-prd | PRD·WBS·일정 |
-| backend-architect | Firebase·Hive·동기화 |
+| product-manager-prd | PRD · WBS · 일정 |
+| backend-architect | Firebase · Hive · 동기화 |
 | frontend-developer | Flutter UI |
 | qa-engineer | Playwright E2E |
 | ai-integration-specialist | 프롬프트 엔지니어링 |
 
-> **MCP 3개**: Notion (분석 저장), GitHub (이슈 연동), Playwright (E2E 자동화)
-
 </div>
 
+> **MCP 3개**: Notion (분석 저장) · GitHub (이슈) · Playwright (E2E)
+
+</div>
 </div>
 
 <!--
@@ -379,80 +455,76 @@ Hive가 로컬, Firestore가 클라우드를 담당해 네트워크 없이도 �
 
 ## 🏗️ 앱 구조 — 4-레이어 아키텍처
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 ```
 lib/
-├── presentation/       ← 화면 9개 + 위젯
-│   screens/
-│     HomeScreen        캘린더 + 날짜 바텀시트
-│     TaskListScreen    진행중 / 완료 탭
-│     InterviewScreen   AI 인터뷰 채팅 UI
-│     AnalysisResult    소태스크 결과
-│     HistoryScreen     분석 이력
-│     StatsScreen       완료율 통계
-│     LoginScreen       Google 로그인
+├── presentation/        ← 화면 9개 + 위젯
+│   ├── HomeScreen       캘린더 + 날짜 바텀시트
+│   ├── TaskListScreen   진행중 / 완료 탭
+│   ├── InterviewScreen  AI 채팅 UI
+│   ├── AnalysisResult   소태스크 결과
+│   ├── HistoryScreen    분석 이력
+│   ├── StatsScreen      완료율 통계
+│   └── LoginScreen      Google 로그인
 │
-├── application/        ← Provider 상태 관리
+├── application/         ← Provider 상태 관리
 │   TaskProvider / AuthProvider / SyncProvider
 │
-├── domain/             ← 순수 모델 (외부 의존 없음)
+├── domain/              ← 순수 모델 (외부 의존 없음)
 │   Task, SubTask, DelayAnalysis, TaskStatus
 │
 └── data/
-    local/   HiveService   (오프라인 CRUD)
-    remote/  FirestoreService, AuthService, AIService
-    sync/    SyncService   (sync_queue 패턴)
+    ├── local/   HiveService   (오프라인 CRUD)
+    ├── remote/  FirestoreService · AIService
+    └── sync/    SyncService   (sync_queue)
 ```
 
 </div>
-
 <div>
 
-**의존성 방향**
+**의존성 방향 (단방향)**
 
-```
-Presentation
-    ↓
-Application (Provider)
-    ↓
-Domain  ←  Data
-```
+<div class="card" style="text-align:center; font-size:20px; padding:20px;">
 
-<div class="box" style="margin-top:14px;">
+🖥️ **Presentation**
+↓
+⚙️ **Application** (Provider)
+↓
+📦 **Domain** ← 🗄️ **Data**
 
-**아키텍처 핵심 원칙**
+</div>
 
-- Domain은 외부에 의존하지 않음
+<div class="card" style="margin-top:14px;">
+
+**핵심 원칙**
+- Domain은 외부 라이브러리에 의존 없음
 - 오프라인 우선 (Hive → Firestore)
 - `ChangeNotifierProxyProvider`로 uid 변경 시 자동 재생성
-- ADR-0001: Flutter 선택 이유 문서화
+- ADR-0001에 Flutter 선택 이유 기록
 
 </div>
 
 </div>
-
 </div>
 
 <!--
 [대사 — 25초]
 클린 아키텍처의 4-레이어를 적용했습니다.
-가장 중요한 원칙은 Domain 레이어가 외부 라이브러리에 전혀 의존하지 않는다는 것입니다.
-Presentation은 Provider를 통해 상태를 받고, Data 레이어가 로컬과 클라우드 모두를 처리합니다.
-이 결정은 ADR-0001에 기록했습니다.
+Domain 레이어는 외부 라이브러리에 전혀 의존하지 않고,
+Presentation은 Provider를 통해 상태를 받습니다.
+이 결정은 ADR-0001에 기록됐습니다.
 -->
 
 ---
 
 ## 🔄 구현 방법 — 오프라인-온라인 동기화
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
-**동기화 흐름**
+**동기화 플로우**
 
 ```
 [오프라인]
@@ -471,19 +543,16 @@ SyncService.flushQueue() 실행
 
 ```dart
 if (kIsWeb) {
-  // 웹: signInWithPopup
-  //     (idToken 미지원 이슈 우회)
+  // signInWithPopup  ← idToken 미지원 우회
 } else {
-  // 모바일: google_sign_in 패키지
-  //         네이티브 계정 선택
+  // google_sign_in  ← 네이티브 계정 선택
 }
 ```
 
 </div>
-
 <div>
 
-**Conflict Resolution — ADR-0003**
+**Conflict Resolution (ADR-0003)**
 
 ```dart
 if (local.updatedAt > remote.updatedAt) {
@@ -495,32 +564,30 @@ if (local.updatedAt > remote.updatedAt) {
 }
 ```
 
-<div class="box-green" style="margin-top:14px;">
+<div class="card-green" style="margin-top:14px;">
 
-**Hive settings 박스**로 offline UID 영속화
-→ 앱 재시작 시 UID 재생성 문제 해결
+✅ **Hive settings 박스**로 offline UID 영속화
+→ 앱 재시작 시 UID 재생성 버그 해결
 
-`connectivity_plus`로 온/오프라인 상태 실시간 감지
-
-</div>
+✅ `connectivity_plus`로 온·오프라인 실시간 감지
 
 </div>
 
+</div>
 </div>
 
 <!--
 [대사 — 25초]
 가장 복잡했던 부분이 오프라인-온라인 동기화입니다.
-오프라인에서 변경한 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해 더 최신 데이터를 선택합니다.
-웹과 모바일의 Google 로그인 방식이 달라서 kIsWeb으로 분기해야 했던 것이 가장 배움이 컸습니다.
+오프라인 변경 내용은 sync_queue에 쌓아두고, 네트워크 복구 시 타임스탬프를 비교해 더 최신 데이터를 선택합니다.
+웹과 모바일의 Google 로그인 방식 차이로 kIsWeb 분기를 직접 작성해야 했습니다.
 -->
 
 ---
 
-## ⚙️ 개발 환경 설정 & 빌드/배포
+## ⚙️ 개발 환경 & 빌드/배포 & GitHub 설치 가이드
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 **개발 환경**
@@ -537,13 +604,12 @@ if (local.updatedAt > remote.updatedAt) {
 ```bash
 git clone https://github.com/hyeji203/delay-detective
 flutter pub get
-flutterfire configure   # Firebase 연결
-# 웹 실행 (OAuth 포트 5000 고정)
+flutterfire configure     # Firebase 연결
+# 웹 실행 (OAuth 포트 고정)
 flutter run -d chrome --web-port 5000
 ```
 
 </div>
-
 <div>
 
 **빌드 & 배포 3단계**
@@ -561,32 +627,29 @@ flutter build web --release        # Firebase Hosting
 firebase deploy --only hosting
 ```
 
-<div class="box" style="margin-top:12px;">
+<div class="card-green" style="margin-top:12px;">
 
-✅ APK + AAB 빌드 완료 (릴리즈 서명 키 설정)
+✅ APK + AAB 빌드 완료 (릴리즈 서명 키)
 ✅ Firebase Hosting 배포 완료
 ✅ `keystore`, `.env` → `.gitignore`
 
 </div>
 
 </div>
-
 </div>
 
 <!--
 [대사 — 20초]
 빌드는 debug, release, profile 세 종류입니다.
-릴리즈 빌드는 서명 키를 설정하고 appbundle로 Play Console에 업로드합니다.
-웹은 Flutter Web으로 빌드 후 Firebase Hosting에 배포했습니다.
-설치 방법은 setup.md에 명령어 그대로 따라할 수 있게 정리했습니다.
+릴리즈 빌드는 서명 키 설정 후 appbundle로 Play Console에 업로드합니다.
+설치 방법은 setup.md에 명령어 그대로 정리했습니다.
 -->
 
 ---
 
 ## 🐛 구현 시행착오 & 성능 최적화
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 **시행착오 5가지**
@@ -600,87 +663,81 @@ firebase deploy --only hosting
 | 로그아웃 후 Splash 멈춤 | signOut() 전 즉시 `notifyListeners()` |
 
 </div>
-
 <div>
 
-**성능 최적화 노력**
+**성능 최적화**
 
-<div class="box-green">
+<div class="card-green">
 
-**캘린더 렌더링 최적화**
+**캘린더 렌더링**
 - `LayoutBuilder`로 rowHeight 동적 계산
 - `IndexedStack`으로 탭 전환 시 상태 유지
-- 날짜 계산: `DateTime(y,m,d)` 비교 (ms 오차 제거)
+- `DateTime(y,m,d)` 비교로 날짜 오차 제거
 
 </div>
 
-<div class="box" style="margin-top:10px;">
+<div class="card" style="margin-top:10px;">
 
-**AI 응답 성능**
-- Anthropic API `stream: true`로 실시간 타이핑 효과
-- 인터뷰 2~3턴으로 최소화 (UX 최적화)
-- JSON 파싱 실패 시 fallback 소태스크 제공
-
-</div>
+**AI 응답 최적화**
+- Anthropic API `stream: true` → 실시간 타이핑 효과
+- 인터뷰 2~3턴 최소화 (UX 최적화)
+- JSON 파싱 실패 시 fallback 소태스크 자동 제공
 
 </div>
 
+</div>
 </div>
 
 <!--
 [대사 — 25초]
-5가지 버그를 실제로 겪고 해결했습니다.
-가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였습니다.
-성능 면에서는 캘린더 렌더링에 LayoutBuilder를 써서 화면 크기에 맞게 동적 계산하고,
+5가지 버그를 직접 겪고 해결했습니다.
+가장 어려웠던 건 웹과 Android의 Google 로그인 방식 차이였고,
+성능 면에서는 캘린더에 LayoutBuilder를 써서 화면 크기에 맞게 동적 계산했습니다.
 AI 응답은 스트리밍으로 받아 실시간 타이핑 효과를 구현했습니다.
 -->
 
 ---
 
-## ✅ 코드 품질 관리 & 테스트 결과
+## ✅ 코드 품질 & 테스트 결과
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 **단위 테스트 — `flutter test` → 11개 전체 통과**
 
 ```
-test/unit/
-  task_model_test.dart
-    ✓ shouldBeDelayed: 마감 초과 시 true
-    ✓ shouldBeDelayed: 완료 시 false
-    ✓ shouldBeDelayed: 미래 마감 false
-    ✓ shouldBeDelayed: 당일 마감 true
-    ✓ Task.toMap / fromMap 직렬화 왕복
-    ✓ Conflict Resolution — local newer
-    ✓ Conflict Resolution — remote newer
-    ... (11개 전체)
+test/unit/task_model_test.dart
+  ✅ shouldBeDelayed: 마감 초과 → true
+  ✅ shouldBeDelayed: 완료 시 → false
+  ✅ shouldBeDelayed: 미래 마감 → false
+  ✅ shouldBeDelayed: 당일 마감 → true
+  ✅ Task.toMap / fromMap 직렬화 왕복
+  ✅ Conflict Resolution — local newer
+  ✅ Conflict Resolution — remote newer
+  ✅ ... (11개 전체 PASS)
 ```
 
-**E2E 테스트 — Playwright MCP**
+**E2E — Playwright MCP**
 
-```typescript
-e2e/
-  login.spec.ts        로그인 화면·버튼 렌더링
-  navigation.spec.ts   비인증 리다이렉트 확인
-  task.spec.ts         할일 CRUD 플로우
+```
+e2e/login.spec.ts       로그인 화면·버튼 렌더링
+e2e/navigation.spec.ts  비인증 리다이렉트
+e2e/task.spec.ts        할일 CRUD 플로우
 ```
 
 </div>
-
 <div>
 
 **코드 품질 관리**
 
-<div class="box-green">
+<div class="card-green">
 
-**4-레이어 아키텍처로 관심사 분리**
+**4-레이어 아키텍처**로 관심사 분리
 → 각 레이어 독립 테스트 가능
 
 </div>
 
-<div class="box" style="margin-top:10px;">
+<div class="card" style="margin-top:10px;">
 
 **보안 체크리스트**
 - `google-services.json` → `.gitignore` ✅
@@ -690,9 +747,9 @@ e2e/
 
 </div>
 
-<div class="box" style="margin-top:10px;">
+<div class="card" style="margin-top:10px;">
 
-**ADR 문서화 (결정 이유 기록)**
+**ADR 문서화** (결정 이유 기록)
 - ADR-0001: Flutter 선택 (vs Native)
 - ADR-0002: Provider (vs Redux)
 - ADR-0003: Firebase+Hive (vs 자체 서버)
@@ -700,81 +757,77 @@ e2e/
 </div>
 
 </div>
-
 </div>
 
 <!--
 [대사 — 20초]
-단위 테스트 11개를 모두 통과했습니다.
-특히 Conflict Resolution, 직렬화 왕복, 마감 계산 4케이스를 꼼꼼히 커버했습니다.
-E2E 테스트는 Playwright MCP로 로그인·네비게이션·태스크 CRUD 흐름을 자동화했습니다.
-모든 보안 키는 .gitignore로 커밋을 차단했습니다.
+단위 테스트 11개 모두 통과했습니다.
+Conflict Resolution, 직렬화 왕복, 마감 계산 4케이스를 커버했고,
+E2E는 Playwright MCP로 로그인·네비게이션·CRUD 흐름을 자동화했습니다.
 -->
 
 ---
 
 ## 📋 ADR 요약 — Q&A 준비
 
-| ADR | 결정 | 핵심 이유 | 기록 |
-|---|---|---|---|
-| **ADR-0001** | Flutter 선택 | 웹+Android 동시 지원, 단일 코드베이스 | `.planning/adr/` |
-| **ADR-0002** | Provider 선택 | Flutter 공식 권장, 낮은 학습곡선 | `.planning/adr/` |
-| **ADR-0003** | Firebase+Hive | 서버 없이 오프라인-온라인 동기화 구현 | `.planning/adr/` |
+| ADR | 결정 | 핵심 이유 |
+|---|---|---|
+| **ADR-0001** | Flutter 선택 | 웹+Android 동시 지원, 단일 코드베이스 |
+| **ADR-0002** | Provider 선택 | Flutter 공식 권장, 이 앱 규모엔 Redux 과도 |
+| **ADR-0003** | Firebase+Hive | 서버 없이 오프라인-온라인 동기화 구현 |
 
 **예상 Q&A**
 
-> **Q: 왜 Supabase 대신 Firebase를 선택했나요?**  
-> A: Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 다양함 — ADR-0003에 기록
+> **Q. 왜 Supabase 대신 Firebase?**  
+> Flutter 공식 패키지 성숙도, 무료 플랜, 국내 레퍼런스 다양 — ADR-0003
 
-> **Q: Redux 대신 Provider를 쓴 이유는?**  
-> A: 이 앱 규모에서 Redux는 과도한 보일러플레이트. Provider가 Flutter 공식 권장 — ADR-0002
+> **Q. Redux 대신 Provider를 쓴 이유?**  
+> 이 앱 규모에서 Redux는 보일러플레이트 과다. Provider가 공식 권장 — ADR-0002
 
-> **Q: 오프라인과 온라인 충돌이 나면?**  
-> A: updatedAt 타임스탬프 비교 → Last-Write-Wins. 동일 시각이면 서버 우선 — ADR-0003
+> **Q. 오프라인·온라인 충돌이 나면?**  
+> `updatedAt` 타임스탬프 비교 → Last-Write-Wins. 동일 시각이면 서버 우선 — ADR-0003
 
 <!--
 [대사 — 15초]
 기술 결정은 모두 ADR 문서로 남겼습니다.
-왜 이 기술을 선택했는지 Q&A 질문이 오면 ADR 번호로 바로 답변할 수 있습니다.
+Q&A 질문이 오면 ADR 번호로 바로 답변할 수 있습니다.
 -->
 
 ---
 
 ## 🚀 활용 방안 & 향후 발전 방향
 
-<div class="two-col">
-
+<div class="cols">
 <div>
 
 **현재 활용 가능**
 
-<div class="box-green">
+<div class="card-green">
 
-- ✅ 개인 할일 관리 + AI 미루기 분석
-- ✅ 오프라인에서도 완전 동작
-- ✅ 웹(Chrome) + Android 멀티플랫폼
-- ✅ Google 계정 로그인, 멀티 디바이스 동기화
+✅ 개인 할일 관리 + AI 미루기 분석
+✅ 오프라인에서도 완전 동작
+✅ 웹(Chrome) + Android 멀티플랫폼
+✅ Google 계정 로그인 · 멀티 디바이스 동기화
 
 </div>
 
-**GitHub 설치 가이드**
+**GitHub**
 
 ```
 github.com/hyeji203/delay-detective
-→ README.md → docs/setup.md
-  flutter pub get
-  flutter run -d chrome --web-port 5000
+잔디 확인 → https://num.slogs.dev
 ```
 
-잔디 GitHub: **https://num.slogs.dev**
+**기술 자산화**
+
+> AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩  
+> → 다음 프로젝트 템플릿으로 재사용  
+> LLM Wiki `notes/` 5개 파일 축적
 
 </div>
-
 <div>
 
 **향후 발전 방향**
-
-<div class="box">
 
 | 우선순위 | 기능 |
 |---|---|
@@ -784,54 +837,45 @@ github.com/hyeji203/delay-detective
 | 🟡 중간 | Notion·GitHub 소태스크 자동 연동 |
 | 🟢 낮음 | AI 인사이트 대시보드 |
 
-</div>
+<div class="card" style="margin-top:14px;">
 
-<div class="box-orange" style="margin-top:12px;">
+**가산점 요약**
 
-**기술 자산화**
-AUTHORING.hyeji.md 한 파일로 5개 에이전트 부트스트랩
-→ 다음 프로젝트에 템플릿 재사용 가능
-
-LLM Wiki `notes/` 5개 파일 → 협업·동기화 경험 축적
-
-</div>
+| 항목 | 증빙 | 점수 |
+|---|---|---|
+| AI Agent 워크플로우 | `.claude/agents/` 5종 | +1 |
+| 나만의 기법 | `AUTHORING.hyeji.md` | +2 |
+| LLM Wiki | `notes/` 5개 파일 | +1 |
 
 </div>
 
+</div>
 </div>
 
 <!--
 [대사 — 20초]
-이 앱은 지금 당장 웹과 Android에서 사용할 수 있습니다.
-향후에는 FCM 푸시 알림과 iOS 지원을 가장 먼저 추가하고 싶습니다.
-그리고 이 프로젝트에서 만든 AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트에서도 그대로 활용할 수 있는 자산이 됐습니다.
+이 앱은 지금 바로 웹과 Android에서 사용할 수 있습니다.
+향후에는 FCM 푸시 알림과 iOS 지원을 먼저 추가하고 싶습니다.
+AUTHORING.hyeji.md 템플릿과 LLM Wiki는 다음 프로젝트의 자산이 됐습니다.
 -->
 
 ---
 
-<!-- _class: thankyou -->
+<!-- _class: ending -->
 
 ## 감사합니다 🙏
 
-<br>
-
-**Delay Detective**
 > "AI가 물어봐주면, 미루기가 시작된다"
 
-<br>
+📦 **GitHub**: github.com/hyeji203/delay-detective
 
-<p class="gh">📦 GitHub: <strong>https://github.com/hyeji203/delay-detective</strong></p>
-<p class="gh">🌿 잔디 확인: <strong>https://num.slogs.dev</strong></p>
-<p class="gh">📄 발표자료: <code>docs/slides-final.md</code> · 설계서: <code>AUTHORING.hyeji.md</code></p>
-
-<br>
+🌿 **잔디**: https://num.slogs.dev
 
 **Q & A**
 
 <!--
 [대사 — 10초]
-이상으로 Delay Detective 발표를 마칩니다. 감사합니다.
-Q&A는 ADR 3개와 백업 슬라이드를 참고해서 답변하겠습니다.
+이상으로 Delay Detective 최종 발표를 마칩니다. 감사합니다.
 -->
 
 ---
@@ -856,50 +900,29 @@ users/{uid}/sync_queue/{taskId}
 
 ---
 
-## B2. AI 인터뷰 흐름 (Anthropic API)
+## B2. AI 인터뷰 흐름
 
 ```
 System Prompt:
-  "당신은 공감적인 미루기 코치입니다. 2~3 턴 내에:
-   1) 왜 미루는지 원인을 파악하고
-   2) 15분 안에 할 수 있는 소태스크 3개를 JSON으로 제시하세요."
+  "공감적인 미루기 코치. 2~3턴 내에 원인 파악 후 소태스크 3개를 JSON으로."
 
 1턴: "이 태스크를 미룬 이유가 뭔가요?" (개방형)
-2턴: 원인 유형 확인 (복잡함/두려움/우선순위/환경 분류)
+2턴: 원인 유형 확인 (복잡함/두려움/우선순위/환경)
 3턴: "15분 안에 할 수 있는 첫 번째 단계는?" → SubTask 추출
 
-→ API stream=true 로 실시간 타이핑 효과
-→ JSON 파싱 실패 시 fallback 소태스크 3개 자동 제공
+→ stream: true 로 실시간 타이핑 효과
+→ JSON 파싱 실패 시 fallback 소태스크 자동 제공
 ```
 
 ---
 
-## B3. 가산점 신청 요약
-
-| 항목 | 증빙 | 점수 |
-|---|---|---|
-| ✅ AI Agent 워크플로우 | `.claude/agents/` 5개 파일 + MCP 3개 | +1 |
-| ✅ 나만의 기법 | `AUTHORING.hyeji.md` 단일파일 부트스트랩 | +2 |
-| ✅ LLM Wiki | `notes/` 5개 파일 (실제 경험 기반) | +1 |
-| ✅ AI Agent 리포트 발표 | 이 슬라이드 전체 | +2 |
-| **합계** | | **+6** |
-
----
-
-## B4. 보안 & 테스트 체크리스트
+## B3. 테스트 & 보안 체크
 
 ```bash
-# 단위 테스트 (11개)
-flutter test test/unit/
+flutter test test/unit/            # 단위 테스트 11개
+npx playwright test e2e/           # E2E 전체
 
-# E2E (Playwright MCP)
-npx playwright test e2e/login.spec.ts
-npx playwright test e2e/navigation.spec.ts
-npx playwright test e2e/task.spec.ts
-
-# 보안
-.gitignore: google-services.json, GoogleService-Info.plist,
-            keystore.jks, key.properties, .env
-Firestore Rules: uid 기반 사용자 격리
-HTTPS 강제 (Firebase Hosting 기본)
+# .gitignore 필수 항목
+google-services.json  GoogleService-Info.plist
+keystore.jks  key.properties  .env
 ```
