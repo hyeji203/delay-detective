@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
 import '../domain/models/sub_task.dart';
+import '../domain/models/delay_analysis.dart';
+import '../domain/models/interview_turn.dart';
 import '../domain/enums/task_status.dart';
 import '../data/local/hive_service.dart';
 import '../data/remote/firestore_service.dart';
@@ -54,20 +56,39 @@ class TaskProvider extends ChangeNotifier {
     final existing = await _hive.getAllTasks();
     if (existing.isNotEmpty) return;
     final now = DateTime.now();
+
+    // demo-2: 분석 완료된 태스크 (인터뷰 결과 미리 세팅)
+    final demoAnalysis = DelayAnalysis(
+      empathyMessage: '기획서 작업이 막막하게 느껴졌겠어요. 어디서부터 시작해야 할지 모르면 자꾸 미루게 되죠.',
+      causeSummary: '시작점이 불명확하고 완성 기준이 없어서 부담감이 쌓임',
+      analyzedAt: now.subtract(const Duration(hours: 2)),
+      turns: [
+        const InterviewTurn(
+          turnNumber: 1,
+          question: '앱 기획서 작성을 미루고 있는 가장 큰 이유가 뭔가요?',
+          answer: '어디서부터 시작해야 할지 모르겠어요.',
+        ),
+        const InterviewTurn(
+          turnNumber: 2,
+          question: '기획서의 어떤 부분이 가장 막막하게 느껴지나요?',
+          answer: '완성도 기준이 없어서 끝이 없는 느낌이에요.',
+        ),
+        const InterviewTurn(
+          turnNumber: 3,
+          question: '지금 당장 10분 안에 할 수 있는 가장 작은 첫 단계는 뭘까요?',
+          answer: '목차만 먼저 써보면 될 것 같아요.',
+        ),
+      ],
+      suggestedSubtasks: [
+        SubTask(id: 'sub-1', title: '기획서 목차 초안 작성 (10분)'),
+        SubTask(id: 'sub-2', title: '핵심 기능 3가지 정리'),
+        SubTask(id: 'sub-3', title: '발표 기준에 맞춰 분량 조절'),
+      ],
+    );
+
     final demos = [
       Task(
         id: 'demo-1',
-        uid: 'demo',
-        title: '앱 기획서 작성',
-        description: '최종 발표용 Delay Detective 기획서 마무리',
-        dueDate: now.subtract(const Duration(days: 3)),
-        status: TaskStatus.delayed,
-        isDelayed: true,
-        createdAt: now.subtract(const Duration(days: 7)),
-        updatedAt: now,
-      ),
-      Task(
-        id: 'demo-2',
         uid: 'demo',
         title: '발표 슬라이드 디자인',
         description: 'Marp 기반 최종 발표 슬라이드 30장 완성',
@@ -76,6 +97,19 @@ class TaskProvider extends ChangeNotifier {
         isDelayed: true,
         createdAt: now.subtract(const Duration(days: 5)),
         updatedAt: now,
+      ),
+      Task(
+        id: 'demo-2',
+        uid: 'demo',
+        title: '앱 기획서 작성',
+        description: '최종 발표용 Delay Detective 기획서 마무리',
+        dueDate: now.subtract(const Duration(days: 3)),
+        status: TaskStatus.delayed,
+        isDelayed: true,
+        createdAt: now.subtract(const Duration(days: 7)),
+        updatedAt: now,
+        analysis: demoAnalysis,
+        subtasks: demoAnalysis.suggestedSubtasks,
       ),
       Task(
         id: 'demo-3',
