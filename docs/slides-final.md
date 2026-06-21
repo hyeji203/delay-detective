@@ -11,22 +11,22 @@ style: |
     font-family: 'Apple SD Gothic Neo', '맑은 고딕', 'Noto Sans KR', sans-serif;
     font-size: 23px;
     padding: 40px 52px;
-    color: #1a1a2e;
-    background: #f4f7fe;
+    color: #dce8ff;
+    background: #0d1b3e !important;
   }
   header {
-    color: #7a8fb5;
+    color: #4a6fa5;
     font-size: 14px;
     top: 18px;
   }
   footer {
-    color: #7a8fb5;
+    color: #4a6fa5;
     font-size: 14px;
     bottom: 18px;
   }
   section::after {
     font-size: 14px;
-    color: #7a8fb5;
+    color: #4a6fa5;
   }
 
   /* ── 커버 ── */
@@ -72,14 +72,14 @@ style: |
 
   /* ── 헤딩 ── */
   h2 {
-    color: #1a3a6b;
+    color: #7eb8ff;
     font-size: 28px;
-    border-bottom: 3px solid #2563b0;
+    border-bottom: 2px solid #2563b0;
     padding-bottom: 8px;
     margin-bottom: 18px;
   }
   h3 {
-    color: #2563b0;
+    color: #93c5fd;
     font-size: 18px;
     margin: 10px 0 6px;
   }
@@ -89,41 +89,42 @@ style: |
     font-size: 18px;
     width: 100%;
     border-collapse: collapse;
-    background: white;
+    background: #132040;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
   th {
-    background: #1a3a6b;
-    color: white;
+    background: #1e3f7a;
+    color: #c8dfff;
     padding: 8px 12px;
     font-weight: 600;
   }
   td {
     padding: 6px 12px;
-    border-bottom: 1px solid #e4eaf8;
+    border-bottom: 1px solid #1e3060;
+    color: #c8dfff;
   }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #f8faff; }
+  tr:nth-child(even) td { background: #0f2450; }
 
   /* ── 코드 ── */
   code {
-    background: #dde8ff;
-    color: #1a3a6b;
+    background: #1e3060;
+    color: #93c5fd;
     padding: 1px 7px;
     border-radius: 4px;
     font-size: 18px;
   }
   pre {
-    background: #0d1b3e;
+    background: #060f24;
     color: #c8d8ff;
     padding: 14px 18px;
     border-radius: 10px;
     font-size: 15.5px;
     line-height: 1.65;
     border-left: 4px solid #3b82f6;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.4);
   }
   pre code {
     background: transparent;
@@ -135,38 +136,40 @@ style: |
   /* ── 인용 ── */
   blockquote {
     border-left: 4px solid #3b82f6;
-    background: #e8f0ff;
+    background: #132040;
     padding: 10px 18px;
     margin: 12px 0;
     border-radius: 0 8px 8px 0;
     font-size: 19px;
-    color: #1a3a6b;
+    color: #a5c8ff;
   }
 
   /* ── 카드 박스 ── */
   .card {
-    background: white;
+    background: #132040;
     border-radius: 12px;
     padding: 16px 20px;
-    box-shadow: 0 2px 10px rgba(37,99,176,0.10);
-    border: 1px solid #dde8ff;
+    border: 1px solid #1e3f7a;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    color: #c8dfff;
   }
+  .card h3 { color: #93c5fd !important; }
   .card-green {
-    background: #f0faf4;
+    background: #0a2a18;
     border-radius: 12px;
     padding: 14px 18px;
-    border: 1.5px solid #4ade80;
-    box-shadow: 0 2px 8px rgba(74,222,128,0.10);
+    border: 1.5px solid #22c55e;
+    color: #86efac;
   }
   .card-orange {
-    background: #fff8f0;
+    background: #2a1500;
     border-radius: 12px;
     padding: 14px 18px;
-    border: 1.5px solid #fb923c;
-    box-shadow: 0 2px 8px rgba(251,146,60,0.10);
+    border: 1.5px solid #f97316;
+    color: #fdba74;
   }
   .card-dark {
-    background: #0d1b3e;
+    background: #060f24;
     color: #c8d8ff;
     border-radius: 12px;
     padding: 14px 18px;
@@ -366,13 +369,13 @@ Delay Detective는 AI가 그 이유를 직접 물어보고, 해결 가능한 크
 ## 📅 프로젝트 계획 — WBS & 진행 현황
 
 <style scoped>
-table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top: 8px; }
-th { background: #1a3a6b; color: white; text-align: center; padding: 3px 5px; font-size: 11px; }
-td { padding: 2px 5px; border: 1px solid #c8d8f5; font-size: 11px; }
-tr.sec td { background: #dce8ff; font-weight: 700; }
-tr.ms  td { background: #fff3cc; font-weight: 700; }
-.done { background: #22c55e; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
-.mstag { background: #ef4444; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
+table { font-size: 11px; border-collapse: collapse; width: 100%; margin-top: 8px; background: #0d1b3e; }
+th { background: #1e3f7a; color: #c8dfff; text-align: center; padding: 3px 5px; font-size: 11px; }
+td { padding: 2px 5px; border: 1px solid #1e3060; font-size: 11px; color: #c8dfff; }
+tr.sec td { background: #132a5e; font-weight: 700; color: #93c5fd; }
+tr.ms  td { background: #2a1f00; font-weight: 700; color: #fcd34d; }
+.done { background: #16a34a; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
+.mstag { background: #dc2626; color: white; border-radius: 8px; padding: 1px 6px; font-size: 10px; }
 </style>
 
 | WBS | 태스크 | 상태 | W10 05/11 | W11 05/18 | W12 06/01 | W13 06/08 | W14 06/15~21 |
